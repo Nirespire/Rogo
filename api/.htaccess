@@ -1,0 +1,3 @@
+RewriteEngine On
+
+RewriteRule ^request/([^/\.]+)(?:(?:\.(json|txt))?|/?)$ request.php?_request_data=$1&_data_format=$2 [QSA]

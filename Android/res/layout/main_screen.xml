@@ -9,6 +9,10 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".MainScreenActivity" >
 
+    <include
+        android:id="@+id/include1"
+        layout="@layout/customtitlebar" />
+
     <Button
         android:id="@+id/button3"
         android:layout_width="wrap_content"
@@ -32,9 +36,9 @@
         android:id="@+id/button1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
+        android:layout_below="@+id/include1"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="55dp"
+        android:layout_marginTop="37dp"
         android:text="@string/meet_nearby" />
 
 </RelativeLayout>

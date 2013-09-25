@@ -1,32 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/myTitleBar"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:background="@color/white"
+    android:orientation="horizontal" >
 
-<RelativeLayout android:id="@+id/myTitleBar"
-                xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_height="fill_parent"
-                android:layout_width="fill_parent"
-                android:orientation="horizontal"
-                android:background="#2183b0"
+    <!-- User string will be replaced with the current user -->
 
-                >
-
-    <Button
-        android:id="@+id/titlebarSettingsButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:background="@color/DeepSkyBlue"
-        android:text="@string/settings"
-        android:textColor="@color/white"
-        android:textColorHint="@color/white"
-        android:textSize="12sp" />
-    
-      <!-- User string will be replaced with the current user -->
-      
     <Button
         android:id="@+id/titlebarUserButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
         android:background="@color/DeepSkyBlue"
         android:text="@string/user"
         android:textColor="@color/white"
@@ -34,12 +21,27 @@
         android:textSize="12sp" />
 
     <ImageView
+        android:id="@+id/imageView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
         android:adjustViewBounds="false"
+        android:background="@color/white"
         android:contentDescription="@string/titlebar_image"
         android:src="@drawable/rogo_logo_small" />
+
+    <Button
+        android:id="@+id/titlebarSettingsButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/titlebarUserButton"
+        android:layout_alignBottom="@+id/titlebarUserButton"
+        android:layout_alignParentRight="true"
+        android:background="@color/DeepSkyBlue"
+        android:text="@string/settings"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white"
+        android:textSize="12sp" />
 
 </RelativeLayout>

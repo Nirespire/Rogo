@@ -3,13 +3,18 @@ package com.rogoapp;
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.Menu;
+import android.view.Window;
 
 public class MainScreenActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        
+        requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
         setContentView(R.layout.main_screen);
+        
+        getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.customtitlebar);
     }
 
 

@@ -3,7 +3,6 @@
     android:id="@+id/myTitleBar"
     android:layout_width="match_parent"
     android:layout_height="50dp"
-    android:background="@color/white"
     android:orientation="horizontal" >
 
     <!-- User string will be replaced with the current user -->
@@ -27,7 +26,6 @@
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:adjustViewBounds="false"
-        android:background="@color/white"
         android:contentDescription="@string/titlebar_image"
         android:src="@drawable/rogo_logo_small" />
 

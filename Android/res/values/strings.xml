@@ -7,6 +7,9 @@
     <string name="meet_nearby">Meet Nearby</string>
     <string name="meet_random">Meet Random</string>
     <string name="tips">Tips</string>
+    <string name ="settings">Settings</string>
+    <string name ="user">USER</string>
+    <string name ="titlebar_image">Title Bar Image</string>
 
     <color name="white">#FFFFFF</color>
     <color name="yellow">#FFFF00</color>

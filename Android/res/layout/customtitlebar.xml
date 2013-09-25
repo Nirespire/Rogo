@@ -8,21 +8,38 @@
                 android:background="#2183b0"
 
                 >
-    <TextView android:id="@+id/title"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:textSize="15sp"
-              android:textStyle="bold"
-              android:text="@string/app_name"
-              android:layout_alignParentLeft="true"
-              />
-    <Button android:id="@+id/titlebarButton"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:text="Click Me!"
-            android:textSize="12sp"
-            android:layout_alignParentRight="true"
-            android:background="@color/DeepSkyBlue"
 
-            />
+    <Button
+        android:id="@+id/titlebarSettingsButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:background="@color/DeepSkyBlue"
+        android:text="@string/settings"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white"
+        android:textSize="12sp" />
+    
+      <!-- User string will be replaced with the current user -->
+      
+    <Button
+        android:id="@+id/titlebarUserButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:background="@color/DeepSkyBlue"
+        android:text="@string/user"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white"
+        android:textSize="12sp" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:adjustViewBounds="false"
+        android:contentDescription="@string/titlebar_image"
+        android:src="@drawable/rogo_logo_small" />
+
 </RelativeLayout>

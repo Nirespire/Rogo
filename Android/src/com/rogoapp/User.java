@@ -13,10 +13,11 @@
  *  
  */
 
-package rogo.app;
+package com.rogoapp;
 
 import java.util.Date;
 import java.util.ArrayList;
+import com.rogoapp.Friend;
 
 
 

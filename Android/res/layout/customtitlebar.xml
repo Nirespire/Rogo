@@ -7,6 +7,16 @@
 
     <!-- User string will be replaced with the current user -->
 
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:adjustViewBounds="false"
+        android:contentDescription="@string/titlebar_image"
+        android:src="@drawable/rogo_logo_small" />
+
     <Button
         android:id="@+id/titlebarUserButton"
         android:layout_width="wrap_content"
@@ -18,16 +28,6 @@
         android:textColor="@color/white"
         android:textColorHint="@color/white"
         android:textSize="12sp" />
-
-    <ImageView
-        android:id="@+id/imageView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:adjustViewBounds="false"
-        android:contentDescription="@string/titlebar_image"
-        android:src="@drawable/rogo_logo_small" />
 
     <Button
         android:id="@+id/titlebarSettingsButton"

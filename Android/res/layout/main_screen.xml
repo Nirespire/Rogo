@@ -41,6 +41,8 @@
         android:layout_below="@+id/include1"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="37dp"
-        android:text="@string/meet_nearby" />
+        android:text="@string/meet_nearby" 
+        
+        />
 
 </RelativeLayout>

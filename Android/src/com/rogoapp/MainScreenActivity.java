@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.RemoteViews;
 
 public class MainScreenActivity extends Activity {
 
@@ -88,11 +89,19 @@ public class MainScreenActivity extends Activity {
 	//refresh the text 
 	public void refreshMeetRandomButton(View arg0){
 		final Context context = this;
+	
 		//TODO
 	}
 	
 	public void refreshTipsButton(View arg0){
 		final Context context = this;
+		final int id = R.id.meet_random_button;
+		final View v = findViewById(id);
+		final Button button = (Button)findViewById(id);
+		
+		button.setText("TESTING");
+		button.refreshDrawableState();
+		
 		//TODO
 	}
 

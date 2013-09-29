@@ -11,7 +11,12 @@ class RequestObject{
 		if(isset($_GET['boobs'])){
 			$data = '( . )( . )';
 		}
-		
+		elseif(isset($_GET['extended'])){
+			$post1 = array('id'=>1,'title'=>'Hello world!','body'=>'An example post');
+			$post2 = array('id'=>2,'title'=>'Super awesome second post','body'=>'This is, in fact, a rather boring post');
+			
+			$data = array('posts'=>array($post1,$post2));
+		}
 		$this->_DATA = $data;
 		$this->_STATUS = STATUS_SUCCESS;
 	}

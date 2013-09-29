@@ -14,18 +14,18 @@
         layout="@layout/customtitlebar" />
 
     <Button
-        android:id="@+id/button3"
+        android:id="@+id/tips_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/button2"
-        android:layout_alignRight="@+id/button2"
-        android:layout_below="@+id/button2"
+        android:layout_alignLeft="@+id/meet_random_button"
+        android:layout_alignRight="@+id/meet_random_button"
+        android:layout_below="@+id/meet_random_button"
         android:layout_marginTop="57dp"
         android:text="@string/tips" />
     
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/meet_random_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/near_you_button"

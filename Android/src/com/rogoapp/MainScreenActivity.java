@@ -22,10 +22,6 @@ public class MainScreenActivity extends Activity {
 
 		requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
 		setContentView(R.layout.main_screen);
-
-		// creates view of custom title bar -> now included in main_screen.xml
-
-		//getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.customtitlebar);
 	}
 
 
@@ -37,7 +33,7 @@ public class MainScreenActivity extends Activity {
 	}
 
 
-	public void addListenerOnButton() {
+	public void addListenerOnButton1() {
 
 		nearYouButton = (Button) findViewById(R.id.near_you_button);
 
@@ -52,10 +48,52 @@ public class MainScreenActivity extends Activity {
 
 	}
 	
+	public void addListenerOnButton2() {
+
+		nearYouButton = (Button) findViewById(R.id.meet_random_button);
+
+		nearYouButton.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View arg0) {
+				 refreshMeetRandomButton(arg0);
+			}
+
+		});
+
+	}
+	
+	public void addListenerOnButton3() {
+
+		nearYouButton = (Button) findViewById(R.id.tips_button);
+
+		nearYouButton.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View arg0) {
+				 refreshTipsButton(arg0);
+			}
+
+		});
+
+	}
+	
+	// Navigates the user to the People Near You Screen
 	public void openNearYouScreen(View v){
 		final Context context = this;
 		Intent intent = new Intent(context, NearYouActivity.class);
 		startActivity(intent);  
+	}
+	
+	//refresh the text 
+	public void refreshMeetRandomButton(View arg0){
+		final Context context = this;
+		//TODO
+	}
+	
+	public void refreshTipsButton(View arg0){
+		final Context context = this;
+		//TODO
 	}
 
 }		

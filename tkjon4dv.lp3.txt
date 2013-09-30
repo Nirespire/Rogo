@@ -1,0 +1,41 @@
+﻿
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+# On branch master
+# Changes to be committed:
+#   (use "git reset HEAD <file>..." to unstage)
+#
+#	new file:   Auth/.classpath
+#	new file:   Auth/.project
+#	new file:   Auth/.settings/org.eclipse.jdt.core.prefs
+#	new file:   Auth/AndroidManifest.xml
+#	new file:   Auth/bin/com/rogoapp/auth/Auth.class
+#	new file:   Auth/bin/com/rogoapp/auth/AuthService.class
+#	new file:   Auth/bin/com/rogoapp/auth/MainActivity.class
+#	new file:   Auth/ic_launcher-web.png
+#	new file:   Auth/lint.xml
+#	new file:   Auth/proguard-project.txt
+#	new file:   Auth/project.properties
+#	new file:   Auth/res/drawable-hdpi/ic_launcher.png
+#	new file:   Auth/res/drawable-mdpi/ic_launcher.png
+#	new file:   Auth/res/drawable-xhdpi/ic_launcher.png
+#	new file:   Auth/res/drawable-xxhdpi/ic_launcher.png
+#	new file:   Auth/res/layout/activity_main.xml
+#	new file:   Auth/res/menu/main.xml
+#	new file:   Auth/res/values-sw600dp/dimens.xml
+#	new file:   Auth/res/values-sw720dp-land/dimens.xml
+#	new file:   Auth/res/values-v11/styles.xml
+#	new file:   Auth/res/values-v14/styles.xml
+#	new file:   Auth/res/values/dimens.xml
+#	new file:   Auth/res/values/strings.xml
+#	new file:   Auth/res/values/styles.xml
+#	new file:   Auth/res/xml/auth.xml
+#	new file:   Auth/src/com/rogoapp/auth/Auth.java
+#	new file:   Auth/src/com/rogoapp/auth/AuthService.java
+#	new file:   Auth/src/com/rogoapp/auth/MainActivity.java
+#
+# Untracked files:
+#   (use "git add <file>..." to include in what will be committed)
+#
+#	test/
+

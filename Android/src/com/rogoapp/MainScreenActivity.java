@@ -83,25 +83,22 @@ public class MainScreenActivity extends Activity {
 	public void openNearYouScreen(View v){
 		final Context context = this;
 		Intent intent = new Intent(context, NearYouActivity.class);
-		startActivity(intent);  
+		startActivity(intent);
 	}
 	
 	//refresh the text 
 	public void refreshMeetRandomButton(View arg0){
-		final Context context = this;
+		final Button button = (Button)findViewById(R.id.meet_random_button);
+		// replace with random string from meet_random.xml
+		button.setText("TESTING RANDOM");
 	
 		//TODO
 	}
 	
 	public void refreshTipsButton(View arg0){
-		final Context context = this;
-		final int id = R.id.meet_random_button;
-		final View v = findViewById(id);
-		final Button button = (Button)findViewById(id);
-		
-		button.setText("TESTING");
-		button.refreshDrawableState();
-		
+		final Button button = (Button)findViewById(R.id.tips_button);
+		// replace with random string from tips.xml
+		button.setText("TESTING TIPS");
 		//TODO
 	}
 

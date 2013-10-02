@@ -10,7 +10,7 @@
     android:layout_height="wrap_content" 
     android:layout_centerInParent="true"
     android:src="@drawable/rogo_logo_small"
-	android:contentDescription="@string/desc"/>
+    android:contentDescription="@string/desc"/>
 
 <TextView
     android:layout_width="fill_parent"

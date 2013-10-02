@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <string name="app_name">Rogo</string>
     <string name="action_settings">Settings</string>
@@ -30,6 +30,9 @@
     <color name="navy">#000080</color>
     <color name="black">#000000</color>
     <color name="MediumBlue">#0000CD</color>
-    <color name="DeepSkyBlue">#00BFFF</color>
+    <string name="active_string">Active</string><color name="DeepSkyBlue">#00BFFF</color>ActiveActive
+    <string-array name="radius_array"><item>100 ft</item><item>250 ft</item><item>500 ft</item><item>1000 ft</item><item>1/2 mile</item><item>1 mile</item><item>2 miles</item><item>5 miles</item><item>10 miles</item></string-array>5 miles<string name="email_string">Email</string><string name="password_string">Password</string><string name="radius_string">Contact Radius</string>
+    
+    
 
 </resources>

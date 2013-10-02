@@ -5,7 +5,8 @@ require 'require.php';
 
 class RequestHandler{
 	private static $REQUEST_SCRIPTS = array(
-		'test' => 'test.php'
+		'test' => 'test.php',
+		'login' => 'login.php'
 	);
 	private static $REQUEST_STATUS = array(
 		STATUS_SUCCESS => 'success',
@@ -14,10 +15,24 @@ class RequestHandler{
 	);
 	
 	private $_request = null;
+	private $_sqlCon = null;
 	
-	/** Contructor without a request;
-	  * request must be set later **/
+	/** Contructor
+	 ** Optional arguments: string Request, PDO SQL connection
+	 **/
 	public function __construct(){
+		for($i=0;$i<func_num_args();$i++){
+			$arg = func_get_arg($i);
+			if(is_string($arg)){
+				$this->_request = $arg;
+			}
+			elseif(is_object($arg)){
+				$class = get_class($arg);
+				if($class == 'PDO'){
+					$this->_sqlCon = $arg;
+				}
+			}
+		}
 	}
 	
 	/** Set the request **/
@@ -48,7 +63,8 @@ class RequestHandler{
 				$this->unexpectedError();
 			}
 			
-			$requestHandler = new RequestObject();
+			$requestClass = REQUEST_CLASS;
+			$requestHandler = new $requestClass($this->_sqlCon);
 			call_user_func(array($requestHandler,REQUEST_FUNC_EXEC));
 			
 			$outputData = call_user_func(array($requestHandler, REQUEST_FUNC_RET_DATA));
@@ -101,7 +117,8 @@ class RequestHandler{
 	}
 }
 
-$Handler = new RequestHandler();
+global $SQLCON;
+$Handler = new RequestHandler($SQLCON);
 $Handler->setRequest($_GET['_request_data']);
 $Handler->executeRequest();
 ?>

@@ -3,6 +3,22 @@
 class RequestObject{
 	private $_DATA = null;
 	private $_STATUS = 0;
+	
+	private $_sqlCon;
+	/** Constructor
+	 ** Currently takes optional PDO connection argument
+	 **/
+	public function __construct(){
+		for($i=0;$i<func_num_args();$i++){
+			$arg = func_get_arg($i);
+			if(is_object($arg)){
+				$class = get_class($arg);
+				if($class == 'PDO'){
+					$this->_sqlCon = $arg;
+				}
+			}
+		} 
+	}
 	public function performRequest(){
 		$data = 'tested!';
 		/** If you are good at noticing patterns,        **
@@ -17,6 +33,34 @@ class RequestObject{
 			
 			$data = array('posts'=>array($post1,$post2));
 		}
+		elseif(isset($_GET['password'])){
+			require 'password.php';
+			$password = $_GET['password'];
+			
+			$sha512 = hash('sha512',$password);
+			
+			$mtime = microtime();
+			$mtime = explode(" ",$mtime);
+			$mtime = $mtime[1] + $mtime[0];
+			$starttime = $mtime;
+			
+			$hash = password_hash($sha512, PASSWORD_BCRYPT, array("cost" => AUTH_HASH_COMPLEXITY));
+
+			$mtime = microtime();
+			$mtime = explode(" ",$mtime);
+			$mtime = $mtime[1] + $mtime[0];
+			$endtime = $mtime;
+			$totaltime = ($endtime - $starttime);
+			
+			$data = array(
+				'password' => $_GET['password'],
+				'sha512' => $sha512,
+				'hash' => $hash,
+				'execution_time' => $totaltime . ' seconds'
+			);
+		}
+			
+			
 		$this->_DATA = $data;
 		$this->_STATUS = STATUS_SUCCESS;
 	}

@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" 
-    android:background="@drawable/gradient">
-    
+    android:layout_height="match_parent"
+    android:background="@drawable/gradient" >
+
     <include
         android:id="@+id/include1"
         layout="@layout/customtitlebar" />
-    
-    
-        <TextView
+
+    <TextView
         android:id="@+id/settings_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -18,7 +17,63 @@
         android:text="@string/settings"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="@color/black" />
-    
-    
+
+    <RadioButton
+        android:id="@+id/activeButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/settings_textview"
+        android:layout_marginLeft="20dp"
+        android:text="@string/active_string"
+        android:textColor="@color/black" />
+
+    <TextView
+        android:id="@+id/emailText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/activeButton"
+        android:layout_below="@+id/activeButton"
+        android:text="@string/email_string"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/black" />
+
+    <EditText
+        android:id="@+id/emailField"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/emailText"
+        android:layout_below="@+id/emailText"
+        android:ems="10"
+        android:inputType="textEmailAddress" />
+
+    <TextView
+        android:id="@+id/passwordText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/emailField"
+        android:layout_below="@+id/emailField"
+        android:text="@string/password_string"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/black" />
+
+    <EditText
+        android:id="@+id/passwordField"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/passwordText"
+        android:layout_below="@+id/passwordText"
+        android:ems="10"
+        android:inputType="textPassword" />
+
+    <Spinner
+        android:id="@+id/radiusSpinner"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/passwordField"
+        android:layout_marginTop="33dp"
+        android:entries="@array/radius_array"
+        android:prompt="@string/radius_string" />
 
 </RelativeLayout>

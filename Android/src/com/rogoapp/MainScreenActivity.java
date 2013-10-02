@@ -1,111 +1,136 @@
 package com.rogoapp;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Random;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.Button;
-import android.widget.RemoteViews;
 
 public class MainScreenActivity extends Activity {
 
-	Button nearYouButton;
-	Button meetRandomButton;
-	Button tipsButton;
+    Button nearYouButton;
+    Button meetRandomButton;
+    Button tipsButton;
+    static ArrayList<String> tips;
+    static ArrayList <String> meetRandom;
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
-		requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
-		setContentView(R.layout.main_screen);
-	}
-
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.main_screen, menu);
-		return true;
-	}
+        requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
+        setContentView(R.layout.main_screen);
+    }
 
 
-	public void addListenerOnButton1() {
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.main_screen, menu);
+        return true;
+    }
 
-		nearYouButton = (Button) findViewById(R.id.near_you_button);
 
-		nearYouButton.setOnClickListener(new OnClickListener() {
+    public void addListenerOnButton1() {
 
-			@Override
-			public void onClick(View arg0) {
-				 openNearYouScreen(arg0);
-			}
+        nearYouButton = (Button) findViewById(R.id.near_you_button);
 
-		});
+        nearYouButton.setOnClickListener(new OnClickListener() {
 
-	}
-	
-	public void addListenerOnButton2() {
+            @Override
+            public void onClick(View arg0) {
+                openNearYouScreen(arg0);
+            }
 
-		nearYouButton = (Button) findViewById(R.id.meet_random_button);
+        });
 
-		nearYouButton.setOnClickListener(new OnClickListener() {
+    }
 
-			@Override
-			public void onClick(View arg0) {
-				 refreshMeetRandomButton(arg0);
-			}
+    public void addListenerOnButton2() {
 
-		});
+        nearYouButton = (Button) findViewById(R.id.meet_random_button);
 
-	}
-	
-	public void addListenerOnButton3() {
+        nearYouButton.setOnClickListener(new OnClickListener() {
 
-		nearYouButton = (Button) findViewById(R.id.tips_button);
+            @Override
+            public void onClick(View arg0) {
+                refreshMeetRandomButton(arg0);
+            }
 
-		nearYouButton.setOnClickListener(new OnClickListener() {
+        });
 
-			@Override
-			public void onClick(View arg0) {
-				 refreshTipsButton(arg0);
-			}
+    }
 
-		});
+    public void addListenerOnButton3() {
 
-	}
-	
-	// Navigates the user to the People Near You Screen
-	public void openNearYouScreen(View v){
-		final Context context = this;
-		Intent intent = new Intent(context, NearYouActivity.class);
-		startActivity(intent);
-	}
-	
-	//refresh the text 
-	public void refreshMeetRandomButton(View arg0){
-		final Button button = (Button)findViewById(R.id.meet_random_button);
-		// replace with random string from meet_random.xml
-		button.setText("TESTING RANDOM");
-	
-		//TODO
-	}
-	
-	public void refreshTipsButton(View arg0){
-		final Button button = (Button)findViewById(R.id.tips_button);
-		// replace with random string from tips.xml
-		button.setText("TESTING TIPS");
-		//TODO
-	}
-	
-	public void openSettingsScreen(View v){
+        nearYouButton = (Button) findViewById(R.id.tips_button);
+
+        nearYouButton.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View arg0) {
+                refreshTipsButton(arg0);
+            }
+
+        });
+
+    }
+
+    // Navigates the user to the People Near You Screen
+    public void openNearYouScreen(View v){
+        final Context context = this;
+        Intent intent = new Intent(context, NearYouActivity.class);
+        startActivity(intent);
+    }
+
+    //refresh the text 
+    public void refreshMeetRandomButton(View arg0){
+        final Button button = (Button)findViewById(R.id.meet_random_button);
+        // replace with random string from meet_random.xml
+        button.setText("TESTING RANDOM");
+
+        //TODO
+    }
+
+    public void refreshTipsButton(View arg0){
+        final Button button = (Button)findViewById(R.id.tips_button);
+        // replace with random string from tips.xml
+
+        if(tips.isEmpty()){
+            reloadTipsArray();
+        }
+
+        Random rand = new Random();
+        int random = rand.nextInt(tips.size());
+        String out = tips.get(random);
+        tips.remove(random);
+        button.setText(out);
+    }
+
+
+
+    public void openSettingsScreen(View v){
         final Context context = this;
         Intent intent = new Intent(context, SettingsActivity.class);
         startActivity(intent);
     }
-
+    
+    public void reloadTipsArray(){
+        Resources res = getResources();
+        tips = (ArrayList<String>) Arrays.asList(res.getStringArray(R.array.tips_array));
+    }
+    
+    public void reloadMeetRandomArray(){
+        Resources res = getResources();
+        meetRandom = (ArrayList<String>) Arrays.asList(res.getStringArray(R.array.meetRandomArray));
+    }
 }		

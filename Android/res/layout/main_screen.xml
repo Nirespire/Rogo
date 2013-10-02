@@ -21,6 +21,7 @@
         android:layout_alignRight="@+id/meet_random_button"
         android:layout_below="@+id/meet_random_button"
         android:layout_marginTop="57dp"
+        android:onClick = "refreshTipsButton"
         android:text="@string/tips" />
     
 

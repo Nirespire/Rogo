@@ -1,36 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="info.androidhive.androidsplashscreentimer"
+    package="com.rogoapp"
     android:versionCode="1"
     android:versionName="1.0" >
 
     <uses-sdk
         android:minSdkVersion="9"
-        android:targetSdkVersion="17" />
+        android:targetSdkVersion="18" />
+    <instrumentation
+        android:targetPackage="com.rogoapp"
+        android:name="android.test.InstrumentationTestRunner"
+        android:label="Rogo Tests" />
 
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        <!--  android:theme="@android:style/Theme.NoTitleBar" > -->
-        android:theme="@style/AppTheme" >
-        <!--  Splash Screen -->
+        android:theme="@android:style/Theme.NoTitleBar" >
+     <uses-library android:name="android.test.runner"/>
         <activity
-            android:name="info.androidhive.androidsplashscreentimer.SplashScreen"
-            android:label="@string/app_name" 
-            android:screenOrientation="portrait"
+            android:name="com.rogoapp.MainScreenActivity"
+            android:label="@string/app_name"
             android:theme="@style/CustomTitleBarTheme" >
             
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        
         <activity
-            android:name="info.androidhive.androidsplashscreentimer.MainActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:name="com.rogoapp.NearYouActivity" >
         </activity>
+        
+         <activity
+            android:label="@string/app_name"
+            android:name="com.rogoapp.TitleBarActivity" >
+        </activity>
+        
+          <activity
+            android:label="@string/app_name"
+            android:name="com.rogoapp.SettingsActivity" >
+        </activity>
+        
     </application>
 
 </manifest>

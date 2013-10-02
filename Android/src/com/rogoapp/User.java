@@ -40,7 +40,7 @@ public class User {
 	public User(){
 		firstName = "default";
 		lastName = "default";
-		birthday = new Date(1900, 1, 1); //default date is Jan 1 1900
+		birthday = new Date(0, 0, 1); //default date is Jan 1 1900
 		email = "default";
 		score = 0;	//starting score is 0
 		level = 1;	//starting level is 1
@@ -95,8 +95,10 @@ public class User {
 		this.birthday = birthday;
 	}
 	
+	// year: actual year
+	// month: 1 - 12
 	public void setBirthday(int year, int month, int day){
-		birthday = new Date(year, month, day);
+		birthday = new Date(year+1900, month+1, day);
 	}
 	
 	public String getEmail(){
@@ -139,5 +141,6 @@ public class User {
 		return friends;
 	}
 	
-
+	// We might want to add a comparison function - Dax
+	
 }

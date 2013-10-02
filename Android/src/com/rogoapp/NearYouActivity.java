@@ -1,6 +1,7 @@
 package com.rogoapp;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -14,4 +15,11 @@ public class NearYouActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.near_you);
 	}
+	
+	public void openSettingsScreen(View v){
+        final Context context = this;
+        Intent intent = new Intent(context, SettingsActivity.class);
+        startActivity(intent);
+    }
 }
+

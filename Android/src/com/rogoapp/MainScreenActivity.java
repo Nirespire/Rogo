@@ -101,5 +101,11 @@ public class MainScreenActivity extends Activity {
 		button.setText("TESTING TIPS");
 		//TODO
 	}
+	
+	public void openSettingsScreen(View v){
+        final Context context = this;
+        Intent intent = new Intent(context, SettingsActivity.class);
+        startActivity(intent);
+    }
 
 }		

@@ -7,43 +7,45 @@
     <uses-sdk
         android:minSdkVersion="9"
         android:targetSdkVersion="18" />
+
     <instrumentation
-        android:targetPackage="com.rogoapp"
         android:name="android.test.InstrumentationTestRunner"
-        android:label="Rogo Tests" />
+        android:label="Rogo Tests"
+        android:targetPackage="com.rogoapp" />
 
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@android:style/Theme.NoTitleBar" >
-     <uses-library android:name="android.test.runner"/>
+        <uses-library android:name="android.test.runner" />
+
         <activity
             android:name="com.rogoapp.MainScreenActivity"
             android:label="@string/app_name"
             android:theme="@style/CustomTitleBarTheme" >
-            
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        
         <activity
-            android:label="@string/app_name"
-            android:name="com.rogoapp.NearYouActivity" >
+            android:name="com.rogoapp.NearYouActivity"
+            android:label="@string/app_name" >
         </activity>
-        
-         <activity
-            android:label="@string/app_name"
-            android:name="com.rogoapp.TitleBarActivity" >
+        <activity
+            android:name="com.rogoapp.TitleBarActivity"
+            android:label="@string/app_name" >
         </activity>
-        
-          <activity
-            android:label="@string/app_name"
-            android:name="com.rogoapp.SettingsActivity" >
+        <activity
+            android:name="com.rogoapp.SettingsActivity"
+            android:label="@string/app_name" >
         </activity>
-        
+        <activity
+            android:name="com.rogoapp.UserActivity"
+            android:label="@string/app_name" >
+        </activity>
     </application>
 
 </manifest>

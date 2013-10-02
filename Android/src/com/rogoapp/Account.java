@@ -13,13 +13,15 @@
  */
 
 //test comment Anurag
+//station cryptic Dax
 package com.rogoapp;
 
-
+// Do we really want to extend User?  I think it would make more sense to link the two, like give User an
+// Account property.   - Dax
 
 public class Account extends User {
 	private int visibility; //numbers correspond to visibility status
-	private double contactRadius;
+	private double contactRadius; // units?
 	private String username;
 	
 	public Account(){
@@ -28,13 +30,14 @@ public class Account extends User {
 		username = "default";
 	}
 	
+	// this is going to use the default User constructor, is that really what we want?
 	public Account(int visibility, double contactRadius, String username){
 		this.visibility = visibility;
 		this.contactRadius = contactRadius;
 		this.username = username;
 	}
 	
-	public int getVisiblity(){
+	public int getVisibility(){
 		return visibility;
 	}
 	

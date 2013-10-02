@@ -31,5 +31,6 @@
     <color name="black">#000000</color>
     <color name="MediumBlue">#0000CD</color>
     <color name="DeepSkyBlue">#00BFFF</color>
+    <string name="desc">Rogo Logo</string>
 
 </resources>

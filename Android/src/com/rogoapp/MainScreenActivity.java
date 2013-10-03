@@ -2,6 +2,7 @@ package com.rogoapp;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
 
 import android.app.Activity;
@@ -20,8 +21,8 @@ public class MainScreenActivity extends Activity {
     Button nearYouButton;
     Button meetRandomButton;
     Button tipsButton;
-    static ArrayList<String> tips;
-    static ArrayList <String> meetRandom;
+    List<String> tips;
+    List<String> meetRandom;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +30,8 @@ public class MainScreenActivity extends Activity {
 
         requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
         setContentView(R.layout.main_screen);
+        
+        //tips = new ArrayList<String>();
     }
 
 
@@ -104,15 +107,13 @@ public class MainScreenActivity extends Activity {
     public void refreshTipsButton(View arg0){
         final Button button = (Button)findViewById(R.id.tips_button);
         // replace with random string from tips.xml
-
-        if(tips.isEmpty()){
-            reloadTipsArray();
-        }
+        //List<String> local = reloadTipsArray();
+        Resources res = getResources();
+        String[] local = res.getStringArray(R.array.tips_array);
 
         Random rand = new Random();
-        int random = rand.nextInt(tips.size());
-        String out = tips.get(random);
-        tips.remove(random);
+        int random = rand.nextInt(local.length - 1);
+        String out = local[random];
         button.setText(out);
     }
 
@@ -124,9 +125,10 @@ public class MainScreenActivity extends Activity {
         startActivity(intent);
     }
     
-    public void reloadTipsArray(){
+    public List<String> reloadTipsArray(){
         Resources res = getResources();
-        tips = (ArrayList<String>) Arrays.asList(res.getStringArray(R.array.tips_array));
+        String[] temp1 = res.getStringArray(R.array.tips_array);
+        return Arrays.asList(temp1);
     }
     
     public void reloadMeetRandomArray(){

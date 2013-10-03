@@ -109,7 +109,7 @@ public class MainScreenActivity extends Activity {
         final Button button = (Button)findViewById(R.id.tips_button);
         // replace with random string from tips.xml
         if(tips == null || tips.isEmpty()){
-        	System.err.println("DEBUG: Reloading");
+        	System.err.println("DEBUG: Reloading tips array");
             this.reloadTipsArray();
         }
         Random rand = new Random();

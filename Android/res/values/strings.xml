@@ -8,27 +8,15 @@
     <string name="meet_nearby">Meet Nearby</string>
     <string name="meet_random">Meet Random</string>
     <string name="tips">Tips</string>
-<<<<<<< HEAD
-<<<<<<< HEAD
-    <string name ="settings">Settings</string>
-    <string name ="user">USER</string>
     
     <string name = "people_near_you">People Near You</string>
     <string name ="titlebar_image">Title Bar Image</string>
    
     <string name ="intro_logo_desc">Rogo logo</string>
-=======
-=======
->>>>>>> 7532f01d7df3c4a9ab83cd6b4ab5b85e3532cedb
     <string name="settings">Settings</string>
     <string name="user">USER</string>
-    <string name="people_near_you">People Near You</string>
-    <string name="titlebar_image">Title Bar Image</string>
-<<<<<<< HEAD
->>>>>>> 7532f01d7df3c4a9ab83cd6b4ab5b85e3532cedb
-=======
->>>>>>> 7532f01d7df3c4a9ab83cd6b4ab5b85e3532cedb
-
+    
+    
     <color name="white">#FFFFFF</color>
     <color name="yellow">#FFFF00</color>
     <color name="fuchsia">#FF00FF</color>

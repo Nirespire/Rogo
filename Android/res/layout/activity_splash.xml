@@ -10,7 +10,7 @@
     android:layout_height="wrap_content" 
     android:layout_centerInParent="true"
     android:src="@drawable/rogo_logo_small"
-    android:contentDescription="@string/desc"/>
+    android:contentDescription="@string/intro_logo_desc"/>
 
 <TextView
     android:layout_width="fill_parent"
@@ -20,6 +20,6 @@
     android:textColor="#454545"
     android:gravity="center_horizontal"
     android:layout_alignParentBottom="true"
-    android:text="Speaksoft" />
+    android:text="@string/Speaksoft" />
 
 </RelativeLayout>

@@ -19,16 +19,23 @@
         android:label="@string/app_name"
         android:theme="@android:style/Theme.NoTitleBar" >
         <uses-library android:name="android.test.runner" />
+        
         <activity
-            android:name="com.rogoapp.MainScreenActivity"
-            android:label="@string/app_name"
-            android:theme="@style/CustomTitleBarTheme" >
+            android:name="com.rogoapp.SplashScreen"
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        
+        <activity 
+            android:name ="com.rogoapp.MainScreenActivity"
+            android:label="@string/app_name"
+            android:theme="@style/CustomTitleBarTheme" >
+        </activity>
+        
         <activity
             android:name="com.rogoapp.NearYouActivity"
             android:label="@string/app_name" >

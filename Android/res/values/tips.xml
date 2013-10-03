@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name = "tips_array">
+        <item name="tip1">TIP 1</item>
+        <item name="tip2">TIP 2</item>
+        <item name = "tip3">TIP 3</item>
+    </string-array>
+
+</resources>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <string name = "random1">RANDOM MEETING TIP 1</string>
+    <string name = "random2">RANDOM MEETING TIP 2</string>
+    
+    <string-array name = "meetRandomArray">
+        <item name="random1">RANDOM MEETING TIP 1</item>
+        <item name="random2">RANDOM MEETING TIP 2</item>
+        <item name="random3">RANDOM MEETING TIP 3</item>
+        
+    </string-array>
+    
+</resources>

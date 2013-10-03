@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <string name = "Speaksoft">Speaksoft</string>
     <string name="app_name">Rogo</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
@@ -12,6 +13,8 @@
     
     <string name = "people_near_you">People Near You</string>
     <string name ="titlebar_image">Title Bar Image</string>
+   
+    <string name ="intro_logo_desc">Rogo logo</string>
 
     <color name="white">#FFFFFF</color>
     <color name="yellow">#FFFF00</color>

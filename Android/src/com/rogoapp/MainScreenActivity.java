@@ -2,6 +2,7 @@ package com.rogoapp;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -105,19 +106,15 @@ public class MainScreenActivity extends Activity {
     }
 
     public void refreshTipsButton(View arg0){
-    	System.err.println("DEBUG: A");
         final Button button = (Button)findViewById(R.id.tips_button);
         // replace with random string from tips.xml
-        System.err.println("DEBUG: B");
         if(tips == null || tips.isEmpty()){
-        	System.err.println("DEBUG: C1");
+        	System.err.println("DEBUG: Reloading");
             this.reloadTipsArray();
-            System.err.println("DEBUG: C2");
         }
-        System.err.println("DEBUG: D");
         Random rand = new Random();
-        int random = rand.nextInt(local.length - 1);
-        String out = local[random];
+        int random = rand.nextInt(tips.size());
+        String out = tips.remove(random); // Remember that .remove also returns the removed element
         button.setText(out);
     }
 
@@ -130,17 +127,12 @@ public class MainScreenActivity extends Activity {
     }
     
     public void reloadTipsArray(){
-    	System.err.println("DEBUG: Alpha");
         Resources res = getResources();
-        System.err.println("DEBUG: Beta");
         if(tips == null){
-        	System.err.println("DEBUG: Gamma");
         	tips = new ArrayList<String>();
-        	System.err.println("DEBUG: Delta");
         }
-        System.err.println("DEBUG: Epsilon");
-        tips = (ArrayList<String>) Arrays.asList(res.getStringArray(R.array.tips_array));
-        System.err.println("DEBUG: Zeta");
+        String[] _tips = res.getStringArray(R.array.tips_array);
+        Collections.addAll(tips, _tips);
     }
     
     public void reloadMeetRandomArray(){

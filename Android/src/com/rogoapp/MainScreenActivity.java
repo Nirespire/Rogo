@@ -105,12 +105,16 @@ public class MainScreenActivity extends Activity {
     }
 
     public void refreshTipsButton(View arg0){
+    	System.err.println("DEBUG: A");
         final Button button = (Button)findViewById(R.id.tips_button);
         // replace with random string from tips.xml
-        //List<String> local = reloadTipsArray();
-        Resources res = getResources();
-        String[] local = res.getStringArray(R.array.tips_array);
-
+        System.err.println("DEBUG: B");
+        if(tips == null || tips.isEmpty()){
+        	System.err.println("DEBUG: C1");
+            this.reloadTipsArray();
+            System.err.println("DEBUG: C2");
+        }
+        System.err.println("DEBUG: D");
         Random rand = new Random();
         int random = rand.nextInt(local.length - 1);
         String out = local[random];
@@ -125,10 +129,18 @@ public class MainScreenActivity extends Activity {
         startActivity(intent);
     }
     
-    public List<String> reloadTipsArray(){
+    public void reloadTipsArray(){
+    	System.err.println("DEBUG: Alpha");
         Resources res = getResources();
-        String[] temp1 = res.getStringArray(R.array.tips_array);
-        return Arrays.asList(temp1);
+        System.err.println("DEBUG: Beta");
+        if(tips == null){
+        	System.err.println("DEBUG: Gamma");
+        	tips = new ArrayList<String>();
+        	System.err.println("DEBUG: Delta");
+        }
+        System.err.println("DEBUG: Epsilon");
+        tips = (ArrayList<String>) Arrays.asList(res.getStringArray(R.array.tips_array));
+        System.err.println("DEBUG: Zeta");
     }
     
     public void reloadMeetRandomArray(){

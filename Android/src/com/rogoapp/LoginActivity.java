@@ -7,7 +7,17 @@ import android.view.View;
 import android.widget.TextView;
 
 public class LoginActivity extends Activity {
-
-	
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.login);
+		
+		public void onClick(View v) {
+			// Switch to main activity
+			Intent i = new Intent(getApplicationContext(),MainScreenActivity.class);
+			startActivity(i);
+		}
+		
+	}
 	
 }

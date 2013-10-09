@@ -11,13 +11,12 @@ public class LoginActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.login);
-		
-		public void onClick(View v) {
-			// Switch to main activity
-			Intent i = new Intent(getApplicationContext(),MainScreenActivity.class);
-			startActivity(i);
-		}
-		
 	}
+	
+	public void onClick(View v) {
+        // Switch to main activity
+        Intent i = new Intent(getApplicationContext(),MainScreenActivity.class);
+        startActivity(i);
+    }
 	
 }

@@ -19,23 +19,21 @@
         android:label="@string/app_name"
         android:theme="@android:style/Theme.NoTitleBar" >
         <uses-library android:name="android.test.runner" />
-        
+
         <activity
             android:name="com.rogoapp.SplashScreen"
-            android:label="@string/app_name">
+            android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        
-        <activity 
-            android:name ="com.rogoapp.MainScreenActivity"
+        <activity
+            android:name="com.rogoapp.MainScreenActivity"
             android:label="@string/app_name"
             android:theme="@style/CustomTitleBarTheme" >
         </activity>
-        
         <activity
             android:name="com.rogoapp.NearYouActivity"
             android:label="@string/app_name" >
@@ -44,13 +42,21 @@
             android:name="com.rogoapp.TitleBarActivity"
             android:label="@string/app_name" >
         </activity>
-		<activity android:name=".SettingsActivity"
-            android:label="@string/title_activity_settings"
-            >
+        <activity
+            android:name="com.rogoapp.SettingsActivity"
+            android:label="@string/title_activity_settings" >
         </activity>
         <activity
             android:name="com.rogoapp.UserActivity"
             android:label="@string/app_name" >
+        </activity>
+        <activity
+            android:name="com.rogoapp.MeetingSomeoneActivity"
+            android:label="@string/app_name" >
+        </activity>
+        <activity
+            android:name="com.rogoapp.NearYourMapActivity"
+            android:label="@string/title_activity_near_your_map" >
         </activity>
     </application>
 

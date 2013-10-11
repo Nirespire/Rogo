@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <string name = "last_name">Last Name:</string>
-    <string name = "first_name">First Name:</string>
-    <string name = "Speaksoft">Speaksoft</string>
+    <string name="last_name">Last Name:</string>
+    <string name="first_name">First Name:</string>
+    <string name="Speaksoft">Speaksoft</string>
     <string name="app_name">Rogo</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
     <string name="meet_nearby">Meet Nearby</string>
     <string name="meet_random">Meet Random</string>
     <string name="tips">Tips</string>
-    
-    <string name = "people_near_you">People Near You</string>
-    <string name ="titlebar_image">Title Bar Image</string>
-   
-    <string name ="intro_logo_desc">Rogo logo</string>
+    <string name="meeting_someone">Meeting Someone</string>
+    <string name="list">List</string>
+    <string name="map">Map</string>
+    <string name="people_near_you">People Near You</string>
+    <string name="titlebar_image">Title Bar Image</string>
+    <string name="intro_logo_desc">Rogo logo</string>
     <string name="settings">Settings</string>
     <string name="user">USER</string>
-    
-    
+
     <color name="white">#FFFFFF</color>
     <color name="yellow">#FFFF00</color>
     <color name="fuchsia">#FF00FF</color>
@@ -57,5 +57,6 @@
     <string name="password_string">Password</string>
     <string name="radius_string">Contact Radius</string>
     <string name="desc">Rogo Logo</string>
+    <string name="title_activity_near_your_map">NearYourMapActivity</string>
 
 </resources>

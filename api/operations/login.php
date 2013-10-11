@@ -22,14 +22,14 @@ class RequestObject{
 	}
 	public function performRequest(){
 		$REQ = $_REQUEST; 
-		$data = 'data';
+		$data = '';
 		
 		/** BEGIN: Test to ensure that required request args are present **/
-		$missingUser = !isset($REQ['email']);
+		$missingEmail = !isset($REQ['email']);
 		$missingPass = !isset($REQ['password']);
 		
 		$margs = array();
-		if($missingUser){ array_push($margs,'email'); }
+		if($missingEmail){ array_push($margs,'email'); }
 		if($missingPass){ array_push($margs,'password'); }
 		
 		if(count($margs) > 0){
@@ -108,7 +108,7 @@ class RequestObject{
 					return;
 				}
 				
-				$this->setResult(STATUS_FAILURE,'Email or password is incorrect!');
+				$this->setResult(STATUS_ERROR,'Email or password is incorrect!');
 				// Password was wrong, but we don't tell the
 				// user as this information could be exploited
 				return;

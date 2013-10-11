@@ -4,6 +4,18 @@ define('INPUT_USERNAME_LENGTH',30);
 //Length to trim the input "password" to. 128 is the length of a Base64 SHA512 hash.
 define('INPUT_PASSWORD_LENGTH',128);
 
+define('INPUT_EMAIL_MIN_LENGTH',6); // a@b.cd
+
+// Aww, but I wanted to be "dog"
+define('INPUT_USERNAME_MIN_LENGTH',4);
+
+//Minimum length of the incoming password
+//This SHOULD be a hash, so 32 is far smaller than it should be.
+//But, really, it doesn't matter too much. Even if someone is fucking with the API, it will be hashed internally. 
+//Fake edit: You know what, I'm going to just make this 128 and strictly enforce SHA512 (or something that looks like it).
+define('INPUT_PASSWORD_MIN_LENGTH',128); 
+
+
 // Disable account after too many unsuccessful logins
 define('DISABLED_ACCOUNT_PERIOD',60 * 5); 
 // How many unsuccessful logins before an account is disabled

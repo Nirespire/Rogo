@@ -6,7 +6,8 @@ require 'require.php';
 class RequestHandler{
 	private static $REQUEST_SCRIPTS = array(
 		'test' => 'test.php',
-		'login' => 'login.php'
+		'login' => 'login.php',
+		'register' => 'register.php'
 	);
 	private static $REQUEST_STATUS = array(
 		STATUS_SUCCESS => 'success',
@@ -108,7 +109,7 @@ class RequestHandler{
 			$this->unexpectedError();
 		}
 		$this->writeContentType();
-		echo json_encode(array('status'=>RequestHandler::$REQUEST_STATUS[$status],'data'=>$data));
+		echo json_encode(array('status'=>RequestHandler::$REQUEST_STATUS[$status],'data'=>$data),JSON_PRETTY_PRINT);
 	}
 	private function unexpectedError(){
 		header('HTTP/1.0 500 Internal Server Error');

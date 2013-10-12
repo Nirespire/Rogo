@@ -8,7 +8,7 @@ API
 ----
 The API will work by performing HTTP requests to the API server, which will output JSON data which follows the [JSend](http://labs.omniti.com/labs/jsend) specifications. Currently, the server will accept both GET and POST requests, however code implementations should use POST; GET is enabled primarily for testing purposes.
 
-All API requests will follow the same basic URL construction: `https://api.rogoapp.com/request/(request)[.ext]`. The `(request)` is simply the name of the request operation, and the (optional) extension specifies the output content-type. At this time, you may use `.txt` or `.json`. Both return the same output data, but the two have a different content type specified in the headers; `text/plain` for .txt, and `application/json` for .json. *the plain-text output is also formatted to be easier to read.* Use .json in code implementations. If the extension is omitted, it defaults to json. 
+All API requests will follow the same basic URL construction: `https://api.rogoapp.com/request/(request)[.ext]`. The `(request)` is simply the name of the request operation, and the (optional) extension specifies the output content-type. At this time, you may use `.txt` or `.json`. Both return the same output data, but the two have a different content type specified in the headers; `text/plain` for .txt, and `application/json` for .json. **The plain-text output is also formatted to be easier to read.** Use .json in code implementations. If the extension is omitted, it defaults to json. 
 
 Example request strings:
 * `https://api.rogoapp.com/request/test`

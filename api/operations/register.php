@@ -66,10 +66,6 @@ class RequestObject{
 		
 		
 		$email = strtolower($email);
-		
-		/*
-		 * TODO: Change to use better encryption
-		 */
 		$hash = password_hash($password, PASSWORD_BCRYPT, array("cost" => AUTH_HASH_COMPLEXITY));
 		
 		$existingDetailCheck = $this->checkEmailAndUsername($email,$username);

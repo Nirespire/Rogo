@@ -86,7 +86,9 @@ class RequestHandler{
 		return true;
 	}
 	
+    /** Writes the requested content type. Now also returns true if the output should be pretty (txt is requested). **/
 	private function writeContentType(){
+        $pretty = false;
 		/** Determine and set the output MIME-type **/
 		/* This really isn't that necessary for this, but who cares */
 		$type = 'application/json'; //Default to the JSON mime-type
@@ -94,12 +96,14 @@ class RequestHandler{
 			$format = strtolower($_GET['_data_format']);
 			if($format == 'txt'){
 				$type = 'text/plain';
+                $pretty = true;
 			}
 			if($format == 'json'){
 				$type = 'application/json';
 			}
 		}
 		header('Content-Type: ' . $type);
+        return $pretty;
 		/** Done with MIME-type stuff **/
 	}
 
@@ -108,8 +112,19 @@ class RequestHandler{
 		if(array_key_exists($status, RequestHandler::$REQUEST_STATUS) !== true){ //An unknown return status was provided
 			$this->unexpectedError();
 		}
-		$this->writeContentType();
-		echo json_encode(array('status'=>RequestHandler::$REQUEST_STATUS[$status],'data'=>$data),JSON_PRETTY_PRINT);
+		$pretty = $this->writeContentType();
+        if($pretty){
+            if(PHP_VERSION_ID < 50400){
+                require_once 'prettyjson.php';
+                echo prettyPrint(json_encode(array('status'=>RequestHandler::$REQUEST_STATUS[$status],'data'=>$data)));
+            }
+            else{
+                echo json_encode(array('status'=>RequestHandler::$REQUEST_STATUS[$status],'data'=>$data),JSON_PRETTY_PRINT);
+            }
+        }
+        else{
+            echo json_encode(array('status'=>RequestHandler::$REQUEST_STATUS[$status],'data'=>$data));
+        }
 	}
 	private function unexpectedError(){
 		header('HTTP/1.0 500 Internal Server Error');

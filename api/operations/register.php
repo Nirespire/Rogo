@@ -55,6 +55,15 @@ class RequestObject{
 			$this->setResult(STATUS_ERROR,'The password provided does not appear to be valid!');
 			return;
 		}
+        
+        if(!preg_match("/^[\w-]*$/",$username)){
+			$this->setResult(STATUS_ERROR,'Your username may only contain alphanumeric characters and hyphens!');
+            return;
+		}
+        if(preg_match('/--/',$username)){
+            $this->setResult(STATUS_ERROR,'Please don\'t place multiple hyphens next to each other in your username.');
+            return;
+        }
 		
 		//Make sure the first and last name contain only valid characters
 		//Commented out because we'll probably use this later

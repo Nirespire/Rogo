@@ -41,21 +41,28 @@ class RequestObject{
 		/** END: Required args test **/
 		
 		/** BEGIN: Filter, clean and validate input **/
-		$email = substr($REQ['email'],0,INPUT_EMAIL_LENGTH);
+		/*$email = substr($REQ['email'],0,INPUT_EMAIL_LENGTH);
 		$username = substr($REQ['username'],0,INPUT_USERNAME_LENGTH);
-		$password = substr($REQ['password'],0,INPUT_PASSWORD_LENGTH);
-		
+		$password = substr($REQ['password'],0,INPUT_PASSWORD_LENGTH);*/
+        $email = $REQ['email'];
+        $username = $REQ['username'];
+        $password = $REQ['password'];
+        
 		//Make sure the email is valid
-		if(($email = cleanInput($email,INPUT_EMAIL_MIN_LENGTH,INPUT_EMAIL_LENGTH)) == false || !validEmail($email)){
+		if(!$this->validLength($email, INPUT_EMAIL_LENGTH, INPUT_EMAIL_MIN_LENGTH) || ($email = cleanInput($email,INPUT_EMAIL_MIN_LENGTH,INPUT_EMAIL_LENGTH)) == false || !validEmail($email)){
 			$this->setResult(STATUS_ERROR,'The email provided does not appear to be valid!');
 			return;
 		}
 		//Make sure the password, first name, and last name inputs are valid
-		if(($password = cleanInput($password,INPUT_PASSWORD_MIN_LENGTH,INPUT_PASSWORD_LENGTH)) == false){
+		if(!$this->validLength($password,INPUT_PASSWORD_LENGTH,INPUT_PASSWORD_MIN_LENGTH) || ($password = cleanInput($password,INPUT_PASSWORD_MIN_LENGTH,INPUT_PASSWORD_LENGTH)) == false){
 			$this->setResult(STATUS_ERROR,'The password provided does not appear to be valid!');
 			return;
 		}
         
+        if(!$this->validLength($username,INPUT_USERNAME_LENGTH,INPUT_USERNAME_MIN_LENGTH)){
+            $this->setResult(STATUS_ERROR,'Your username is either too short or too long. Make sure it is longer than ' . INPUT_USERNAME_MIN_LENGTH . ' characters and shorter than ' . INPUT_USERNAME_LENGTH . ' characters.');
+            return;
+        }
         if(!preg_match("/^[\w-]*$/",$username)){
 			$this->setResult(STATUS_ERROR,'Your username may only contain alphanumeric characters and hyphens!');
             return;
@@ -177,6 +184,12 @@ class RequestObject{
 		);
 		$this->setResult(STATUS_SUCCESS,$data);
 	}
+    private function validLength($input,$max,$min = 0){
+        $len = strlen($input);
+        if($len > $max) return false;
+        if($len < $min) return false;
+        return true;
+    }
 	private function setResult($status,$data){
 		$this->_STATUS = $status;
 		$this->_DATA = $data;

@@ -21,7 +21,7 @@ Example request strings:
 
 *Functionality:* This serves for testing functionality. At this point it serves two primary purposes. First, when the `extented` flag is provided, it outputs a simple dataset containing two "posts", each with an "id", a "title", and a "body". Use this to practice parsing the JSON within code. Second, when given a password value (`password=mypassword`), it will provide the SHA512 hash for that password, and the bcrypt hash of the SHA512 hash. The former is necessary for testing, as the SHA512 hash is what the client (the phone) must send as the password when performing authentication; this page may be used to verify SHA512 values match expected values, or for manually entering password values during authentication testing. The bcrypt is mostly only necessary for manually entering new users into the database, and for testing the amount of time the bcrypt hash takes to compute.
 
-*Examples:*
+*Examples:*  
 Request: `test.txt?password=mypassword`
 
     {
@@ -44,7 +44,7 @@ Request: `test.txt?password=mypassword`
 * `email` The user's email address. Minimum of 6 characters (`a@b.ca`)
 * `password` The SHA512 hash of the user's (salted!) password. Currently restricted to exactly 128 characters, the length of a SHA512 hash. 
 
-*Examples:*
+*Examples:*  
 Request: `register.txt?username=tits-palmer&email=xxheadshot420xx@aol.com&password=a3[...the above example hash...]ca`
 
     {
@@ -73,7 +73,7 @@ Request: `register.txt?username=foxnews&email=lol@lol.com`
 * `email` The user's email address. Minimum of 6 characters (`a@b.ca`)
 * `password` The SHA512 hash of the user's (salted!) password. Currently restricted to exactly 128 characters, the length of a SHA512 hash. 
 
-*Examples:*
+*Examples:*  
 Request: `login.txt?email=xxheadshot420xx@aol.com&password=a3[...the above example hash...]ca`
 
     {

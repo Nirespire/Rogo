@@ -38,14 +38,23 @@
 
     <Button
         android:id="@+id/near_you_button"
-        android:onClick="openNearYouScreen"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/include1"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="37dp"
         android:text="@string/meet_nearby" 
-        
+        android:onClick="openNearYouScreen"
         />
+
+    <Button
+        android:id="@+id/debug_button"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:text="DEBUG" 
+        android:onClick="openDebugScreen"/>
 
 </RelativeLayout>

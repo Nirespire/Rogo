@@ -27,7 +27,8 @@
         android:text="@string/user"
         android:textColor="@color/white"
         android:textColorHint="@color/white"
-        android:textSize="12sp" />
+        android:textSize="12sp" 
+        android:onClick = "openUserScreen"/>
 
     <Button
         android:id="@+id/titlebarSettingsButton"

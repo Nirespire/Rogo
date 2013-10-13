@@ -22,6 +22,10 @@ public class MainScreenActivity extends Activity {
     Button nearYouButton;
     Button meetRandomButton;
     Button tipsButton;
+    Button userButton;
+    
+    Button debugButton; //TODO REMOVE
+    
     List<String> tips;
     List<String> meetRandom;
 
@@ -99,10 +103,16 @@ public class MainScreenActivity extends Activity {
     //refresh the text 
     public void refreshMeetRandomButton(View arg0){
         final Button button = (Button)findViewById(R.id.meet_random_button);
-        // replace with random string from meet_random.xml
-        button.setText("TESTING RANDOM");
-
-        //TODO
+        
+        if(meetRandom == null || meetRandom.isEmpty()){
+        	System.err.println("DEBUG: Reloading meetRandom array");
+        	reloadMeetRandomArray();
+        }
+        
+        Random rand = new Random(System.currentTimeMillis());
+        int random = rand.nextInt(meetRandom.size());
+        String out = meetRandom.remove(random);
+        button.setText(out);
     }
 
     public void refreshTipsButton(View arg0){
@@ -112,17 +122,22 @@ public class MainScreenActivity extends Activity {
         	System.err.println("DEBUG: Reloading tips array");
             this.reloadTipsArray();
         }
-        Random rand = new Random();
+        Random rand = new Random(System.currentTimeMillis());
         int random = rand.nextInt(tips.size());
         String out = tips.remove(random); // Remember that .remove also returns the removed element
         button.setText(out);
     }
 
 
-
     public void openSettingsScreen(View v){
         final Context context = this;
         Intent intent = new Intent(context, SettingsActivity.class);
+        startActivity(intent);
+    }
+    
+    public void openUserScreen(View v){
+        final Context context = this;
+        Intent intent = new Intent(context, UserActivity.class);
         startActivity(intent);
     }
     
@@ -137,6 +152,38 @@ public class MainScreenActivity extends Activity {
     
     public void reloadMeetRandomArray(){
         Resources res = getResources();
-        meetRandom = (ArrayList<String>) Arrays.asList(res.getStringArray(R.array.meetRandomArray));
+        if(meetRandom == null){
+        	meetRandom = new ArrayList<String>();
+        }
+        String[] _randoms = res.getStringArray(R.array.meetRandomArray);
+        Collections.addAll(meetRandom, _randoms);
     }
+    
+    
+    
+    /* DEBUG SECTION REMOVE BEFORE FINAL*/
+    //-------------------------------------------------------------------
+    public void addListenerOnButton4() {
+
+        debugButton = (Button) findViewById(R.id.debug_button);
+
+        debugButton.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View arg0) {
+                openDebugScreen(arg0);
+            }
+
+        });
+
+    }
+    
+    public void openDebugScreen(View v){
+        final Context context = this;
+        Intent intent = new Intent(context, DebugActivity.class);
+        startActivity(intent);
+    }
+    
+    //-------------------------------------------------------------------
+    
 }		

@@ -1,24 +1,21 @@
 package com.rogoapp;
 
-import android.app.Activity;
 import android.os.Bundle;
+import android.app.Activity;
 import android.view.Menu;
-import android.widget.Button;
 
-public class NearYourMapActivity extends Activity {
-	
-	Button goToListButton;
-	
+public class DebugActivity extends Activity {
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.near_you_map);
+		setContentView(R.layout.debug_screen);
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.near_your_map, menu);
+		getMenuInflater().inflate(R.menu.debug, menu);
 		return true;
 	}
 

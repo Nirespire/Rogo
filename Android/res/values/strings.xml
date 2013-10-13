@@ -57,6 +57,7 @@
     <string name="password_string">Password</string>
     <string name="radius_string">Contact Radius</string>
     <string name="desc">Rogo Logo</string>
-    <string name="title_activity_near_your_map">NearYourMapActivity</string>
+    <string name="title_activity_near_you_map">NearYourMapActivity</string>
+    <string name="title_activity_debug">DebugActivity</string>
 
 </resources>

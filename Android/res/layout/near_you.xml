@@ -26,7 +26,7 @@
         android:visibility="visible" />
 
     <TextView
-        android:id="@+id/textView1"
+        android:id="@+id/people_near_you"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/include1"
@@ -36,13 +36,14 @@
         android:textColor="@color/black" />
 
     <Button
-        android:id="@+id/button1"
+        android:id="@+id/near_you_map"
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignRight="@+id/mylist"
         android:layout_below="@+id/mylist"
         android:layout_marginTop="20dp"
-        android:text="@string/list" />
+        android:text="@string/map" 
+        android:onClick="openNearYouMapScreen"/>
 
 </RelativeLayout>

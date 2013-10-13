@@ -16,7 +16,7 @@
         layout="@layout/customtitlebar" />
 
      <Button
-         android:id="@+id/button1"
+         android:id="@+id/near_you_list"
          style="?android:attr/buttonStyleSmall"
          android:layout_width="wrap_content"
          android:layout_height="wrap_content"
@@ -24,10 +24,11 @@
          android:layout_alignParentBottom="true"
          android:layout_marginBottom="50dp"
          android:layout_marginLeft="19dp"
-         android:text="@string/list" />
+         android:text="@string/list" 
+         android:onClick="openNearYouScreen"/>
 
      <TextView
-         android:id="@+id/textView1"
+         android:id="@+id/people_near_you"
          android:layout_width="wrap_content"
          android:layout_height="wrap_content"
          android:layout_below="@+id/include1"

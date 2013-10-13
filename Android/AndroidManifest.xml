@@ -55,8 +55,12 @@
             android:label="@string/app_name" >
         </activity>
         <activity
-            android:name="com.rogoapp.NearYourMapActivity"
-            android:label="@string/title_activity_near_your_map" >
+            android:name="com.rogoapp.NearYouMapActivity"
+            android:label="@string/title_activity_near_you_map" >
+        </activity>
+        <activity
+            android:name="com.rogoapp.DebugActivity"
+            android:label="@string/title_activity_debug" >
         </activity>
     </application>
 

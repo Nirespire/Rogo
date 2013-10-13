@@ -7,7 +7,7 @@ import android.os.Handler;	// Wait for specified time before going to main scree
 
 public class SplashScreen extends Activity {
 
-	static int SPLASH_TIME_OUT = 3000;	// Splash screen timer
+	static int SPLASH_TIME_OUT = 1500;	// Splash screen timer
 	
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);

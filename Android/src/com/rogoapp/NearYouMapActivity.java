@@ -9,43 +9,43 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 
-public class NearYouActivity extends Activity {
+public class NearYouMapActivity extends Activity {
 	
-	Button goToMapButton;
+	Button goToListButton;
+	
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.near_you_map);
+	}
 
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.near_you);
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.main_screen, menu);
+		return true;
 	}
-	
-	@Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main_screen, menu);
-        return true;
-    }
 	
 	public void addListenerOnButton1() {
 
-        goToMapButton = (Button) findViewById(R.id.near_you_map);
+        goToListButton = (Button) findViewById(R.id.near_you_list);
 
-        goToMapButton.setOnClickListener(new OnClickListener() {
+        goToListButton.setOnClickListener(new OnClickListener() {
 
             @Override
             public void onClick(View arg0) {
-                openNearYouMapScreen(arg0);
+                openNearYouScreen(arg0);
             }
 
         });
 
     }
 	
-	public void openNearYouMapScreen(View v){
-		final Context context = this;
-        Intent intent = new Intent(context, NearYouMapActivity.class);
+	public void openNearYouScreen(View v){
+        final Context context = this;
+        Intent intent = new Intent(context, NearYouActivity.class);
         startActivity(intent);
-	}
+    }
 	
 	public void openSettingsScreen(View v){
         final Context context = this;
@@ -58,5 +58,5 @@ public class NearYouActivity extends Activity {
         Intent intent = new Intent(context, UserActivity.class);
         startActivity(intent);
     }
-}
 
+}

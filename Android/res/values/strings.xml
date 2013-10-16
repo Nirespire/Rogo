@@ -59,5 +59,16 @@
     <string name="desc">Rogo Logo</string>
     <string name="title_activity_near_you_map">NearYourMapActivity</string>
     <string name="title_activity_debug">DebugActivity</string>
+    
+    <string name="menu_settings">Settings</string>
+    <string name="pref_send_report">Send crash reports</string>
+    <string name="pref_send_report_summary">Helps to fix bugs</string>
+    <string name="pref_radius">Radius</string>
+    <string name="pref_radius_summary">Set the radius</string>
+    <string name="pref_user_name">Set username</string>
+    <string name="pref_user_name_summary">Set your username</string>
+     
+    <string name="pref_user_profile">User Profile</string>
+    <string name="pref_update_setting">Update Settings</string>
 
 </resources>

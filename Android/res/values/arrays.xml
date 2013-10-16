@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="radius">
+        <item name="1">100 Feet</item>
+        <item name="2">500 Feet</item>
+        <item name="3">1000 Feet</item>
+        <item name="4">1/2 Mile</item>
+        <item name="5">1 Mile</item>
+        <item name="6">5 Miles</item>
+    </string-array>
+    <string-array name="radiusValues">
+        <item name="1">100</item>
+        <item name="2">500</item>
+        <item name="3">1000</item>
+        <item name="4">2640</item>
+        <item name="3">5280</item>
+        <item name="4">10560</item>
+    </string-array>
+     
+</resources>

@@ -62,6 +62,12 @@
             android:name="com.rogoapp.DebugActivity"
             android:label="@string/title_activity_debug" >
         </activity>
+        <service android:exported="true" android:name="Auth">
+            <intent-filter>
+                <action android:name = "android.accounts.AccountAuthenticator"/>
+            </intent-filter>
+            <meta-data android:name="android.accounts.AccountAuthenticator" android:resource ="@xml/auth"></meta-data>
+        </service>
     </application>
 
 </manifest>

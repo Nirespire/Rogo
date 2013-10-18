@@ -29,7 +29,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        
         <activity
             android:name="com.rogoapp.MainScreenActivity"
             android:label="@string/app_name"
@@ -65,8 +64,21 @@
         </activity>
         <activity
             android:name="com.rogoapp.RegisterActivity"
-            android:label="@string/app_name">
+            android:label="@string/app_name" >
         </activity>
+
+        <service
+            android:name="Auth"
+            android:exported="false" >
+            <intent-filter>
+                <action android:name="android.accounts.AccountAuthenticator" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.accounts.AccountAuthenticator"
+                android:resource="@xml/auth" >
+            </meta-data>
+        </service>
     </application>
 
 </manifest>

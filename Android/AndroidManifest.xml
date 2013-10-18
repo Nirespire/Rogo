@@ -63,6 +63,10 @@
             android:name="com.rogoapp.DebugActivity"
             android:label="@string/title_activity_debug" >
         </activity>
+        <activity
+            android:name="com.rogoapp.RegisterActivity"
+            android:label="@string/app_name">
+        </activity>
     </application>
 
 </manifest>

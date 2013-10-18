@@ -6,15 +6,18 @@ import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 public class RegisterActivity extends Activity{
     
     Button registerButton;
-    TextView lastName;
-    TextView firstName;
-    TextView email;
-    TextView password;
+    EditText lastName;
+    EditText firstName;
+    EditText email;
+    EditText password;
+    
+    TextView loginLink;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {

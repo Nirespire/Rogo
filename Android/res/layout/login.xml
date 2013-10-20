@@ -40,8 +40,7 @@
             <TextView
     			android:layout_width="fill_parent"
     			android:layout_height="wrap_content"
-    			android:layout_marginTop="50dip"
-    			android:layout_marginBottom="10dip"
+    			android:layout_marginBottom="10dp"
     			android:textSize="12sp"
     			android:textColor="#454545"
     			android:gravity="center_horizontal"
@@ -56,8 +55,7 @@
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
           android:padding="10dip"
-          android:layout_below="@id/header"
-          android:id="@+id/input_boxes">
+          android:layout_below="@id/header">
           <!--  Email Label -->
           <TextView
               	android:id="@+id/auth_txt_username"
@@ -85,17 +83,6 @@
                 android:layout_marginTop="5dip"
                 android:singleLine="true"
                 android:inputType="textPassword"/>
-<<<<<<< HEAD
-
-          <CheckBox
-              android:id="@+id/remember_me_check"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:onClick="onRememberMe"
-              android:text="@string/remember_me" />
-
-          </LinearLayout>
-=======
           <!-- Login button -->
           <Button
               	android:id="@+id/btnLogin"
@@ -109,7 +96,8 @@
               android:layout_width="fill_parent"
               android:layout_height="wrap_content"
               android:layout_marginTop="10dip"
-              android:text="@string/cancel_button"/>
+              android:text="@string/cancel_button"
+              />
           <!-- Link to Registration Screen -->
           <TextView
               	android:id="@+id/link_to_register"
@@ -124,60 +112,7 @@
                 android:onClick="openRegistrationScreen"/>
  
 		</LinearLayout>
->>>>>>> af19b770b47c3740c57166251c99a164de6e161a
         <!-- Login Form Ends -->
-
-          <LinearLayout
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:layout_alignParentBottom="true"
-              android:layout_alignParentLeft="true"
-              android:orientation="horizontal"
-              android:padding="10dip" 
-              android:layout_below="@+id/input_boxes"
-              android:id="@+id/button_options">
-
-              <Button
-                  android:id="@+id/btnLogin"
-                  android:layout_width="120dp"
-                  android:layout_height="wrap_content"
-                  android:layout_marginLeft="15dip"
-                  android:layout_marginRight="10dip"
-                  android:layout_marginTop="10dip"
-                  android:onClick="onSaveClick"
-                  android:text="@string/auth_login" />
-
-              <Button
-                  android:id="@+id/on_Cancel_Click"
-                  android:layout_width="120dp"
-                  android:layout_height="wrap_content"
-                  android:layout_marginLeft="10dip"
-                  android:layout_marginRight="15dip"
-                  android:layout_marginTop="10dip"
-                  android:onClick="onCancelClick"
-                  android:text="@string/cancel_button" />
-              </LinearLayout>
-              <LinearLayout
-                  android:layout_width="match_parent"
-                  android:layout_height="wrap_content"
-                  android:layout_alignParentBottom="true"
-                  android:layout_alignParentLeft="true"
-                  android:orientation="horizontal"
-                  android:padding="10dip">
-
-                  <TextView
-                      android:id="@+id/link_to_register"
-                      android:layout_width="fill_parent"
-                      android:layout_height="wrap_content"
-                      android:layout_marginBottom="80dip"
-                      android:layout_marginTop="20dip"
-                      android:gravity="center"
-                      android:onClick="openToRegisterScreen"
-                      android:text="@string/register"
-                      android:textColor="#0b84aa"
-                      android:textSize="20sp" />
-
-          </LinearLayout>
  
   </RelativeLayout>
 </ScrollView>

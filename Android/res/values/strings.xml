@@ -81,5 +81,6 @@
     <string name="register">Don\'t have a Rogo account? Register</string>
     <string name="auth_login">Login</string>
     <string name="cancel_button">Cancel</string>
+    <string name="remember_me">Remember me</string>
 
 </resources>

@@ -69,5 +69,11 @@
     <string name="pref_user_profile">User Profile</string>
     <string name="pref_update_setting">Update Settings</string>
     <string name="title_activity_main">MainActivity</string>
+    
+    <!-- Account Preferences -->
+    <string name="title_fmt">Rogo</string>
+    <string name="key1_action">Stuff</string>
+    <string name="key1_summary">And things</string>
+    
 
 </resources>

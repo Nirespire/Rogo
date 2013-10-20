@@ -44,23 +44,20 @@ public class RogoAuthenticatorActivity extends AccountAuthenticatorActivity {
     public void onSaveClick(View v) {  
         TextView tvUsername;  
         TextView tvPassword;  
-        TextView tvApiKey;  
+          
         String username;  
         String password;  
-        String apiKey;  
+         
         boolean hasErrors = false;  
   
-    /*    tvUsername = (TextView) this.findViewById(R.id.uc_txt_username);  
-        tvPassword = (TextView) this.findViewById(R.id.uc_txt_password);  
-        tvApiKey = (TextView) this.findViewById(R.id.uc_txt_api_key);  
+        tvUsername = (TextView) this.findViewById(R.id.auth_txt_username);  
+        tvPassword = (TextView) this.findViewById(R.id.auth_txt_pswd);   
   
         tvUsername.setBackgroundColor(Color.WHITE);  
         tvPassword.setBackgroundColor(Color.WHITE);  
-        tvApiKey.setBackgroundColor(Color.WHITE);  
   
         username = tvUsername.getText().toString();  
         password = tvPassword.getText().toString();  
-        apiKey = tvApiKey.getText().toString();  
   
         if (username.length() < 3) {  
             hasErrors = true;  
@@ -70,11 +67,6 @@ public class RogoAuthenticatorActivity extends AccountAuthenticatorActivity {
             hasErrors = true;  
             tvPassword.setBackgroundColor(Color.MAGENTA);  
         }  
-        if (apiKey.length() < 3) {  
-            hasErrors = true;  
-            tvApiKey.setBackgroundColor(Color.MAGENTA);  
-        }  
-  */
         if (hasErrors) {  
             return;  
         }  

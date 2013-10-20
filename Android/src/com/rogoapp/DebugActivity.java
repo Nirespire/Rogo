@@ -14,6 +14,7 @@ public class DebugActivity extends Activity {
     Button serverButton;
     Button registerButton;
     Button loginButton;
+    Button meetingSomeoneButton;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +59,21 @@ public class DebugActivity extends Activity {
 
 	 }
 	 
+	 public void addListenerOnButton3() {
+
+	        registerButton = (Button) findViewById(R.id.meeting_someone_debug_button);
+
+	        registerButton.setOnClickListener(new OnClickListener() {
+
+	            @Override
+	            public void onClick(View arg0) {
+	            	openMeetingSomeoneScreen(arg0);
+	            }
+
+	        });
+
+	 }
+	 
 	 public void openRegistrationScreen(View v){
 	        final Context context = this;
 	        Intent intent = new Intent(context, RegisterActivity.class);
@@ -67,6 +83,12 @@ public class DebugActivity extends Activity {
 	 public void openLoginScreen(View v){
 	        final Context context = this;
 	        Intent intent = new Intent(context, LoginActivity.class);
+	        startActivity(intent);
+	 }
+	
+	 public void openMeetingSomeoneScreen(View v){
+	        final Context context = this;
+	        Intent intent = new Intent(context, MeetingSomeoneActivity.class);
 	        startActivity(intent);
 	 }
 	

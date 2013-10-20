@@ -42,4 +42,14 @@
         android:text="Login Screen" 
         android:onClick="openLoginScreen"/>
 
+    <Button
+        android:id="@+id/meeting_someone_debug_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/login_debug_button"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="40dp"
+        android:text="Meeting Someone" 
+        android:onClick="openMeetingSomeoneScreen"/>
+
 </RelativeLayout>

@@ -75,5 +75,10 @@
     <string name="key1_action">Stuff</string>
     <string name="key1_summary">And things</string>
     
+    <!-- Account Login XML -->
+    <string name="auth_username">Email</string>
+    <string name="auth_pass">Password</string>
+    <string name="register">Don\'t have a Rogo account? Register</string>
+    <string name="auth_login">Login</string>
 
 </resources>

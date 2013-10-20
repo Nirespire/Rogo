@@ -30,9 +30,10 @@ public class RogoAuthenticatorActivity extends AccountAuthenticatorActivity {
   
     @Override  
     protected void onCreate(Bundle icicle) {  
-        // TODO Auto-generated method stub  
+        // recreates from saved state -- icicle is the same as savedInstanceState  
         super.onCreate(icicle);  
-        this.setContentView(R.layout.login);  
+        //creates a view from the login.xml file
+        this.setContentView(R.layout.login);
     }  
   
     public void onCancelClick(View v) {  

@@ -44,7 +44,6 @@
     			android:textSize="12sp"
     			android:textColor="#454545"
     			android:gravity="center_horizontal"
-    			android:layout_alignParentBottom="true"
     			android:text="@string/Speaksoft" />
             
 		</LinearLayout>
@@ -63,33 +62,34 @@
               	android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:textColor="#372c24"
-                android:text="Email"/>
+                android:text="@string/auth_username"/>
           <EditText
               	android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dip"
                 android:layout_marginBottom="20dip"
-                android:singleLine="true"/>
+                android:singleLine="true"
+                android:inputType="textEmailAddress"/>"
           <!--  Password Label -->
           <TextView
               	android:id="@+id/auth_txt_pswd"
               	android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:textColor="#372c24"
-                android:text="Password"/>
+                android:text="@string/auth_pass"/>
           <EditText
               	android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dip"
                 android:singleLine="true"
-                android:password="true"/>
+                android:inputType="textPassword"/>
           <!-- Login button -->
           <Button
               	android:id="@+id/btnLogin"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dip"
-                android:text="Login"/>
+                android:text="@string/auth_login"/>
           <!-- Link to Registration Screen -->
           <TextView
               	android:id="@+id/link_to_register"
@@ -97,9 +97,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="40dip"
                 android:layout_marginBottom="40dip"
-                android:text="Don't have a Rogo account? Register"
+                android:text="@string/register"
                 android:gravity="center"
-                android:textSize="20dip"
+                android:textSize="20sp"
                 android:textColor="#0b84aa"/>
  
 		</LinearLayout>

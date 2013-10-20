@@ -13,6 +13,7 @@ public class DebugActivity extends Activity {
     
     Button serverButton;
     Button registerButton;
+    Button loginButton;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -23,7 +24,7 @@ public class DebugActivity extends Activity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.debug, menu);
+		getMenuInflater().inflate(R.menu.main_screen, menu);
 		return true;
 	}
 	
@@ -35,7 +36,22 @@ public class DebugActivity extends Activity {
 
 	            @Override
 	            public void onClick(View arg0) {
-	                openRegistrationScreen(arg0);
+	            	openRegistrationScreen(arg0);
+	            }
+
+	        });
+
+	 }
+	 
+	 public void addListenerOnButton2() {
+
+	        registerButton = (Button) findViewById(R.id.login_debug_button);
+
+	        registerButton.setOnClickListener(new OnClickListener() {
+
+	            @Override
+	            public void onClick(View arg0) {
+	            	openLoginScreen(arg0);
 	            }
 
 	        });
@@ -45,6 +61,12 @@ public class DebugActivity extends Activity {
 	 public void openRegistrationScreen(View v){
 	        final Context context = this;
 	        Intent intent = new Intent(context, RegisterActivity.class);
+	        startActivity(intent);
+	 }
+	 
+	 public void openLoginScreen(View v){
+	        final Context context = this;
+	        Intent intent = new Intent(context, LoginActivity.class);
 	        startActivity(intent);
 	 }
 	

@@ -34,7 +34,7 @@
             android:orientation = "horizontal"
     		android:layout_width="fill_parent"
     		android:layout_height="90dip"
-    		android:background="@layout/footer"
+    		android:background="@drawable/gradient"
     		android:layout_alignParentBottom="true">
             
             <TextView
@@ -85,6 +85,7 @@
                 android:layout_marginTop="5dip"
                 android:singleLine="true"
                 android:inputType="textPassword"/>
+<<<<<<< HEAD
 
           <CheckBox
               android:id="@+id/remember_me_check"
@@ -94,6 +95,36 @@
               android:text="@string/remember_me" />
 
           </LinearLayout>
+=======
+          <!-- Login button -->
+          <Button
+              	android:id="@+id/btnLogin"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dip"
+                android:text="@string/auth_login"/>
+          <!-- Cancel Button -->
+          <Button 
+              android:id="@+id/on_Cancel_Click"
+              android:layout_width="fill_parent"
+              android:layout_height="wrap_content"
+              android:layout_marginTop="10dip"
+              android:text="@string/cancel_button"/>
+          <!-- Link to Registration Screen -->
+          <TextView
+              	android:id="@+id/link_to_register"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dip"
+                android:layout_marginBottom="40dip"
+                android:text="@string/register"
+                android:gravity="center"
+                android:textSize="20sp"
+                android:textColor="#0b84aa"
+                android:onClick="openRegistrationScreen"/>
+ 
+		</LinearLayout>
+>>>>>>> af19b770b47c3740c57166251c99a164de6e161a
         <!-- Login Form Ends -->
 
           <LinearLayout

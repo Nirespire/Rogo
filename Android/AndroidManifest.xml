@@ -64,7 +64,10 @@
         </activity>
         <activity
             android:name="com.rogoapp.RegisterActivity"
-            android:exported="false"
+            android:label="@string/app_name" >
+        </activity>
+         <activity
+            android:name="com.rogoapp.LoginActivity"
             android:label="@string/app_name" >
         </activity>
 

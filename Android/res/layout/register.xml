@@ -30,7 +30,7 @@
                 android:layout_width="fill_parent"
                 android:orientation="horizontal"
                 android:layout_height="90dip"
-                android:background="@layout/footer"
+                android:background="@drawable/gradient"
                 android:layout_alignParentBottom="true">
         </LinearLayout>
         <!-- Footer Ends -->

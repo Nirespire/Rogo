@@ -69,7 +69,7 @@
                 android:layout_marginTop="5dip"
                 android:layout_marginBottom="20dip"
                 android:singleLine="true"
-                android:inputType="textEmailAddress"/>"
+                android:inputType="textEmailAddress"/>
           <!--  Password Label -->
           <TextView
               	android:id="@+id/auth_txt_pswd"
@@ -89,7 +89,16 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dip"
-                android:text="@string/auth_login"/>
+                android:text="@string/auth_login"
+          		android:onClick="onSaveClick"/>
+          <!-- Cancel Button -->
+          <Button 
+              android:id="@+id/on_Cancel_Click"
+              android:layout_width="fill_parent"
+              android:layout_height="wrap_content"
+              android:layout_marginTop="10dip"
+              android:text="@string/cancel_button"
+              android:onClick="onCancelClick"/>
           <!-- Link to Registration Screen -->
           <TextView
               	android:id="@+id/link_to_register"
@@ -100,7 +109,8 @@
                 android:text="@string/register"
                 android:gravity="center"
                 android:textSize="20sp"
-                android:textColor="#0b84aa"/>
+                android:textColor="#0b84aa"
+                android:onClick="openToRegisterScreen"/>
  
 		</LinearLayout>
         <!-- Login Form Ends -->

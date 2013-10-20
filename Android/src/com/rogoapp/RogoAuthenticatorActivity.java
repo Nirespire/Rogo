@@ -3,14 +3,14 @@ package com.rogoapp;
 import android.accounts.Account;
 import android.accounts.AccountAuthenticatorActivity;
 import android.accounts.AccountManager;
-import android.content.ContentResolver;
+import android.content.Context;
+//import android.content.ContentResolver;
 import android.content.Intent;
-import android.content.SharedPreferences;
+//import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
-import android.os.Bundle;
 
 public class RogoAuthenticatorActivity extends AccountAuthenticatorActivity {
 	public static final String PARAM_AUTHTOKEN_TYPE = "auth.token";  
@@ -32,6 +32,7 @@ public class RogoAuthenticatorActivity extends AccountAuthenticatorActivity {
     protected void onCreate(Bundle icicle) {  
         // recreates from saved state -- icicle is the same as savedInstanceState  
         super.onCreate(icicle);  
+        //TODO allow view to be created for sign in and authorization forms
         //creates a view from the login.xml file
         this.setContentView(R.layout.login);
     }  
@@ -41,6 +42,11 @@ public class RogoAuthenticatorActivity extends AccountAuthenticatorActivity {
         this.finish();  
   
     }  
+    public void openRegisterScreen(View v){
+        final Context context = this;
+        Intent intent = new Intent(context, RegisterActivity.class);
+        startActivity(intent);
+    }
   
     public void onSaveClick(View v) {  
         TextView tvUsername;  
@@ -93,14 +99,14 @@ public class RogoAuthenticatorActivity extends AccountAuthenticatorActivity {
         } else {  
   
             // This is the magic that adds the account to the Android Account Manager  
-            final Account account = new Account(/*username*/"l", accountType);  
-            accMgr.addAccountExplicitly(account, /*password*/"k", null);  
+            final Account account = new Account(username, accountType);  
+            accMgr.addAccountExplicitly(account, password, null);  
   
             // Now we tell our caller, could be the Android Account Manager or even our own application  
             // that the process was successful  
   
             final Intent intent = new Intent();  
-            intent.putExtra(AccountManager.KEY_ACCOUNT_NAME, /*username*/"l");  
+            intent.putExtra(AccountManager.KEY_ACCOUNT_NAME, username);  
             intent.putExtra(AccountManager.KEY_ACCOUNT_TYPE, accountType);  
             intent.putExtra(AccountManager.KEY_AUTHTOKEN, accountType);  
             this.setAccountAuthenticatorResult(intent.getExtras());  

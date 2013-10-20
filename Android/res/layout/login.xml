@@ -34,7 +34,7 @@
             android:orientation = "horizontal"
     		android:layout_width="fill_parent"
     		android:layout_height="90dip"
-    		android:background="@layout/footer"
+    		android:background="@drawable/gradient"
     		android:layout_alignParentBottom="true">
             
             <TextView
@@ -89,16 +89,14 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dip"
-                android:text="@string/auth_login"
-          		android:onClick="onSaveClick"/>
+                android:text="@string/auth_login"/>
           <!-- Cancel Button -->
           <Button 
               android:id="@+id/on_Cancel_Click"
               android:layout_width="fill_parent"
               android:layout_height="wrap_content"
               android:layout_marginTop="10dip"
-              android:text="@string/cancel_button"
-              android:onClick="onCancelClick"/>
+              android:text="@string/cancel_button"/>
           <!-- Link to Registration Screen -->
           <TextView
               	android:id="@+id/link_to_register"
@@ -110,7 +108,7 @@
                 android:gravity="center"
                 android:textSize="20sp"
                 android:textColor="#0b84aa"
-                android:onClick="openToRegisterScreen"/>
+                android:onClick="openRegistrationScreen"/>
  
 		</LinearLayout>
         <!-- Login Form Ends -->

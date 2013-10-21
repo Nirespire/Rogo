@@ -55,15 +55,17 @@ public class RogoAuthenticatorActivity extends AccountAuthenticatorActivity {
         startActivity(intent);
     }
     public void onRememberMe(View V){
+    	Button btnUserName = (Button) this.findViewById(R.id.btnLogin);
+    	
     	if(getToken()){
     		this.setToken(false);
     	}
     	else this.setToken(true);
     	
     	if(getToken()){
-    		Button btnUserName = (Button) this.findViewById(R.id.btnLogin);
     		btnUserName.setText("Retain Login");
     	}
+    	else btnUserName.setText("Login"); 
     }
   
     public void onSaveClick(View v) {  

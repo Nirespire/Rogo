@@ -81,7 +81,7 @@ public class RogoAuthenticatorActivity extends AccountAuthenticatorActivity {
         // Now that we have done some simple "client side" validation it  
         // is time to check with the server  
   
-        // ... perform some network activity here  
+        //TODO ... perform some network activity here  
   
         // finished  
   

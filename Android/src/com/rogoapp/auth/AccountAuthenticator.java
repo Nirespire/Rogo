@@ -3,7 +3,7 @@
  * http://www.finalconcept.com.au/article/view/android-account-manager-step-by-step ---> Explains more
  */
 
-package com.rogoapp;
+package com.rogoapp.auth;
 
 import android.accounts.AbstractAccountAuthenticator;
 import android.accounts.Account;

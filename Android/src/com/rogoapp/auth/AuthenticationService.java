@@ -1,4 +1,4 @@
-package com.rogoapp;
+package com.rogoapp.auth;
 
 import android.app.Service;  
 import android.content.Intent;  

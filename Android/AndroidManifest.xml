@@ -82,7 +82,7 @@
             android:label="@string/app_name" >
         </activity>
         <activity
-            android:name="com.rogoapp.RogoAuthenticatorActivity"
+            android:name="com.rogoapp.auth.RogoAuthenticatorActivity"
             android:label="@string/app_name" >
         </activity>
 

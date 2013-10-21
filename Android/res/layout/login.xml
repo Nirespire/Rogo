@@ -59,12 +59,13 @@
           android:id="@+id/input_boxes">
           <!--  Email Label -->
           <TextView
-              	android:id="@+id/auth_txt_username"
+              	android:id="@+id/txt_username"
               	android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:textColor="#372c24"
                 android:text="@string/auth_username"/>
           <EditText
+              	android:id="@+id/auth_txt_username"
               	android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dip"
@@ -73,12 +74,13 @@
                 android:inputType="textEmailAddress"/>
           <!--  Password Label -->
           <TextView
-              	android:id="@+id/auth_txt_pswd"
+              	android:id="@+id/txt_pswd"
               	android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:textColor="#372c24"
                 android:text="@string/auth_pass"/>
           <EditText
+              	android:id="@+id/auth_txt_pswd"
               	android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dip"
@@ -105,9 +107,9 @@
 
               <Button
                   android:id="@+id/btnLogin"
-                  android:layout_width="120dp"
+                  android:layout_width="130dp"
                   android:layout_height="wrap_content"
-                  android:layout_marginLeft="15dip"
+                  android:layout_marginLeft="25dip"
                   android:layout_marginRight="10dip"
                   android:layout_marginTop="10dip"
                   android:onClick="onSaveClick"
@@ -115,7 +117,7 @@
 
               <Button
                   android:id="@+id/on_Cancel_Click"
-                  android:layout_width="120dp"
+                  android:layout_width="130dp"
                   android:layout_height="wrap_content"
                   android:layout_marginLeft="10dip"
                   android:layout_marginRight="15dip"
@@ -131,18 +133,18 @@
                   android:orientation="horizontal"
                   android:padding="10dip">
 
-                  <TextView
+                  <Button
                       android:id="@+id/link_to_register"
                       android:layout_width="fill_parent"
                       android:layout_height="wrap_content"
                       android:layout_marginBottom="80dip"
                       android:layout_marginTop="20dip"
                       android:gravity="center"
-                      android:onClick="openToRegisterScreen"
+                      android:onClick="openRegisterScreen"
                       android:text="@string/register"
                       android:textColor="#0b84aa"
                       android:textSize="20sp" />
-
+                      
           </LinearLayout>
  
   </RelativeLayout>

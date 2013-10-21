@@ -78,9 +78,10 @@
     <!-- Account Login XML -->
     <string name="auth_username">Email</string>
     <string name="auth_pass">Password</string>
-    <string name="register">Don\'t have a Rogo account? Register</string>
+    <string name="register">Register</string>
     <string name="auth_login">Login</string>
     <string name="cancel_button">Cancel</string>
     <string name="remember_me">Remember me</string>
+    <string name="register_quest">Don\'t have a Rogo account? </string>
 
 </resources>

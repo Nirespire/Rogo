@@ -1,4 +1,8 @@
-package com.rogoapp;
+package com.rogoapp.auth;
+
+import com.rogoapp.R;
+import com.rogoapp.RegisterActivity;
+import com.rogoapp.auth.EmailValidator;
 
 import android.accounts.Account;
 import android.accounts.AccountAuthenticatorActivity;
@@ -11,6 +15,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 public class RogoAuthenticatorActivity extends AccountAuthenticatorActivity {
@@ -35,6 +40,8 @@ public class RogoAuthenticatorActivity extends AccountAuthenticatorActivity {
         //TODO allow view to be created for sign in and authorization forms
         //creates a view from the login.xml file
         this.setContentView(R.layout.login);
+        Button button = (Button) this.findViewById(R.id.link_to_register);
+        button.setBackgroundColor(Color.WHITE);
     }  
     
     private boolean getToken(){
@@ -63,35 +70,61 @@ public class RogoAuthenticatorActivity extends AccountAuthenticatorActivity {
     	else this.setToken(true);
     	
     	if(getToken()){
-    		btnUserName.setText("Retain Login");
+    		btnUserName.setText("Remember Login");
     	}
     	else btnUserName.setText("Login"); 
     }
   
-    public void onSaveClick(View v) {  
-        TextView tvUsername;  
-        TextView tvPassword;  
-          
+	public void onSaveClick(View v) {  
+    	EditText tvUsername;  
+        EditText tvPassword;
+        
+        TextView txtUsername;
+        TextView txtPassword;
+        
         String username;  
-        String password;  
+        String password;
+        
+        EmailValidator validate = new EmailValidator();
          
-        boolean hasErrors = false;  
+        boolean hasErrors = false;
+        boolean badUsername = false;
+        boolean badPass = false;
   
-        tvUsername = (TextView) this.findViewById(R.id.auth_txt_username);  
-        tvPassword = (TextView) this.findViewById(R.id.auth_txt_pswd);   
-  
-        tvUsername.setBackgroundColor(Color.WHITE);  
-        tvPassword.setBackgroundColor(Color.WHITE);  
+        tvUsername = (EditText) this.findViewById(R.id.auth_txt_username);  
+        tvPassword = (EditText) this.findViewById(R.id.auth_txt_pswd);
+        
+        txtUsername = (TextView) this.findViewById(R.id.txt_username);
+        txtPassword = (TextView) this.findViewById(R.id.txt_pswd);
+
   
         username = tvUsername.getText().toString();  
         password = tvPassword.getText().toString();  
-  
-        if (username.length() < 3) {  
-            hasErrors = true;  
-            tvUsername.setBackgroundColor(Color.MAGENTA);  
+        
+        if(validate.validate(username) && !badUsername){
+        	txtUsername.setBackgroundColor(Color.WHITE);
+        	txtUsername.setText("Username");
+        	tvUsername.setBackgroundColor(Color.WHITE);
+        }
+        if(!badPass){
+        	txtPassword.setBackgroundColor(Color.WHITE);
+        	txtPassword.setText("Password");
+        	tvPassword.setBackgroundColor(Color.WHITE);
+        }
+ 
+        if (!validate.validate(username)) {  
+            hasErrors = true;
+            
+            
+            txtUsername.setText("Invalid Email Address");
+            txtUsername.setBackgroundColor(Color.RED);
+            tvUsername.setBackgroundColor(Color.MAGENTA);
         }  
-        if (password.length() < 3) {  
-            hasErrors = true;  
+        else if (password.length() < 6) {  
+            hasErrors = true;
+            
+            txtPassword.setText("Incorrect Password");
+            txtPassword.setBackgroundColor(Color.RED);
             tvPassword.setBackgroundColor(Color.MAGENTA);  
         }  
         if (hasErrors) {  

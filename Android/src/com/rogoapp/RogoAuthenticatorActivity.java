@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 public class RogoAuthenticatorActivity extends AccountAuthenticatorActivity {
@@ -23,7 +24,9 @@ public class RogoAuthenticatorActivity extends AccountAuthenticatorActivity {
   
     public static final int RESP_CODE_SUCCESS = 0;  
     public static final int RESP_CODE_ERROR = 1;  
-    public static final int RESP_CODE_CANCEL = 2;  
+    public static final int RESP_CODE_CANCEL = 2; 
+    
+    public static boolean createToken;
   
     @Override  
     protected void onCreate(Bundle icicle) {  
@@ -33,6 +36,13 @@ public class RogoAuthenticatorActivity extends AccountAuthenticatorActivity {
         //creates a view from the login.xml file
         this.setContentView(R.layout.login);
     }  
+    
+    private boolean getToken(){
+    	return createToken;
+    }
+    private void setToken(boolean Token){
+    	createToken = Token;
+    }
   
     public void onCancelClick(View v) {  
   
@@ -43,6 +53,17 @@ public class RogoAuthenticatorActivity extends AccountAuthenticatorActivity {
         final Context context = this;
         Intent intent = new Intent(context, RegisterActivity.class);
         startActivity(intent);
+    }
+    public void onRememberMe(View V){
+    	if(getToken()){
+    		this.setToken(false);
+    	}
+    	else this.setToken(true);
+    	
+    	if(getToken()){
+    		Button btnUserName = (Button) this.findViewById(R.id.btnLogin);
+    		btnUserName.setText("Retain Login");
+    	}
     }
   
     public void onSaveClick(View v) {  
@@ -104,8 +125,13 @@ public class RogoAuthenticatorActivity extends AccountAuthenticatorActivity {
   
             final Intent intent = new Intent();  
             intent.putExtra(AccountManager.KEY_ACCOUNT_NAME, username);  
-            intent.putExtra(AccountManager.KEY_ACCOUNT_TYPE, accountType);  
-            intent.putExtra(AccountManager.KEY_AUTHTOKEN, accountType);  
+            intent.putExtra(AccountManager.KEY_ACCOUNT_TYPE, accountType);
+            if(getToken()){
+            	
+            	intent.putExtra(AccountManager.KEY_AUTHTOKEN, accountType);
+            	
+            }
+            
             this.setAccountAuthenticatorResult(intent.getExtras());  
             this.setResult(RESULT_OK, intent);  
             this.finish();  

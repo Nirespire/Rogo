@@ -34,7 +34,6 @@
             android:orientation = "horizontal"
     		android:layout_width="fill_parent"
     		android:layout_height="90dip"
-    		android:background="@layout/footer"
     		android:layout_alignParentBottom="true">
             
             <TextView
@@ -89,7 +88,7 @@
               android:id="@+id/remember_me_check"
               android:layout_width="fill_parent"
               android:layout_height="fill_parent"
-              android:text="@string/remember_me"
+              android:hint="@string/remember_me"
               android:onClick="onRememberMe"/>
           </LinearLayout>
         <!-- Login Form Ends -->

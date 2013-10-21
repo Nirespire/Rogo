@@ -17,15 +17,12 @@ public class RogoAuthenticatorActivity extends AccountAuthenticatorActivity {
     public static final String PARAM_CREATE = "create";  
   
     public static final int REQ_CODE_CREATE = 1;  
-  
     public static final int REQ_CODE_UPDATE = 2;  
   
     public static final String EXTRA_REQUEST_CODE = "req.code";  
   
     public static final int RESP_CODE_SUCCESS = 0;  
-  
     public static final int RESP_CODE_ERROR = 1;  
-  
     public static final int RESP_CODE_CANCEL = 2;  
   
     @Override  
@@ -87,7 +84,7 @@ public class RogoAuthenticatorActivity extends AccountAuthenticatorActivity {
   
         String accountType = this.getIntent().getStringExtra(PARAM_AUTHTOKEN_TYPE);  
         if (accountType == null) {  
-            //accountType = AccountAuthenticator.ACCOUNT_TYPE;  
+            accountType = AccountAuthenticator.ACCOUNT_TYPE;  
         }  
   
         AccountManager accMgr = AccountManager.get(this);  

@@ -17,6 +17,7 @@ import android.os.Bundle;
 public class AccountAuthenticator extends AbstractAccountAuthenticator {
 
 	final Context mContext;
+	final static String ACCOUNT_TYPE = "com.rogoapp";
 	public AccountAuthenticator(Context context) {
 		super(context);
 		mContext = context; //added for use when adding an account

@@ -82,7 +82,7 @@ public class DebugActivity extends Activity {
 	 
 	 public void openLoginScreen(View v){
 	        final Context context = this;
-	        Intent intent = new Intent(context, RogoAuthenticatorActivity.class);
+	        Intent intent = new Intent(context, LoginActivity.class);
 	        startActivity(intent);
 	 }
 	

@@ -3,32 +3,84 @@
     xmlns:android1="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/gradient" >
-
-    <include
-        android:id="@+id/include1"
-        layout="@layout/customtitlebar" />
-
-    <TextView
-        android:id="@+id/textView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/include1"
-        android:layout_marginLeft="23dp"
-        android:layout_marginTop="19dp"
-        android:text="User 4"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textColor="@color/black" />
+    android:background="@color/white" >
 
     <RadioGroup
         android1:id="@+id/radioGroup1"
         android1:layout_width="wrap_content"
         android1:layout_height="wrap_content"
-        android1:layout_below="@+id/textView1"
         android1:layout_marginLeft="24dp"
-        android1:layout_marginTop="47dp"
-        android1:layout_toRightOf="@+id/textView1" >
+        android1:layout_marginTop="47dp" >
     </RadioGroup>
+
+    <LinearLayout
+        android1:id="@+id/header"
+        android1:layout_width="fill_parent"
+        android1:layout_height="wrap_content"
+        android1:layout_alignParentLeft="true"
+        android1:layout_alignParentTop="true"
+        android1:background="@layout/header_gradient"
+        android1:paddingBottom="5dip"
+        android1:paddingTop="5dip" >
+
+        <ImageView
+            android1:layout_width="wrap_content"
+            android1:layout_height="wrap_content"
+            android1:layout_marginLeft="10dip"
+            android1:contentDescription="@string/intro_logo_desc"
+            android1:src="@drawable/rogo_logo_small" />
+    </LinearLayout>
+
+    <TextView
+        android1:id="@+id/textView1"
+        android1:layout_width="wrap_content"
+        android1:layout_height="wrap_content"
+        android1:layout_alignLeft="@+id/radioGroup1"
+        android1:layout_below="@+id/radioGroup1"
+        android1:layout_marginTop="21dp"
+        android1:text="User 4"
+        android1:textAppearance="?android:attr/textAppearanceLarge"
+        android1:textColor="@color/black" />
+
+    <TextView
+        android1:id="@+id/textView3"
+        android1:layout_width="wrap_content"
+        android1:layout_height="wrap_content"
+        android1:layout_alignLeft="@+id/textView1"
+        android1:layout_below="@+id/textView1"
+        android1:layout_marginTop="90dp"
+        android1:text="Meet At"
+        android1:textColor="@color/black"
+        android1:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <TextView
+        android1:id="@+id/textView2"
+        android1:layout_width="wrap_content"
+        android1:layout_height="wrap_content"
+        android1:layout_alignLeft="@+id/textView3"
+        android1:layout_below="@+id/textView3"
+        android1:layout_marginTop="100dp"
+        android1:text="Verification Code"
+        android1:textColor="@color/black"
+        android1:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <EditText
+        android1:id="@+id/editText1"
+        android1:layout_width="wrap_content"
+        android1:layout_height="wrap_content"
+        android1:layout_alignLeft="@+id/textView2"
+        android1:layout_below="@+id/textView2"
+        android1:layout_marginTop="29dp"
+        android1:ems="10"
+        android1:hint="Enter Verification Code" />
+
+    <Button
+        android1:id="@+id/button1"
+        android1:layout_width="wrap_content"
+        android1:layout_height="wrap_content"
+        android1:layout_below="@+id/editText1"
+        android1:layout_marginLeft="21dp"
+        android1:layout_toRightOf="@+id/textView2"
+        android1:text="We Met!" />
 
 </RelativeLayout>

@@ -35,7 +35,7 @@ public class AccountAuthenticator extends AbstractAccountAuthenticator {
 		//intent = new Intent(); //can't figure out the next few lines
 		//Trying to put 
 		intent = new Intent(this.mContext, RogoAuthenticatorActivity.class);
-		//intent.putExtra(Constants.ACCOUNT_TYPE, authTokenType); //ACCOUNT_TYPE was AUTHTOKEN_TYPE
+		intent.putExtra(RogoAuthenticatorActivity.PARAM_AUTHTOKEN_TYPE, authTokenType);
 		intent.putExtra(AccountManager.KEY_ACCOUNT_AUTHENTICATOR_RESPONSE, response);
 		
 		result = new Bundle();

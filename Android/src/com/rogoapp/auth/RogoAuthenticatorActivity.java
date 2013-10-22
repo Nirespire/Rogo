@@ -114,7 +114,7 @@ public class RogoAuthenticatorActivity extends AccountAuthenticatorActivity {
  
         if (!validate.validate(username)) {  
             hasErrors = true;
-            
+            badUsername = true;
             
             txtUsername.setText("Invalid Email Address");
             txtUsername.setBackgroundColor(Color.RED);
@@ -122,6 +122,7 @@ public class RogoAuthenticatorActivity extends AccountAuthenticatorActivity {
         }  
         else if (password.length() < 6) {  
             hasErrors = true;
+            badPass = true;
             
             txtPassword.setText("Incorrect Password");
             txtPassword.setBackgroundColor(Color.RED);

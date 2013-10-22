@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.rogoapp"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <uses-sdk
+        android:minSdkVersion="9"
+        android:targetSdkVersion="18" />
+
+    <instrumentation
+        android:name="android.test.InstrumentationTestRunner"
+        android:label="Rogo Tests"
+        android:targetPackage="com.rogoapp" />
+
+    <permission
+        android:name="com.rogoapp.permission.MAPS_RECEIVE"
+        android:protectionLevel="signature" />
+    
+    <uses-permission android:name="com.rogoapp.permission.MAP_RECEIVE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
+    <!--
+     The following two permissions are not required to use
+     Google Maps Android API v2, but are recommended.
+    -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
+    <uses-feature
+        android:glEsVersion="0x00020000"
+        android:required="true" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@android:style/Theme.NoTitleBar" >
+        <uses-library android:name="android.test.runner" />
+
+        <activity
+            android:name="com.rogoapp.SplashScreen"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.rogoapp.MainScreenActivity"
+            android:label="@string/app_name"
+            android:theme="@style/CustomTitleBarTheme" >
+        </activity>
+        <activity
+            android:name="com.rogoapp.NearYouActivity"
+            android:label="@string/app_name" >
+        </activity>
+        <activity
+            android:name="com.rogoapp.TitleBarActivity"
+            android:label="@string/app_name" >
+        </activity>
+        <activity
+            android:name="com.rogoapp.SettingsActivity"
+            android:label="@string/title_activity_settings" >
+        </activity>
+        <activity
+            android:name="com.rogoapp.UserActivity"
+            android:label="@string/app_name" >
+        </activity>
+        <activity
+            android:name="com.rogoapp.MeetingSomeoneActivity"
+            android:label="@string/app_name" >
+        </activity>
+        <activity
+            android:name="com.rogoapp.NearYouMapActivity"
+            android:label="@string/title_activity_near_you_map" >
+        </activity>
+        <activity
+            android:name="com.rogoapp.DebugActivity"
+            android:label="@string/title_activity_debug" >
+        </activity>
+        <activity
+            android:name="com.rogoapp.RegisterActivity"
+            android:label="@string/app_name" >
+        </activity>
+        <activity
+            android:name="com.rogoapp.LoginActivity"
+            android:label="@string/app_name" >
+        </activity>
+        <activity
+            android:name="com.rogoapp.auth.RogoAuthenticatorActivity"
+            android:label="@string/app_name" >
+        </activity>
+
+        <service
+            android:name="com.rogoapp.Auth"
+            android:exported="false" >
+            <intent-filter>
+                <action android:name="android.accounts.AccountAuthenticator" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.accounts.AccountAuthenticator"
+                android:resource="@xml/auth" >
+            </meta-data>
+        </service>
+
+        <activity
+            android:name="com.rogoapp.MainActivity"
+            android:label="@string/title_activity_main" >
+        </activity>
+
+        <meta-data
+            android:name="com.google.android.maps.v2.API_KEY"
+            android:value="AIzaSyBnpqvFBZ3eLbOMZDQDVs2ycK5SKm5Mhtg" />
+    </application>
+
+</manifest>

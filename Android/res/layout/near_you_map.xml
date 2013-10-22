@@ -8,42 +8,22 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:background="@drawable/gradient"
     tools:context=".NearYourMapActivity" >
-	
-     <include
-        android:id="@+id/include1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        layout="@layout/customtitlebar" />
+
+
+     <fragment
+         android:id="@+id/map"
+         android:name="com.google.android.gms.maps.MapFragment"
+         android:layout_width="match_parent"
+         android:layout_height="match_parent" />
 
      <Button
          android:id="@+id/near_you_list"
          style="?android:attr/buttonStyleSmall"
          android:layout_width="wrap_content"
          android:layout_height="wrap_content"
-         android:layout_alignLeft="@+id/include1"
-         android:layout_alignParentBottom="true"
-         android:layout_marginBottom="50dp"
-         android:layout_marginLeft="19dp"
-         android:text="@string/list" 
-         android:onClick="openNearYouScreen"/>
-
-     <TextView
-         android:id="@+id/people_near_you"
-         android:layout_width="wrap_content"
-         android:layout_height="wrap_content"
-         android:layout_below="@+id/include1"
-         android:layout_centerHorizontal="true"
-         android:layout_marginTop="18dp"
-         android:text="@string/people_near_you"
-         android:textAppearance="?android:attr/textAppearanceLarge"
-         android:textColor="@color/black" />
-
-     <fragment
-         android:id="@+id/map"
-         android:name="com.google.android.gms.maps.MapFragment"
-         android:layout_width="wrap_content"
-         android:layout_height="match_parent"
-         android:layout_alignLeft="@+id/include1"
-         android:layout_below="@+id/people_near_you" />
+         android:layout_alignBottom="@+id/map"
+         android:layout_alignRight="@+id/map"
+         android:onClick="openNearYouScreen"
+         android:text="@string/list" />
 
 </RelativeLayout>

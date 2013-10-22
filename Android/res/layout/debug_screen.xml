@@ -52,4 +52,14 @@
         android:text="Meeting Someone" 
         android:onClick="openMeetingSomeoneScreen"/>
 
+    <Button
+        android:id="@+id/location_debug_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/login_debug_button"
+        android:layout_below="@+id/meeting_someone_debug_button"
+        android:layout_marginTop="22dp"
+        android:text="Get Location" 
+        android:onClick="getLocation"/>
+
 </RelativeLayout>

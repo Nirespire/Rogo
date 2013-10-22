@@ -93,7 +93,6 @@ public class DebugActivity extends Activity {
 	            @Override
 	            public void onClick(View arg0) {
 	            	String loc = getLocation(arg0);
-	            	Toast.makeText(DebugActivity.this, loc, Toast.LENGTH_LONG).show();
 	            }
 
 	        });
@@ -135,7 +134,7 @@ public class DebugActivity extends Activity {
 			Location location = loc.getLastKnownLocation(bestProvider);
 
 			if (location == null){
-				//Toast.makeText(this,"Location Not found",Toast.LENGTH_LONG).show();
+				Toast.makeText(this,"Location Not found",Toast.LENGTH_LONG).show();
 				out = "Location Not found";
 			}else{
 				geocoder = new Geocoder(this);
@@ -143,7 +142,7 @@ public class DebugActivity extends Activity {
 					user = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
 					lat=(double)user.get(0).getLatitude();
 					lng=(double)user.get(0).getLongitude();
-					//Toast.makeText(this," DDD lat: " +lat+",  longitude: "+lng, Toast.LENGTH_LONG).show();
+					Toast.makeText(this," DDD lat: " +lat+",  longitude: "+lng, Toast.LENGTH_LONG).show();
 					System.out.println(" DDD lat: " +lat+",  longitude: "+lng);
 					out = " DDD lat: " +lat+",  longitude: "+lng;
 

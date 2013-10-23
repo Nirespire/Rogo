@@ -61,5 +61,14 @@
         android:layout_marginTop="22dp"
         android:text="Get Location" 
         android:onClick="getLocation"/>
+    <Button
+        android:id="@+id/cache_read"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/login_debug_button"
+        android:layout_below="@+id/location_debug_button"
+        android:layout_marginTop="22dp"
+        android:text="Cache Test" 
+        android:onClick="onCacheRead"/>
 
 </RelativeLayout>

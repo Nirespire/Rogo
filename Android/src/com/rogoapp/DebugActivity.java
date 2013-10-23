@@ -1,5 +1,10 @@
 package com.rogoapp;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.List;
 
 import android.app.Activity;
@@ -152,6 +157,44 @@ public class DebugActivity extends Activity {
 
 			}
 			return out;
+		}
+	 
+	 //TODO
+		public void onCacheRead(View v) throws IOException{
+			String FILENAME = "Test";
+			String txt = "Store this";
+			String newVal = "";
+			final Context context = this;
+			File cacheDir = context.getCacheDir();
+			File file = new File(cacheDir,FILENAME);
+			
+			Button name = (Button) this.findViewById(R.id.cache_read);
+			
+			try {
+				FileOutputStream fos = new FileOutputStream(file);
+				fos.write(txt.getBytes());
+				fos.close();
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			try {
+				FileInputStream fis = new FileInputStream(file);
+				int content;
+				while((content = fis.read()) != -1){
+					newVal += (char) content;
+				}
+				fis.close();
+				name.setText(newVal);
+				
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	
 	

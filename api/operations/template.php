@@ -20,7 +20,7 @@ class RequestObject{
 	}
 	public function performRequest(){
 		$data = 'data';
-		$this->setRequest(STATUS_SUCCESS,$data);
+		$this->setResult(STATUS_SUCCESS,$data);
 	}
 	private function setResult($status,$data){
 		$this->_STATUS = $status;

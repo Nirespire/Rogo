@@ -17,6 +17,17 @@ public class NearYouActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.near_you);
+		
+		goToMapButton = (Button) findViewById(R.id.near_you_map);
+        goToMapButton.setOnClickListener(new OnClickListener() {
+        	
+            public void onClick(View arg0) {
+               startActivity(new Intent(NearYouActivity.this, NearYouMapActivity.class));
+           
+            }
+        });
+
+	
 	}
 	
 	@Override
@@ -25,27 +36,6 @@ public class NearYouActivity extends Activity {
         getMenuInflater().inflate(R.menu.main_screen, menu);
         return true;
     }
-	
-	public void addListenerOnButton1() {
-
-        goToMapButton = (Button) findViewById(R.id.near_you_map);
-
-        goToMapButton.setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View arg0) {
-                openNearYouMapScreen(arg0);
-            }
-
-        });
-
-    }
-	
-	public void openNearYouMapScreen(View v){
-		final Context context = this;
-        Intent intent = new Intent(context, NearYouMapActivity.class);
-        startActivity(intent);
-	}
 	
 	public void openSettingsScreen(View v){
         final Context context = this;

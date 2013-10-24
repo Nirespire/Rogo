@@ -12,14 +12,15 @@ import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.TextView;
-//import android.R;
 
 public class MainScreenActivity extends Activity {
 
@@ -166,7 +167,6 @@ public class MainScreenActivity extends Activity {
         String[] _randoms = res.getStringArray(R.array.meetRandomArray);
         Collections.addAll(meetRandom, _randoms);
     }
-    
     /*Taylor's Settings section - Let's hope I don't break everything!
      * Too late.*/
     //-------------------------------------------------------------------
@@ -184,6 +184,20 @@ public class MainScreenActivity extends Activity {
     	}
     	return true;
     }
+    public void onTextEnter(View V){
+    	Button tips = (Button) this.findViewById(R.id.tips_button);
+    	
+    	tips.setText("Add tip!");
+    }
+    
+//    Button tipsText = (Button) this.findViewById(R.id.tips_button);
+//    TextView.OnEditorActionListener tipListener = new TextView.OnEditorActionListener(){
+//    	@Override
+//    	public boolean onEditorAction(TextView exampleView, int actionId, KeyEvent event) {        	
+//        	tipsText.setText("Add tip!");
+//    		   return true;
+//    		}
+//    };
     
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data){

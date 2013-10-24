@@ -7,7 +7,8 @@ class RequestHandler{
 	private static $REQUEST_SCRIPTS = array(
 		'test' => 'test.php',
 		'login' => 'login.php',
-		'register' => 'register.php'
+		'register' => 'register.php',
+		'nearby' => 'nearby.php'
 	);
 	private static $REQUEST_STATUS = array(
 		STATUS_SUCCESS => 'success',

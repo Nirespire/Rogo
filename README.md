@@ -106,6 +106,7 @@ Request: `login.txt?email=idontknowhowtocomputer@gmail.com&password=google.com`
 
 *Examples:*
 Request: `tips.txt?count=3`
+
     {
     	"status": "success",
     	"data": [

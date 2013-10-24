@@ -69,6 +69,7 @@
     <string name="pref_user_profile">User Profile</string>
     <string name="pref_update_setting">Update Settings</string>
     <string name="title_activity_main">MainActivity</string>
+    <string name="personalized_tips">Save a tip!</string>
     
     <!-- Account Preferences -->
     <string name="title_fmt">Rogo</string>

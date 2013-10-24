@@ -53,5 +53,19 @@
         android:layout_marginBottom="48dp"
         android:onClick="openNearYouScreen"
         android:text="@string/meet_nearby" />
+    
+    <EditText 
+        android:id="@+id/tips_edit_box"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:singleLine="true"
+        android:layout_below="@+id/tips_button"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="24dp"
+        android:imeActionLabel="onTextEnter"
+        android:text="Add new tip"
+        android:inputType="textCapSentences"
+        android:ems="6"
+        android:selectAllOnFocus="true" />
 
 </RelativeLayout>

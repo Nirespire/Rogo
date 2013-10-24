@@ -11,6 +11,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.accounts.AccountAuthenticatorActivity;
 
 
 //for ServerClient class
@@ -22,7 +23,7 @@ import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONObject;
 import org.json.JSONException;
 
-public class RegisterActivity extends Activity{
+public class RegisterActivity extends AccountAuthenticatorActivity{
     
     Button registerButton;
     EditText lastName;

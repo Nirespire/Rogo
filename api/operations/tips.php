@@ -62,7 +62,7 @@ class RequestObject{
 		}
 		
 		$maxID = $this->getMaxTipID();
-		$randomIDs = $this->generateRandomIDs($count * TIPS_RAND_ID_FACTOR,$maxID);
+		$randomIDs = $this->generateRandomIDs($count * TIPS_RAND_ID_FACTOR + count($exclude),$maxID);
 		$this->removeExcludedIDs($randomIDs,$exclude);
 		
 		try{

@@ -132,15 +132,27 @@ public class MainScreenActivity extends SherlockActivity {
 
     public void refreshTipsButton(View arg0){
         final Button button = (Button)findViewById(R.id.tips_button);
+        final EditText tipsText = (EditText) findViewById(R.id.tips_edit_box);
+        
         // replace with random string from tips.xml
         if(tips == null || tips.isEmpty()){
         	System.err.println("DEBUG: Reloading tips array");
             this.reloadTipsArray();
         }
-        Random rand = new Random(System.currentTimeMillis());
-        int random = rand.nextInt(tips.size());
-        String out = tips.remove(random); // Remember that .remove also returns the removed element
-        button.setText(out);
+        
+        String text = button.getText().toString();
+        if(text.equals("Add Tip!")){
+        	String what = tipsText.getText().toString();
+        	tips.add(what);
+        	tipsText.setText("");
+        	button.setText(R.string.tips);
+        }        
+        else{
+        	Random rand = new Random(System.currentTimeMillis());
+        	int random = rand.nextInt(tips.size());
+        	String out = tips.remove(random); // Remember that .remove also returns the removed element
+        	button.setText(out);
+        }
     }
 
 

@@ -28,6 +28,17 @@ date_default_timezone_set('America/New_York');
 
 define('AUTH_HASH_COMPLEXITY',14);
 
+define('REQUEST_DATA_ARRAY',0); //Use 0 for $_REQUEST, 1 for $_POST
+
+
+/****************************************************************/
+/** Tips request configuration                                 **/
+/****************************************************************/
+define('TIPS_DEFAULT_COUNT',10); //Default number of tips returned
+define('TIPS_MAX_COUNT',100);    //Maximum allowed number of tips to be requested
+define('TIPS_RAND_ID_FACTOR',1.5); //Multiplication factor for the number of extra IDs that should be generated
+//See: http://www.titov.net/2005/09/21/do-not-use-order-by-rand-or-how-to-get-random-rows-from-table/
+
 /****************************************************************/
 /** The config definitions below here should NOT be modified!  **/
 /** Unless you really know what you're doing, and are prepared **/

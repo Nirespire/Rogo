@@ -179,13 +179,13 @@ public class MainScreenActivity extends SherlockActivity {
       	tips = new ArrayList<String>();
       	
       	try {
-					cache.saveFile(TIPS_FILE, "Here's a tip!");
+					cache.saveFile(TIPS_FILE, "Here's a tip!\nHere's another tip!");
 				} catch (Exception e){
 					
 				}
       }
       try {
-				String[] _tips = { cache.loadFile(TIPS_FILE) };
+				String[] _tips = cache.loadFile(TIPS_FILE).split("\n");
 				Collections.addAll(tips, _tips);
 			} catch (Exception e) {
 				tips.add("Tips not available");

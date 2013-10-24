@@ -7,11 +7,6 @@
     android:gravity="top" 
     tools:context=".NearYouActivity" >
 
-    <include
-        android:id="@+id/include1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        layout="@layout/customtitlebar" />
 
     <ListView
         android:id="@+id/mylist"

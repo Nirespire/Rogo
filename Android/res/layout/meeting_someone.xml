@@ -13,23 +13,6 @@
         android1:layout_marginTop="47dp" >
     </RadioGroup>
 
-    <LinearLayout
-        android1:id="@+id/header"
-        android1:layout_width="fill_parent"
-        android1:layout_height="wrap_content"
-        android1:layout_alignParentLeft="true"
-        android1:layout_alignParentTop="true"
-        android1:background="@layout/header_gradient"
-        android1:paddingBottom="5dip"
-        android1:paddingTop="5dip" >
-
-        <ImageView
-            android1:layout_width="wrap_content"
-            android1:layout_height="wrap_content"
-            android1:layout_marginLeft="10dip"
-            android1:contentDescription="@string/intro_logo_desc"
-            android1:src="@drawable/rogo_logo_small" />
-    </LinearLayout>
 
     <TextView
         android1:id="@+id/textView1"

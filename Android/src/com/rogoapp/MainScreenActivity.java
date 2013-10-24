@@ -11,9 +11,12 @@ import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockActivity;
@@ -40,6 +43,9 @@ public class MainScreenActivity extends SherlockActivity {
         
         //Taylor ***
         showUserSettings();
+        
+      //Adding some functionality to tips button
+        textListener(this.findViewById(R.id.tips_edit_box));
         
     }
 
@@ -190,14 +196,41 @@ public class MainScreenActivity extends SherlockActivity {
     	tips.setText("Add tip!");
     }
     
-//    Button tipsText = (Button) this.findViewById(R.id.tips_button);
-//    TextView.OnEditorActionListener tipListener = new TextView.OnEditorActionListener(){
-//    	@Override
-//    	public boolean onEditorAction(TextView exampleView, int actionId, KeyEvent event) {        	
-//        	tipsText.setText("Add tip!");
-//    		   return true;
-//    		}
-//    };
+    public void textListener(View v){
+        
+    	//Adds action event for when data is entered in an EditText
+        //This is currently being used for the tips field
+    	
+    	final EditText myTextBox  = (EditText) v;
+		final Button tips = (Button) findViewById(R.id.tips_button);
+    	myTextBox.addTextChangedListener(new TextWatcher(){
+    		
+    		
+    		@Override
+    		public void onTextChanged(CharSequence s, int start, int before, int count){
+				String check = "" + myTextBox.getText();
+				if(check == ""){// && !tips.isPressed()){
+    				Button tips = (Button) findViewById(R.id.tips_button);
+    				tips.setText("Tips");
+    			}	
+    		}
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count,
+					int after) {
+				
+				//When text box is entered, the tips button becomes an Add tip! button
+				
+				tips.setText("Add Tip!");
+			}
+
+			@Override
+			public void afterTextChanged(Editable arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+    	});
+    }
+
     
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data){

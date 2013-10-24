@@ -21,7 +21,7 @@
         android:onClick = "refreshTipsButton"
         android:text="@string/tips" />
     
-    <EditText 
+<EditText 
         android:id="@+id/tips_edit_box"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -30,11 +30,10 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="24dp"
         android:imeActionLabel="onTextEnter"
-        android:text="Add new tip"
+        android:hint="@string/personalized_tips"
         android:inputType="textCapSentences"
-        android:ems="6"
+        android:ems="5"
         android:selectAllOnFocus="true" />
-
     <Button
         android:id="@+id/near_you_button"
         android:layout_width="wrap_content"

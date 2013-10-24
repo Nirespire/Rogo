@@ -41,7 +41,7 @@ public class RogoAuthenticatorActivity extends AccountAuthenticatorActivity {
         //creates a view from the login.xml file
         this.setContentView(R.layout.login);
         Button button = (Button) this.findViewById(R.id.link_to_register);
-        button.setBackgroundColor(Color.WHITE);
+        button.setBackgroundColor(Color.TRANSPARENT);
     }  
     
     private boolean getToken(){
@@ -104,12 +104,14 @@ public class RogoAuthenticatorActivity extends AccountAuthenticatorActivity {
         if(validate.validate(username) && !badUsername){
         	txtUsername.setBackgroundColor(Color.WHITE);
         	txtUsername.setText("Username");
-        	tvUsername.setBackgroundColor(Color.WHITE);
+        	tvUsername.setBackgroundResource(R.drawable.blue_border);
+        	//tvUsername.setBackgroundColor(Color.TRANSPARENT);
         }
         if(!badPass){
         	txtPassword.setBackgroundColor(Color.WHITE);
         	txtPassword.setText("Password");
-        	tvPassword.setBackgroundColor(Color.WHITE);
+        	tvPassword.setBackgroundResource(R.drawable.blue_border);
+        	//tvPassword.setBackgroundColor(Color.TRANSPARENT);
         }
  
         if (!validate.validate(username)) {  

@@ -92,3 +92,34 @@ Request: `login.txt?email=idontknowhowtocomputer@gmail.com&password=google.com`
         "status": "error",
         "data": "Email or password is incorrect!"
     }
+
+#### Getting Tips
+*Request location:* `tips.json`
+
+*Functionality:* Returns a list of randomly selected tips (`tip`), along with their unique tip ids (`tip_id`). The tips however will not be randomly ordered, so it is suggested that the client select the tips at random when displaying them.
+
+*Required Parameters:* None.  
+
+*Optional Parameters:*  
+* `count`: An integer of the number of tips to be returned. Default is `10`.
+* `exclude`: A comma separated list of `tip_id` values, with no spaces. A maximum of 20 IDs may be listed. Example: `1,5,9`. Default is an empty set.
+
+*Examples:*
+Request: `tips.txt?count=3`
+    {
+    	"status": "success",
+    	"data": [
+    		{
+    			"tip_id": "3",
+    			"tip": "Open the door, get on the floor, everybody walk the dinosaur"
+    		},
+    		{
+    			"tip_id": "6",
+    			"tip": "PARTY HARD"
+    		},
+    		{
+    			"tip_id": "12",
+    			"tip": "Take a class or join a club to meet people with common interests"
+    		},
+    	]
+    }

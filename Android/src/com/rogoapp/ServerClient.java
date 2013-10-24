@@ -14,6 +14,14 @@ package com.rogoapp;
  * To use the JSON Object again, use getLastResponse()
  * 
  * 				**Created by Joey Siracusa for Rogo**
+ * 
+ * THE FOLLOWING LIBRARIES ARE NEEDED TO USE THE SERVERLCIENT CLASS:
+import java.util.List;
+import java.util.ArrayList;
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONObject;
+import org.json.JSONException;
  */
 
 
@@ -73,7 +81,7 @@ public class ServerClient{
 	        httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 	
 	        // Execute HTTP Post Request
-	        HttpResponse httpresponse = httpclient.execute(httppost);
+	        HttpResponse httpresponse = httpclient.execute(httppost);	//causes exception
 	        
 	        BufferedReader rd = new BufferedReader(new InputStreamReader(httpresponse.getEntity().getContent()));
 	        StringBuilder sb = new StringBuilder();
@@ -84,20 +92,18 @@ public class ServerClient{
 	        }
 	        response = sb.toString();
 	        lastResponse = new JSONObject(response);
-	        boolean success = checkSuccess();
-	        
+	        status = checkSuccess();
+	        return lastResponse;
 	        
 	    } catch (ClientProtocolException e) {
-	        // TODO Auto-generated catch block
+	        System.err.print(e);
 	    } catch (IOException e) {
-	        // TODO Auto-generated catch block
+	    	System.err.print(e);
 	    } catch (JSONException e){
-	    	
-	    } finally {
-	    	return lastResponse;
+	    	System.err.print(e);
 	    }
 	    
-	   
+	    return null;
 	}  
 	
 	private boolean checkSuccess(){
@@ -109,7 +115,7 @@ public class ServerClient{
 		} catch (JSONException e){
 			
 		} 
-		if(statusStr.equals("true")){
+		if(statusStr.equals("success")){
 			status = true;
 			return true;
 		}

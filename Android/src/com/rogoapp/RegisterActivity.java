@@ -11,6 +11,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+//for ServerClient class
+import java.util.List;
+import java.util.ArrayList;
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONObject;
+import org.json.JSONException;
+
 public class RegisterActivity extends Activity{
     
     Button registerButton;
@@ -25,6 +33,7 @@ public class RegisterActivity extends Activity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.register);
+        addListenerOnButton1();
     }
 
     @Override
@@ -43,7 +52,21 @@ public class RegisterActivity extends Activity{
             @Override
             public void onClick(View arg0) {
                 //TODO send authentication for registration
-                // Open main screen for user
+            	List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
+        		nameValuePairs.add(new BasicNameValuePair("username", "JoeyS7"));
+        		nameValuePairs.add(new BasicNameValuePair("email", "joeysiracusa@gmail.com"));
+        		nameValuePairs.add(new BasicNameValuePair("password", "a336f671080fbf4f2a230f313560ddf0d0c12dfcf1741e49e8722a234673037dc493caa8d291d8025f71089d63cea809cc8ae53e5b17054806837dbe4099c4ca"));
+                ServerClient sc = new ServerClient();
+                JSONObject jObj = sc.genericPostRequest("register", nameValuePairs);
+                String uid = null;
+                String status = null;
+                try{
+                	//uid = sc.getLastResponse().getString("uid");
+                	status = jObj.getString("status");
+                }catch(JSONException e){
+                	System.err.print(e);
+                }
+                System.out.println("status = " + status + ", uid = " + uid);
             }
 
         });
@@ -69,5 +92,7 @@ public class RegisterActivity extends Activity{
         Intent intent = new Intent(context, LoginActivity.class);
         startActivity(intent);
     }
+    
+    
     
 }

@@ -31,15 +31,15 @@ public class MainScreenActivity extends SherlockActivity {
 
         menu.add("Refresh")
             .setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM | MenuItem.SHOW_AS_ACTION_WITH_TEXT);
-
+        
         return true;
     }
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-
-		requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
+		
+	    setTheme(R.style.Theme_Sherlock_Light);
+	    super.onCreate(savedInstanceState);
 		setContentView(R.layout.main_screen);
 	}
 

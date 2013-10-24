@@ -7,6 +7,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
+import org.apache.http.NameValuePair;
+import org.json.JSONObject;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -36,7 +39,7 @@ public class MainScreenActivity extends SherlockActivity {
     
     Button debugButton; //TODO REMOVE
     
-    List<String> tips;
+    List<String> tips = new ArrayList<String>();;
     List<String> meetRandom;
 
     CacheClient cache = new CacheClient(this);
@@ -53,6 +56,7 @@ public class MainScreenActivity extends SherlockActivity {
       //Adding some functionality to tips button
         textListener(this.findViewById(R.id.tips_edit_box));
         
+        storeTips();
     }
 
 
@@ -174,16 +178,13 @@ public class MainScreenActivity extends SherlockActivity {
         startActivity(intent);
     }
     
+    public void storeTips() {
+    	ServerClient server = new ServerClient();
+    	JSONObject json = server.genericPostRequest("tips", Collections.<NameValuePair>emptyList());
+    	parseJ(json);
+    }
+    
     public void reloadTipsArray(){
-      if(tips == null){
-      	tips = new ArrayList<String>();
-      	
-      	try {
-					cache.saveFile(TIPS_FILE, "Here's a tip!\nHere's another tip!");
-				} catch (Exception e){
-					
-				}
-      }
       try {
 				String[] _tips = cache.loadFile(TIPS_FILE).split("\n");
 				Collections.addAll(tips, _tips);

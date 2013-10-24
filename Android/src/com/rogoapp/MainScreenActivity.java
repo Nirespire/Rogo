@@ -1,7 +1,6 @@
 package com.rogoapp;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
@@ -9,13 +8,18 @@ import java.util.Random;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.TextView;
+//import android.R;
 
 public class MainScreenActivity extends Activity {
 
@@ -35,6 +39,8 @@ public class MainScreenActivity extends Activity {
 
         requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
         setContentView(R.layout.main_screen);
+        //Taylor ***
+        showUserSettings();
         
         //tips = new ArrayList<String>();
     }
@@ -43,7 +49,9 @@ public class MainScreenActivity extends Activity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main_screen, menu);
+        //getMenuInflater().inflate(R.menu.main_screen, menu);
+        //Taylor***
+    	getMenuInflater().inflate(R.menu.settings, menu);
         return true;
     }
 
@@ -159,7 +167,44 @@ public class MainScreenActivity extends Activity {
         Collections.addAll(meetRandom, _randoms);
     }
     
+    /*Taylor's Settings section - Let's hope I don't break everything!
+     * Too late.*/
+    //-------------------------------------------------------------------
     
+    private static final int RESULT_SETTINGS = 1;
+    
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+    	switch(item.getItemId()){
+    	
+    	case R.id.menu_settings:
+    		Intent i = new Intent(this, UserSettingsActivity.class);
+    		startActivityForResult(i, RESULT_SETTINGS);
+    		break;
+    	}
+    	return true;
+    }
+    
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+    	super.onActivityResult(requestCode, resultCode, data);
+    	
+    	switch(requestCode){
+    	case RESULT_SETTINGS:
+    		showUserSettings();
+    		break;
+    	}
+    }
+    
+    private void showUserSettings(){
+    	SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+    	StringBuilder builder = new StringBuilder();
+    	builder.append("\n Username: "+sharedPrefs.getString("prefUsername", "NULL"));
+    	builder.append("\n Send Report: "+sharedPrefs.getBoolean("prefSendReport", false));
+    	builder.append("\n Radius: "+sharedPrefs.getString("prefRadius", "NULL"));
+    	TextView settingsTextView = (TextView) findViewById(R.id.textUserSettings);
+    	settingsTextView.setText(builder.toString());
+    }
     
     /* DEBUG SECTION REMOVE BEFORE FINAL*/
     //-------------------------------------------------------------------

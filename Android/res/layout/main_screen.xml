@@ -54,4 +54,12 @@
         android:onClick="openNearYouScreen"
         android:text="@string/meet_nearby" />
 
+    <TextView
+        android:id="@+id/textUserSettings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/debug_button"
+        android:layout_alignLeft="@+id/include1"
+        tools:context=".MainActivity" />
+
 </RelativeLayout>

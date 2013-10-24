@@ -93,12 +93,13 @@
                 android:layout_marginTop="10dip"
                 android:text="Click to register account"/>
           <!-- Link to Login Screen -->
-          <TextView android:id="@+id/link_to_login"
+          <Button android:id="@+id/link_to_login"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="40dip"
                 android:layout_marginBottom="40dip"
                 android:text="Have an account? Login here"
+                android:onClick="openLoginScreen"
                 android:gravity="center"
                 android:textSize="20sp"
                 android:textColor="#025f7c"/>

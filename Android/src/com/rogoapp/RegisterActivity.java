@@ -1,6 +1,8 @@
 package com.rogoapp;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
@@ -46,6 +48,26 @@ public class RegisterActivity extends Activity{
 
         });
 
+    }
+    public void addListenerOnButton2() {
+
+        registerButton = (Button) findViewById(R.id.link_to_login);
+
+        registerButton.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View arg0) {
+                openLoginScreen(arg0);
+            }
+
+        });
+
+    }
+    
+    public void openLoginScreen(View v){
+        final Context context = this;
+        Intent intent = new Intent(context, LoginActivity.class);
+        startActivity(intent);
     }
     
 }

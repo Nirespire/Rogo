@@ -59,7 +59,6 @@ public class RogoAuthenticatorActivity extends AccountAuthenticatorActivity {
     public void openRegisterScreen(View v){
         final Context context = this;
         Intent intent = new Intent(context, RegisterActivity.class);
-        this.finish();
         startActivity(intent);
     }
     public void onRememberMe(View V){

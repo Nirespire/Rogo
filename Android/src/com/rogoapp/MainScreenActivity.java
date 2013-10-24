@@ -1,5 +1,7 @@
 package com.rogoapp;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -25,6 +27,8 @@ import com.actionbarsherlock.view.MenuItem;
 
 public class MainScreenActivity extends SherlockActivity {
 
+		String TIPS_FILE = "tips";
+	
     Button nearYouButton;
     Button meetRandomButton;
     Button tipsButton;
@@ -35,6 +39,8 @@ public class MainScreenActivity extends SherlockActivity {
     List<String> tips;
     List<String> meetRandom;
 
+    CacheClient cache = new CacheClient(this);
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.Theme_Sherlock_Light);
@@ -169,13 +175,22 @@ public class MainScreenActivity extends SherlockActivity {
     }
     
     public void reloadTipsArray(){
-        Resources res = getResources();
-        if(tips == null){
-        	tips = new ArrayList<String>();
-        }
-        String[] _tips = res.getStringArray(R.array.tips_array);
-        Collections.addAll(tips, _tips);
-    }
+      if(tips == null){
+      	tips = new ArrayList<String>();
+      	
+      	try {
+					cache.saveFile(TIPS_FILE, "Here's a tip!");
+				} catch (Exception e){
+					
+				}
+      }
+      try {
+				String[] _tips = { cache.loadFile(TIPS_FILE) };
+				Collections.addAll(tips, _tips);
+			} catch (Exception e) {
+				tips.add("Tips not available");
+			}
+  }
     
     public void reloadMeetRandomArray(){
         Resources res = getResources();

@@ -1,9 +1,16 @@
 package com.rogoapp;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
+
+import org.apache.http.NameValuePair;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.content.Context;
 import android.content.Intent;
@@ -13,11 +20,16 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.Menu;
@@ -26,6 +38,9 @@ import com.actionbarsherlock.view.MenuItem.OnMenuItemClickListener;
 
 public class MainScreenActivity extends SherlockActivity {
 
+	static final String TIPS_FILE = "tips";
+	static final String USER_TIPS = "uTips";
+	
     Button nearYouButton;
     Button meetRandomButton;
     Button tipsButton;
@@ -33,19 +48,30 @@ public class MainScreenActivity extends SherlockActivity {
     
     Button debugButton; //TODO REMOVE
     
-    List<String> tips;
+    List<String> tips = new ArrayList<String>();
     List<String> meetRandom;
 
+    CacheClient cache = new CacheClient(this);
+    
+    //Counting my Toast
+    private int toastCount;
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setTheme(R.style.Theme_Sherlock_Light);
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.main_screen); 
-        
 
-        System.out.println(PreferenceManager.getDefaultSharedPreferences(this).getString("prefRadius", "NULL"));
-      //Adding some functionality to tips button
-        textListener(this.findViewById(R.id.tips_edit_box));   
+    	setTheme(R.style.Theme_Sherlock_Light);
+    	super.onCreate(savedInstanceState);
+    	setContentView(R.layout.main_screen);
+
+    	//Taylor ***
+    	System.out.println(PreferenceManager.getDefaultSharedPreferences(this).getString("prefRadius", "NULL"));
+
+    	//Adding some functionality to tips button
+    	textListener(this.findViewById(R.id.tips_edit_box));
+    	//storeTips();
+
+    	//TODO no toast D:
+    	toastCount = 0;
     }
 
 
@@ -61,6 +87,25 @@ public class MainScreenActivity extends SherlockActivity {
         
         return true;
     }
+    
+    //adds toast
+    public void toaster(){
+    	LayoutInflater inflater = getLayoutInflater();
+    	
+		View layout = inflater.inflate(R.layout.custom_toast, (ViewGroup) findViewById(R.id.custom_toast_layout_id));
+		
+		ImageView image = (ImageView) layout.findViewById(R.id.image);
+		image.setImageResource(R.drawable.ic_launcher);
+		
+		TextView text = (TextView) layout.findViewById(R.id.text);
+		text.setText(R.string.self_improvement);
+		
+		Toast toast = new Toast(getApplicationContext());
+		toast.setGravity(Gravity.BOTTOM, 0, 0);
+		toast.setDuration(Toast.LENGTH_SHORT);
+		toast.setView(layout);
+		toast.show();
+	}
 
 
     public void addListenerOnButton1() {
@@ -144,8 +189,22 @@ public class MainScreenActivity extends SherlockActivity {
         if(text.equals("Add Tip!")){
         	String what = tipsText.getText().toString();
         	tips.add(what);
-        	tipsText.setText("");
         	button.setText(R.string.tips);
+        	try {
+				cache.addFile(USER_TIPS,"\n"+what);
+		       //Log.d(TIPS_FILE, "sd");
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+        	tipsText.setText("");
+        	if(this.toastCount <=3){
+        		toaster();
+        		this.toastCount++;
+        	}
         }        
         else{
         	Random rand = new Random(System.currentTimeMillis());
@@ -168,13 +227,54 @@ public class MainScreenActivity extends SherlockActivity {
         startActivity(intent);
     }
     
+    
+	//TODO get JObject
+	public void parseJ(JSONObject jObject){
+		//turns JObject into JArray and steps through the JArray to find all the tips 
+		JSONArray jArray = null;
+		try {
+			//data is the head where the tips will start
+			jArray = jObject.getJSONArray("data");
+		} catch (JSONException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		for (int i=0; i < jArray.length(); i++)
+		{
+		    try {
+		        JSONObject oneObject = jArray.getJSONObject(i);
+		       // Pulling items from the array
+		       // int objectInt = oneObject.getInt("tip_id");
+		        String objectString = oneObject.getString("tip");
+		        cache.saveFile(TIPS_FILE, objectString);
+		    } catch (JSONException e) {
+		        // Oops
+		    } catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} 
+		
+	}
+	
+    public void storeTips() {
+    	ServerClient server = new ServerClient();
+    	JSONObject json = server.genericPostRequest("tips", Collections.<NameValuePair>emptyList());
+    	parseJ(json);
+    }
+    
     public void reloadTipsArray(){
-        Resources res = getResources();
-        if(tips == null){
-        	tips = new ArrayList<String>();
-        }
-        String[] _tips = res.getStringArray(R.array.tips_array);
-        Collections.addAll(tips, _tips);
+    	try {
+    		String[] _tips = cache.loadFile(TIPS_FILE).split("\n");
+    		String[] _uTips = cache.loadFile(USER_TIPS).split("\n");
+    		Collections.addAll(tips, _tips);
+    		Collections.addAll(tips, _uTips);
+    	} catch (Exception e) {
+    		tips.add("Tips not available");
+    	}
     }
     
     public void reloadMeetRandomArray(){
@@ -204,15 +304,6 @@ public class MainScreenActivity extends SherlockActivity {
     	
     	tips.setText("Add tip!");
     }
-    
-//    Button tipsText = (Button) this.findViewById(R.id.tips_button);
-//    TextView.OnEditorActionListener tipListener = new TextView.OnEditorActionListener(){
-//    	@Override
-//    	public boolean onEditorAction(TextView exampleView, int actionId, KeyEvent event) {        	
-//        	tipsText.setText("Add tip!");
-//    		   return true;
-//    		}
-//    };
     
     public void textListener(View v){
         

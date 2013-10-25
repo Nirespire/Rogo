@@ -8,6 +8,26 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content" android:background="#ffffff">
  
+        <!--  Header Starts-->
+      <!--   <LinearLayout android:id="@+id/header"
+    	android:layout_width="fill_parent"
+    	android:layout_height="wrap_content"
+    	android:background="@layout/header_gradient"
+    	android:paddingTop="5dip"
+    	android:paddingBottom="5dip">
+         Logo Start
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dip"
+                android:contentDescription="@string/intro_logo_desc"
+                android:src="@drawable/rogo_logo_small" />
+
+         Logo Ends
+		</LinearLayout> -->
+        <!--  Header Ends -->
+ 
         <!-- Footer Start -->
         <LinearLayout
             android:id="@+id/footer"
@@ -30,6 +50,51 @@
         <!-- Footer Ends -->
  
         <!-- Login Form -->
+        <LinearLayout
+          android:orientation="vertical"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:padding="10dip"
+          android:gravity="top"
+          android:id="@+id/input_boxes">
+          <!--  Email Label -->
+          <TextView
+              	android:id="@+id/txt_username"
+              	android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#372c24"
+                android:text="@string/auth_username"/>
+          <EditText
+              	android:id="@+id/auth_txt_username"
+              	android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dip"
+                android:layout_marginBottom="20dip"
+                android:singleLine="true"
+                android:inputType="textEmailAddress"
+                android:background="@drawable/blue_border"/>
+          <!--  Password Label -->
+          <TextView
+              	android:id="@+id/txt_pswd"
+              	android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#372c24"
+                android:text="@string/auth_pass"/>
+          <EditText
+              	android:id="@+id/auth_txt_pswd"
+              	android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dip"
+                android:singleLine="true"
+                android:inputType="textPassword"
+                android:background="@drawable/blue_border"/>
+          <CheckBox 
+              android:id="@+id/remember_me_check"
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent"
+              android:hint="@string/remember_me"
+              android:onClick="onRememberMe"/>
+          </LinearLayout>
         <!-- Login Form Ends -->
 
           <LinearLayout
@@ -83,57 +148,6 @@
                       android:textSize="20sp" />
                       
           </LinearLayout>
-
-              <LinearLayout
-                  android:id="@+id/input_boxes"
-                  android:layout_width="match_parent"
-                  android:layout_height="wrap_content"
-                  android:layout_alignParentLeft="true"
-                  android:layout_alignParentTop="true"
-                  android:orientation="vertical"
-                  android:padding="10dip" >
-
-                  <TextView
-                      android:id="@+id/txt_username"
-                      android:layout_width="fill_parent"
-                      android:layout_height="wrap_content"
-                      android:text="@string/auth_username"
-                      android:textColor="#372c24" />
-
-                  <EditText
-                      android:id="@+id/auth_txt_username"
-                      android:layout_width="fill_parent"
-                      android:layout_height="wrap_content"
-                      android:layout_marginBottom="20dip"
-                      android:layout_marginTop="5dip"
-                      android:inputType="textEmailAddress"
-                      android:singleLine="true" >
-
-                      <requestFocus />
-                  </EditText>
-
-                  <TextView
-                      android:id="@+id/txt_pswd"
-                      android:layout_width="fill_parent"
-                      android:layout_height="wrap_content"
-                      android:text="@string/auth_pass"
-                      android:textColor="#372c24" />
-
-                  <EditText
-                      android:id="@+id/auth_txt_pswd"
-                      android:layout_width="fill_parent"
-                      android:layout_height="wrap_content"
-                      android:layout_marginTop="5dip"
-                      android:inputType="textPassword"
-                      android:singleLine="true" />
-
-                  <CheckBox
-                      android:id="@+id/remember_me_check"
-                      android:layout_width="fill_parent"
-                      android:layout_height="fill_parent"
-                      android:hint="@string/remember_me"
-                      android:onClick="onRememberMe" />
-              </LinearLayout>
  
   </RelativeLayout>
 </ScrollView>

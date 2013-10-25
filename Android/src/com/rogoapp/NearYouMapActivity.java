@@ -1,3 +1,4 @@
+
 package com.rogoapp;
 
 import android.app.Activity;
@@ -9,18 +10,19 @@ import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.location.LocationClient;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
+*/
 
 import android.app.Activity;
 import android.app.Dialog;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
+//import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.widget.Toast;
-*/
+
 
 public class NearYouMapActivity extends Activity /*implements
 GooglePlayServicesClient.ConnectionCallbacks,
-GooglePlayServicesClient.OnConnectionFailedListener */{/*
+GooglePlayServicesClient.OnConnectionFailedListener*/ {/*
 
 	private static final int GPS_ERRORDIALOG_REQUEST = 9001;
 	GoogleMap mMap;

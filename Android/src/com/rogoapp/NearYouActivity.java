@@ -22,7 +22,7 @@ public class NearYouActivity extends Activity {
         goToMapButton.setOnClickListener(new OnClickListener() {
         	
             public void onClick(View arg0) {
-               startActivity(new Intent(NearYouActivity.this, NearYouMapActivity.class));
+            	startActivity(new Intent(NearYouActivity.this, NearYouMapActivity.class));
            
             }
         });

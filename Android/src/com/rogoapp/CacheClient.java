@@ -1,5 +1,6 @@
 package com.rogoapp;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -21,31 +22,29 @@ public class CacheClient {
 		this.context = context;
 	}
 	
-	public void saveFile() {
-		String FILENAME = "hello_file";
-		String string = "hello world!";
+	public void saveFile(String filename, String content) throws FileNotFoundException, IOException {
+		File cacheDir = context.getCacheDir();
+		File file = new File(cacheDir, filename);
 
-		FileOutputStream fos;
-		try {
-			fos = context.openFileOutput(context.getCacheDir() + FILENAME, Context.MODE_PRIVATE);
-			fos.write(string.getBytes());
-			fos.close();
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		FileOutputStream fos = new FileOutputStream(file);
+		fos.write(content.getBytes());
+		fos.close();
 	}
 	
-//	public String loadFile() {
-//		String FILENAME = "hello_file";
-//		
-//		FileInputStream fos;
-//		fos = context.openFileInput(context.getCacheDir() + FILENAME);
-//		fos.read();
-//		fos.close();
-//	}
+	public String loadFile(String filename) throws FileNotFoundException, IOException {
+		File cacheDir = context.getCacheDir();
+		File file = new File(cacheDir, filename);
+		
+		StringBuilder contentString = new StringBuilder();
+
+		FileInputStream fis = new FileInputStream(file);
+		int content;
+		while((content = fis.read()) != -1){
+			contentString.append((char)content);
+		}
+		fis.close();
+
+		return contentString.toString();
+	}
 	
 }

@@ -44,7 +44,7 @@
         android:inputType="textCapSentences"
         android:selectAllOnFocus="true"
         android:singleLine="true"
-        android:text="Add new tip" />
+        android:hint="@string/add_tip" />
 
     <Button
         android:id="@+id/debug_button"

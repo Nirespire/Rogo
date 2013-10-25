@@ -45,7 +45,7 @@ public class MainScreenActivity extends SherlockActivity {
 
         System.out.println(PreferenceManager.getDefaultSharedPreferences(this).getString("prefRadius", "NULL"));
       //Adding some functionality to tips button
-//        textListener(this.findViewById(R.id.tips_edit_box));   
+        textListener(this.findViewById(R.id.tips_edit_box));   
     }
 
 
@@ -213,7 +213,7 @@ public class MainScreenActivity extends SherlockActivity {
 //    		   return true;
 //    		}
 //    };
-/*    
+    
     public void textListener(View v){
         
     	//Adds action event for when data is entered in an EditText
@@ -248,7 +248,7 @@ public class MainScreenActivity extends SherlockActivity {
 			}
     	});
     }
-
+/*
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
     	super.onActivityResult(requestCode, resultCode, data);

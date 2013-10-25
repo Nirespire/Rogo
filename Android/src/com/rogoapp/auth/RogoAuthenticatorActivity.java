@@ -19,7 +19,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 public class RogoAuthenticatorActivity extends AccountAuthenticatorActivity {
-	public static final String PARAM_AUTHTOKEN_TYPE = "auth.token";  
+        public static final String PARAM_AUTHTOKEN_TYPE = "auth.token";  
     public static final String PARAM_CREATE = "create";  
   
     public static final int REQ_CODE_CREATE = 1;  
@@ -41,14 +41,14 @@ public class RogoAuthenticatorActivity extends AccountAuthenticatorActivity {
         //creates a view from the login.xml file
         this.setContentView(R.layout.login);
         Button button = (Button) this.findViewById(R.id.link_to_register);
-        button.setBackgroundColor(Color.TRANSPARENT);
+        button.setBackgroundColor(Color.WHITE);
     }  
     
     private boolean getToken(){
-    	return createToken;
+            return createToken;
     }
     private void setToken(boolean Token){
-    	createToken = Token;
+            createToken = Token;
     }
   
     public void onCancelClick(View v) {  
@@ -62,21 +62,21 @@ public class RogoAuthenticatorActivity extends AccountAuthenticatorActivity {
         startActivity(intent);
     }
     public void onRememberMe(View V){
-    	Button btnUserName = (Button) this.findViewById(R.id.btnLogin);
-    	
-    	if(getToken()){
-    		this.setToken(false);
-    	}
-    	else this.setToken(true);
-    	
-    	if(getToken()){
-    		btnUserName.setText("Remember Login");
-    	}
-    	else btnUserName.setText("Login"); 
+            Button btnUserName = (Button) this.findViewById(R.id.btnLogin);
+            
+            if(getToken()){
+                    this.setToken(false);
+            }
+            else this.setToken(true);
+            
+            if(getToken()){
+                    btnUserName.setText("Remember Login");
+            }
+            else btnUserName.setText("Login"); 
     }
   
-	public void onSaveClick(View v) {  
-    	EditText tvUsername;  
+        public void onSaveClick(View v) {  
+            EditText tvUsername;  
         EditText tvPassword;
         
         TextView txtUsername;
@@ -102,16 +102,14 @@ public class RogoAuthenticatorActivity extends AccountAuthenticatorActivity {
         password = tvPassword.getText().toString();  
         
         if(validate.validate(username) && !badUsername){
-        	txtUsername.setBackgroundColor(Color.WHITE);
-        	txtUsername.setText("Username");
-        	tvUsername.setBackgroundResource(R.drawable.blue_border);
-        	//tvUsername.setBackgroundColor(Color.TRANSPARENT);
+                txtUsername.setBackgroundColor(Color.WHITE);
+                txtUsername.setText("Username");
+                tvUsername.setBackgroundColor(Color.WHITE);
         }
         if(!badPass){
-        	txtPassword.setBackgroundColor(Color.WHITE);
-        	txtPassword.setText("Password");
-        	tvPassword.setBackgroundResource(R.drawable.blue_border);
-        	//tvPassword.setBackgroundColor(Color.TRANSPARENT);
+                txtPassword.setBackgroundColor(Color.WHITE);
+                txtPassword.setText("Password");
+                tvPassword.setBackgroundColor(Color.WHITE);
         }
  
         if (!validate.validate(username)) {  
@@ -165,9 +163,9 @@ public class RogoAuthenticatorActivity extends AccountAuthenticatorActivity {
             intent.putExtra(AccountManager.KEY_ACCOUNT_NAME, username);  
             intent.putExtra(AccountManager.KEY_ACCOUNT_TYPE, accountType);
             if(getToken()){
-            	
-            	intent.putExtra(AccountManager.KEY_AUTHTOKEN, accountType);
-            	
+                    
+                    intent.putExtra(AccountManager.KEY_AUTHTOKEN, accountType);
+                    
             }
             
             this.setAccountAuthenticatorResult(intent.getExtras());  

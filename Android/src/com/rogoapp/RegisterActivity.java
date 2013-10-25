@@ -3,6 +3,7 @@ package com.rogoapp;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
@@ -10,16 +11,19 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.accounts.AccountAuthenticatorActivity;
+
 
 //for ServerClient class
 import java.util.List;
 import java.util.ArrayList;
+
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONObject;
 import org.json.JSONException;
 
-public class RegisterActivity extends Activity{
+public class RegisterActivity extends AccountAuthenticatorActivity{
     
     Button registerButton;
     EditText lastName;
@@ -34,6 +38,9 @@ public class RegisterActivity extends Activity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.register);
         addListenerOnButton1();
+        
+        Button button = (Button) this.findViewById(R.id.link_to_login);
+        button.setBackgroundColor(Color.TRANSPARENT);
     }
 
     @Override

@@ -3,7 +3,7 @@
 require 'serverconfig.php';
 require 'config.php';
 
-function logError($script,$line,$description, $error, $time,$die = true){
+function logError($script,$line,$description, $error, $time,$die = false){
 	$data = "File:        $script (Line: $line)\nDescription: ".$description."\nError:       ".$error."\nTime:        ".date('l, j F Y, \a\t g:i:s:u A',$time)."\n--------------------------------\n";
 	file_put_contents(LOG_PATH_ERRORS, $data, FILE_APPEND);
 	if($die){

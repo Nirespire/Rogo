@@ -9,7 +9,8 @@ class RequestHandler{
 		'login' => 'login.php',
 		'register' => 'register.php',
 		'nearby' => 'nearby.php',
-		'tips' => 'tips.php'
+		'tips' => 'tips.php',
+		'meetsubmit' => 'meetsubmit.php'
 	);
 	private static $REQUEST_STATUS = array(
 		STATUS_SUCCESS => 'success',

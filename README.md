@@ -124,3 +124,32 @@ Request: `tips.txt?count=3`
     		},
     	]
     }
+
+#### Submitting a meeting
+
+*Request location:* `meetsubmit.json`
+
+*Functionality:* Handles the recording of a meeting occurrence between a user and another person. 
+
+***
+*MOST OF THIS IS VERY LIKELY TO CHANGE!*
+***
+
+*Required parameters:*
+* `location_lat`: The GPS latitude of the location the meet up took place. Example: `29.643509`.
+* `location_lon`: The GPS longitude of the location the meet up took place. Example: `-82.360729`.
+* `question`: The question ID of the conversational question that was answered. Confused? You should be! Questions and their IDs have not been implemented yet! Woo!
+* `answer`: The plain-text answer for the question that was asked. Maximum length: 255 characters. Example: `A grilled cheese sandwich`.
+* `is_user`: Either `1` or `0`. If 1, the person the user met is a registered Rogo user. If 0, the person is not a Rogo user.
+* `person_id`: If `is_user` is `1`, then this is the user id _number_; else, if `0`, this is simply the plain-text name of the person who was met. 
+* `session`: The current user's 64-character session identifier.
+
+*Optional parameters:*
+* `location`: A user-input string identifying the location the meeting took place. Example: `the dark alley behind Starbucks`.
+
+*Examples:*  
+Request: `meetsubmit.txt?location_lat=29.649118753795555&location_lon=-82.34416704064655&question=1&answer=My%20toilet%2C%20and%20a%20lazer%20pointer&is_user=0&person_id=Bill%20Nye&session=48e9aacb18ddd6b3df6991d9082ccd882d2462a2c2ccdbda31f297a621868549&location=Starbucks`
+
+    I have no idea what the output will be at the moment.
+	Please hold your breath until I have made a decision.
+	

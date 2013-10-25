@@ -40,6 +40,15 @@ define('TIPS_RAND_ID_FACTOR',1); //Multiplication factor for the number of extra
 //See: http://www.titov.net/2005/09/21/do-not-use-order-by-rand-or-how-to-get-random-rows-from-table/
 
 /****************************************************************/
+/** Meeting form submit configuration                          **/
+/****************************************************************/
+define('MEET_FORM_ANSWER_MAX_LENGTH',255);
+
+define('MEET_FORM_NAME_MAX_LENGTH',255);
+
+define('MEET_LOCATION_MAX_LENGTH',255);
+
+/****************************************************************/
 /** The config definitions below here should NOT be modified!  **/
 /** Unless you really know what you're doing, and are prepared **/
 /** to make the changes required in other files, changing      **/

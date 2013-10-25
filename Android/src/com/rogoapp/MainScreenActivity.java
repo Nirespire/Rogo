@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Random;
 
 import org.apache.http.NameValuePair;
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
@@ -30,7 +32,8 @@ import com.actionbarsherlock.view.MenuItem;
 
 public class MainScreenActivity extends SherlockActivity {
 
-		String TIPS_FILE = "tips";
+	static final String TIPS_FILE = "tips";
+	static final String USER_TIPS = "uTips";
 	
     Button nearYouButton;
     Button meetRandomButton;
@@ -154,8 +157,17 @@ public class MainScreenActivity extends SherlockActivity {
         if(text.equals("Add Tip!")){
         	String what = tipsText.getText().toString();
         	tips.add(what);
-        	tipsText.setText("");
         	button.setText(R.string.tips);
+        	try {
+				cache.addFile(USER_TIPS, what);
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+        	tipsText.setText("");
         }        
         else{
         	Random rand = new Random(System.currentTimeMillis());
@@ -178,6 +190,39 @@ public class MainScreenActivity extends SherlockActivity {
         startActivity(intent);
     }
     
+    
+	//TODO get JObject
+	public void parseJ(JSONObject jObject){
+		//turns JObject into JArray and steps through the JArray to find all the tips 
+		JSONArray jArray = null;
+		try {
+			//data is the head where the tips will start
+			jArray = jObject.getJSONArray("data");
+		} catch (JSONException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		for (int i=0; i < jArray.length(); i++)
+		{
+		    try {
+		        JSONObject oneObject = jArray.getJSONObject(i);
+		       // Pulling items from the array
+		       // int objectInt = oneObject.getInt("tip_id");
+		        String objectString = oneObject.getString("tip");
+		        cache.saveFile(TIPS_FILE, objectString);
+		    } catch (JSONException e) {
+		        // Oops
+		    } catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} 
+		
+	}
+	
     public void storeTips() {
     	ServerClient server = new ServerClient();
     	JSONObject json = server.genericPostRequest("tips", Collections.<NameValuePair>emptyList());

@@ -4,7 +4,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
+import java.io.LineNumberReader;
 
 import android.content.Context;
 
@@ -57,4 +59,44 @@ public class CacheClient {
 		return contentString.toString();
 	}
 	
+	public boolean isEmpty(String filename){
+		File cacheDir = context.getCacheDir();
+		File file = new File(cacheDir, filename);
+		return !((int) file.length() > 0);
+	}
+	
+	
+	
+	public int lines(String filename){
+		
+		try{
+			
+			File cacheDir = context.getCacheDir();
+			File file = new File(cacheDir,filename); 
+
+			if(file.exists()){
+
+				FileReader fr = new FileReader(file);
+				LineNumberReader lnr = new LineNumberReader(fr);
+
+				int linenumber = 0;
+
+				while (lnr.readLine() != null){
+					linenumber++;
+				}
+
+				lnr.close();
+				return linenumber;
+
+			}else{
+				System.out.println("File does not exists!");
+				return 0;
+			}
+
+		}catch(IOException e){
+			e.printStackTrace();
+			return -1;
+		}
+	}
+
 }

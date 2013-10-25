@@ -191,7 +191,12 @@ public class MainScreenActivity extends SherlockActivity {
         	tips.add(what);
         	button.setText(R.string.tips);
         	try {
-				cache.addFile(USER_TIPS,"\n"+what);
+        		if(cache.isEmpty(USER_TIPS)){
+        			cache.addFile(USER_TIPS,what);
+        		}
+        		else{
+        			cache.addFile(USER_TIPS,"\n"+what);
+        		}
 		       //Log.d(TIPS_FILE, "sd");
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block
@@ -201,7 +206,7 @@ public class MainScreenActivity extends SherlockActivity {
 				e.printStackTrace();
 			}
         	tipsText.setText("");
-        	if(this.toastCount <=3){
+        	if(cache.lines(USER_TIPS) <=5){
         		toaster();
         		this.toastCount++;
         	}
@@ -267,16 +272,36 @@ public class MainScreenActivity extends SherlockActivity {
     }
     
     public void reloadTipsArray(){
+    	//needed some tips so the file wasn't empty
+    	//if file is empty, it loads the Tips not available exception constantly
+    	if(cache.isEmpty(TIPS_FILE)){
+			oneTimeTipBuffer();
+    	}
     	try {
     		String[] _tips = cache.loadFile(TIPS_FILE).split("\n");
-    		String[] _uTips = cache.loadFile(USER_TIPS).split("\n");
     		Collections.addAll(tips, _tips);
-    		Collections.addAll(tips, _uTips);
     	} catch (Exception e) {
     		tips.add("Tips not available");
     	}
+    	try{
+    		String[] _uTips = cache.loadFile(USER_TIPS).split("\n");
+    		Collections.addAll(tips, _uTips);
+    	}catch(Exception e){
+    		return;
+    	}
     }
-    
+    //needed some tips cached, so I made this
+    public void oneTimeTipBuffer() {
+    	try {
+			cache.saveFile(TIPS_FILE, "New tip!\nWhat a tip\nTipped over\nTipsy");
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    }
     public void reloadMeetRandomArray(){
         Resources res = getResources();
         if(meetRandom == null){

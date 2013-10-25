@@ -11,49 +11,40 @@
     tools:context=".MainScreenActivity" >
 
     <Button
-        android:id="@+id/tips_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/meet_random_button"
-        android:layout_alignRight="@+id/meet_random_button"
-        android:layout_below="@+id/meet_random_button"
-        android:layout_marginTop="57dp"
-        android:onClick = "refreshTipsButton"
-        android:text="@string/tips" />
-    
-    <EditText 
-        android:id="@+id/tips_edit_box"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:singleLine="true"
-        android:layout_below="@+id/tips_button"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="24dp"
-        android:imeActionLabel="onTextEnter"
-        android:text="Add new tip"
-        android:inputType="textCapSentences"
-        android:ems="6"
-        android:selectAllOnFocus="true" />
-
-    <Button
         android:id="@+id/near_you_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/meet_random_button"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="40dp"
+        android:layout_alignRight="@+id/meet_random_button"
+        android:layout_marginTop="15dp"
         android:onClick="openNearYouScreen"
         android:text="@string/meet_nearby" />
 
     <Button
-        android:id="@+id/meet_random_button"
+        android:id="@+id/tips_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/tips_edit_box"
-        android:layout_below="@+id/near_you_button"
-        android:layout_marginTop="42dp"
-        android:onClick="refreshMeetRandomButton"
-        android:text="@string/meet_random" />
+        android:layout_alignLeft="@+id/near_you_button"
+        android:layout_alignRight="@+id/near_you_button"
+        android:layout_below="@+id/meet_random_button"
+        android:layout_marginTop="20dp"
+        android:onClick="refreshTipsButton"
+        android:text="@string/tips" />
+
+    <EditText
+        android:id="@+id/tips_edit_box"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tips_button"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="26dp"
+        android:ems="6"
+        android:imeActionLabel="onTextEnter"
+        android:inputType="textCapSentences"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:text="Add new tip" />
 
     <Button
         android:id="@+id/debug_button"
@@ -62,15 +53,18 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/tips_edit_box"
         android:layout_centerHorizontal="true"
+        android:layout_marginTop="23dp"
         android:onClick="openDebugScreen"
         android:text="DEBUG" />
 
-    <TextView
-        android:id="@+id/textUserSettings"
+    <Button
+        android:id="@+id/meet_random_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tips_edit_box"
-        android:layout_toLeftOf="@+id/tips_edit_box"
-        tools:context=".MainActivity" />
+        android:layout_below="@+id/near_you_button"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        android:onClick="refreshMeetRandomButton"
+        android:text="@string/meet_random" />
 
 </RelativeLayout>

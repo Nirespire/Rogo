@@ -19,6 +19,7 @@ import android.widget.TextView;
 import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
+import com.actionbarsherlock.view.MenuItem.OnMenuItemClickListener;
 
 public class MainScreenActivity extends SherlockActivity {
 
@@ -36,11 +37,9 @@ public class MainScreenActivity extends SherlockActivity {
     protected void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.Theme_Sherlock_Light);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main_screen);
+        setContentView(R.layout.main_screen); 
         
-        //Taylor ***
-        showUserSettings();
-        
+        System.out.println(PreferenceManager.getDefaultSharedPreferences(this).getString("prefRadius", "NULL"));
     }
 
 
@@ -51,6 +50,7 @@ public class MainScreenActivity extends SherlockActivity {
             .setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
 
         menu.add("Settings")
+        	.setOnMenuItemClickListener(this.SettingsClickListener)
             .setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM | MenuItem.SHOW_AS_ACTION_WITH_TEXT);
         
         return true;
@@ -137,12 +137,12 @@ public class MainScreenActivity extends SherlockActivity {
         button.setText(out);
     }
 
-
+/*
     public void openSettingsScreen(View v){
         final Context context = this;
         Intent intent = new Intent(context, SettingsActivity.class);
         startActivity(intent);
-    }
+    }*/
     
     public void openUserScreen(View v){
         final Context context = this;
@@ -167,23 +167,20 @@ public class MainScreenActivity extends SherlockActivity {
         String[] _randoms = res.getStringArray(R.array.meetRandomArray);
         Collections.addAll(meetRandom, _randoms);
     }
-    /*Taylor's Settings section - Let's hope I don't break everything!
-     * Too late.*/
-    //-------------------------------------------------------------------
     
-    private static final int RESULT_SETTINGS = 1;
-    
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item){
-    	switch(item.getItemId()){
-    	
-    	case R.id.menu_settings:
-    		Intent i = new Intent(this, UserSettingsActivity.class);
-    		startActivityForResult(i, RESULT_SETTINGS);
-    		break;
-    	}
-    	return true;
+    public void openUserSettings(View v){
+    	final Context context = this;
+    	Intent intent = new Intent(context, UserSettingsActivity.class);
+    	startActivity(intent);
     }
+    OnMenuItemClickListener SettingsClickListener = new OnMenuItemClickListener(){
+    	@Override
+    	public boolean onMenuItemClick(MenuItem item){
+    		Intent intent = new Intent(MainScreenActivity.this, UserSettingsActivity.class);
+    		startActivity(intent);
+    		return false;
+    	}
+    };
     public void onTextEnter(View V){
     	Button tips = (Button) this.findViewById(R.id.tips_button);
     	
@@ -198,7 +195,7 @@ public class MainScreenActivity extends SherlockActivity {
 //    		   return true;
 //    		}
 //    };
-    
+/*    
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
     	super.onActivityResult(requestCode, resultCode, data);
@@ -219,6 +216,7 @@ public class MainScreenActivity extends SherlockActivity {
     	TextView settingsTextView = (TextView) findViewById(R.id.textUserSettings);
     	settingsTextView.setText(builder.toString());
     }
+*/
     
     /* DEBUG SECTION REMOVE BEFORE FINAL*/
     //-------------------------------------------------------------------

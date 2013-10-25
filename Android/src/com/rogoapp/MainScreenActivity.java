@@ -20,11 +20,16 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.Menu;
@@ -42,24 +47,29 @@ public class MainScreenActivity extends SherlockActivity {
     
     Button debugButton; //TODO REMOVE
     
-    List<String> tips = new ArrayList<String>();;
+    List<String> tips = new ArrayList<String>();
     List<String> meetRandom;
 
     CacheClient cache = new CacheClient(this);
     
+    //Counting my Toast
+    private int toastCount;
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setTheme(R.style.Theme_Sherlock_Light);
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.main_screen);
-        
-        //Taylor ***
-        showUserSettings();
-        
-      //Adding some functionality to tips button
-        textListener(this.findViewById(R.id.tips_edit_box));
-        
-        storeTips();
+    	setTheme(R.style.Theme_Sherlock_Light);
+    	super.onCreate(savedInstanceState);
+    	setContentView(R.layout.main_screen);
+
+    	//Taylor ***
+    	showUserSettings();
+
+    	//Adding some functionality to tips button
+    	textListener(this.findViewById(R.id.tips_edit_box));
+    	//storeTips();
+    	
+    	//TODO no toast D:
+    	toastCount = 0;
     }
 
 
@@ -74,6 +84,25 @@ public class MainScreenActivity extends SherlockActivity {
         
         return true;
     }
+    
+    //adds toast
+    public void toaster(){
+    	LayoutInflater inflater = getLayoutInflater();
+    	
+		View layout = inflater.inflate(R.layout.custom_toast, (ViewGroup) findViewById(R.id.custom_toast_layout_id));
+		
+		ImageView image = (ImageView) layout.findViewById(R.id.image);
+		image.setImageResource(R.drawable.ic_launcher);
+		
+		TextView text = (TextView) layout.findViewById(R.id.text);
+		text.setText(R.string.self_improvement);
+		
+		Toast toast = new Toast(getApplicationContext());
+		toast.setGravity(Gravity.BOTTOM, 0, 0);
+		toast.setDuration(Toast.LENGTH_SHORT);
+		toast.setView(layout);
+		toast.show();
+	}
 
 
     public void addListenerOnButton1() {
@@ -159,7 +188,8 @@ public class MainScreenActivity extends SherlockActivity {
         	tips.add(what);
         	button.setText(R.string.tips);
         	try {
-				cache.addFile(USER_TIPS, what);
+				cache.addFile(USER_TIPS,"\n"+what);
+		       //Log.d(TIPS_FILE, "sd");
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -168,6 +198,10 @@ public class MainScreenActivity extends SherlockActivity {
 				e.printStackTrace();
 			}
         	tipsText.setText("");
+        	if(this.toastCount <=3){
+        		toaster();
+        		this.toastCount++;
+        	}
         }        
         else{
         	Random rand = new Random(System.currentTimeMillis());
@@ -230,13 +264,15 @@ public class MainScreenActivity extends SherlockActivity {
     }
     
     public void reloadTipsArray(){
-      try {
-				String[] _tips = cache.loadFile(TIPS_FILE).split("\n");
-				Collections.addAll(tips, _tips);
-			} catch (Exception e) {
-				tips.add("Tips not available");
-			}
-  }
+    	try {
+    		String[] _tips = cache.loadFile(TIPS_FILE).split("\n");
+    		String[] _uTips = cache.loadFile(USER_TIPS).split("\n");
+    		Collections.addAll(tips, _tips);
+    		Collections.addAll(tips, _uTips);
+    	} catch (Exception e) {
+    		tips.add("Tips not available");
+    	}
+    }
     
     public void reloadMeetRandomArray(){
         Resources res = getResources();

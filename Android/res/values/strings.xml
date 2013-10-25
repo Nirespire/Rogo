@@ -70,6 +70,8 @@
     <string name="pref_update_setting">Update Settings</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="personalized_tips">Save a tip!</string>
+    <string name="description">Rogo stock image.</string>
+    <string name="self_improvement">New Tip Reminder +5 points!</string>
     
     <!-- Account Preferences -->
     <string name="title_fmt">Rogo</string>

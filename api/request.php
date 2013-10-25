@@ -10,7 +10,8 @@ class RequestHandler{
 		'register' => 'register.php',
 		'nearby' => 'nearby.php',
 		'tips' => 'tips.php',
-		'meetsubmit' => 'meetsubmit.php'
+		'meetsubmit' => 'meetsubmit.php',
+		'passwordch' => 'changepw.php'
 	);
 	private static $REQUEST_STATUS = array(
 		STATUS_SUCCESS => 'success',

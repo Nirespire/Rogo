@@ -32,11 +32,22 @@
         android:layout_marginTop="34dp"
         android:text="REGISTRATION SCREEN" 
         android:onClick="openRegistrationScreen"/>
-
+    
+    <Button
+        android:id="@+id/buddy_list_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/registration_debug_button"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="34dp"
+        android:text="Buddy List" 
+        android:onClick="openBuddyListScreen"/>
+    
     <Button
         android:id="@+id/login_debug_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/buddy_list_button"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:text="Login Screen" 

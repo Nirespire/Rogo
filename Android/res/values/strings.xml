@@ -84,5 +84,7 @@
     <string name="cancel_button">Cancel</string>
     <string name="remember_me">Remember me</string>
     <string name="register_quest">Don\'t have a Rogo account? </string>
+    <string name="buddy_list">Buddy List </string>
+    <string name="add_friend">Add Buddy </string>
 
 </resources>

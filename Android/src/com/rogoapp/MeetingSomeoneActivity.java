@@ -20,10 +20,4 @@ public class MeetingSomeoneActivity extends Activity {
         getMenuInflater().inflate(R.menu.main_screen, menu);
         return true;
     }
-
-	public void openSettingsScreen(View v){
-		final Context context = this;
-		Intent intent = new Intent(context, SettingsActivity.class);
-		startActivity(intent);
-	}
 }

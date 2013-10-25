@@ -31,6 +31,16 @@ public class CacheClient {
 		fos.close();
 	}
 	
+	public void addFile(String filename, String content) throws FileNotFoundException, IOException {
+		File cacheDir = context.getCacheDir();
+		File file = new File(cacheDir, filename);
+
+		FileOutputStream fos = new FileOutputStream(file, true);
+		fos.write(content.getBytes());
+		fos.close();
+	}
+
+	
 	public String loadFile(String filename) throws FileNotFoundException, IOException {
 		File cacheDir = context.getCacheDir();
 		File file = new File(cacheDir, filename);

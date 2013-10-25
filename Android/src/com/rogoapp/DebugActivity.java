@@ -30,6 +30,7 @@ public class DebugActivity extends Activity {
     Button registerButton;
     Button loginButton;
     Button meetingSomeoneButton;
+ 	Button buddyList;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -103,6 +104,22 @@ public class DebugActivity extends Activity {
 	        });
 
 	 }
+
+	 public void addListenerOnBuddyListButton() {
+
+         	//registerButton = (Button) findViewById(R.id.buddy_list_button);
+
+         	registerButton.setOnClickListener(new OnClickListener() {
+
+         		@Override
+         		public void onClick(View arg0) {
+	                     //openBuddyListScreen(arg0);
+	                 }
+
+	         	});
+	     }
+	 
+
 	 
 	 public void openRegistrationScreen(View v){
 	        final Context context = this;
@@ -115,6 +132,14 @@ public class DebugActivity extends Activity {
 	        Intent intent = new Intent(context, RogoAuthenticatorActivity.class);
 	        startActivity(intent);
 	 }
+	 
+	 /*
+	 public void openBuddyListScreen(View v){
+	        final Context context = this;
+	        Intent intent = new Intent(context, BuddyListActivity.class);
+	        startActivity(intent);
+	}
+	    */
 	
 	 public void openMeetingSomeoneScreen(View v){
 	        final Context context = this;

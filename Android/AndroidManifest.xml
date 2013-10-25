@@ -111,6 +111,9 @@
             android:label="@string/title_activity_main" >
         </activity>
 
+        <activity android:name=".ShowSettingsActivity" />
+        <activity android:name=".UserSettingsActivity" />
+        
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="AIzaSyBnpqvFBZ3eLbOMZDQDVs2ycK5SKm5Mhtg" />

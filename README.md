@@ -17,11 +17,11 @@ Example request strings:
 
 ### API Operations
 #### Testing
-*Request location:* `test.json`
+**Request location:** `test.json`
 
-*Functionality:* This serves for testing functionality. At this point it serves two primary purposes. First, when the `extented` flag is provided, it outputs a simple dataset containing two "posts", each with an "id", a "title", and a "body". Use this to practice parsing the JSON within code. Second, when given a password value (`password=mypassword`), it will provide the SHA512 hash for that password, and the bcrypt hash of the SHA512 hash. The former is necessary for testing, as the SHA512 hash is what the client (the phone) must send as the password when performing authentication; this page may be used to verify SHA512 values match expected values, or for manually entering password values during authentication testing. The bcrypt is mostly only necessary for manually entering new users into the database, and for testing the amount of time the bcrypt hash takes to compute.
+**Functionality:** This serves for testing functionality. At this point it serves two primary purposes. First, when the `extented` flag is provided, it outputs a simple dataset containing two "posts", each with an "id", a "title", and a "body". Use this to practice parsing the JSON within code. Second, when given a password value (`password=mypassword`), it will provide the SHA512 hash for that password, and the bcrypt hash of the SHA512 hash. The former is necessary for testing, as the SHA512 hash is what the client (the phone) must send as the password when performing authentication; this page may be used to verify SHA512 values match expected values, or for manually entering password values during authentication testing. The bcrypt is mostly only necessary for manually entering new users into the database, and for testing the amount of time the bcrypt hash takes to compute.
 
-*Examples:*  
+**Examples:**  
 Request: `test.txt?password=mypassword`
 
     {
@@ -35,16 +35,16 @@ Request: `test.txt?password=mypassword`
     }   
 
 #### Registering
-*Request location:* `register.json`
+**Request location:** `register.json`
 
-*Functionality:* Registers a new user and provides session authentication details. The output contains the user id, `uid`, the user's `username`, and two authentication variables, `session` and `secret`. The two auth variables will be discussed later. 
+**Functionality:** Registers a new user and provides session authentication details. The output contains the user id, `uid`, the user's `username`, and two authentication variables, `session` and `secret`. The two auth variables will be discussed later. 
 
-*Required parameters:*
+**Required parameters:**
 * `username`: The user's desired username. Currently set to only allow usernames from 4 to 30 characters, containing only alphanumeric characters and hypens—multiple hypens are not permitted to be next to each other (`kickin-rad-guy` is valid, but `captain--underpants` is not).
 * `email`: The user's email address. Minimum of 6 characters (`a@b.ca`)
 * `password`: The SHA512 hash of the user's (salted!) password. Currently restricted to exactly 128 characters, the length of a SHA512 hash. 
 
-*Examples:*  
+**Examples:**  
 Request: `register.txt?username=tits-palmer&email=xxheadshot420xx@aol.com&password=a3[...the above example hash...]ca`
 
     {
@@ -65,15 +65,15 @@ Request: `register.txt?username=foxnews&email=lol@lol.com`
     }
 
 #### Logging in
-*Request location:* `login.json`
+**Request location:** `login.json`
 
-*Functionality:* Provided the correct authentication information, it will log the user in and return new session information. Returns the same dataset as registration; `uid`, `username`, `session`, and `secret`. 
+**Functionality:** Provided the correct authentication information, it will log the user in and return new session information. Returns the same dataset as registration; `uid`, `username`, `session`, and `secret`. 
 
-*Required parameters:*
+**Required parameters:**
 * `email`: The user's email address. Minimum of 6 characters (`a@b.ca`)
 * `password`: The SHA512 hash of the user's (salted!) password. Currently restricted to exactly 128 characters, the length of a SHA512 hash. 
 
-*Examples:*  
+**Examples:**  
 Request: `login.txt?email=xxheadshot420xx@aol.com&password=a3[...the above example hash...]ca`
 
     {
@@ -94,17 +94,17 @@ Request: `login.txt?email=idontknowhowtocomputer@gmail.com&password=google.com`
     }
 
 #### Getting Tips
-*Request location:* `tips.json`
+**Request location:** `tips.json`
 
-*Functionality:* Returns a list of randomly selected tips (`tip`), along with their unique tip ids (`tip_id`). The tips however will not be randomly ordered, so it is suggested that the client select the tips at random when displaying them.
+**Functionality:** Returns a list of randomly selected tips (`tip`), along with their unique tip ids (`tip_id`). The tips however will not be randomly ordered, so it is suggested that the client select the tips at random when displaying them.
 
-*Required Parameters:* None.  
+**Required parameters:** None.  
 
-*Optional Parameters:*  
+**Optional parameters:**  
 * `count`: An integer of the number of tips to be returned. Default is `10`.
 * `exclude`: A comma separated list of `tip_id` values, with no spaces. A maximum of 20 IDs may be listed. Example: `1,5,9`. Default is an empty set.
 
-*Examples:*
+**Examples:**  
 Request: `tips.txt?count=3`
 
     {
@@ -127,15 +127,15 @@ Request: `tips.txt?count=3`
 
 #### Submitting a meeting
 
-*Request location:* `meetsubmit.json`
+**Request location:** `meetsubmit.json`
 
-*Functionality:* Handles the recording of a meeting occurrence between a user and another person. 
+**Functionality:** Handles the recording of a meeting occurrence between a user and another person. 
 
 ***
 *MOST OF THIS IS VERY LIKELY TO CHANGE!*
 ***
 
-*Required parameters:*
+**Required parameters:**
 * `location_lat`: The GPS latitude of the location the meet up took place. Example: `29.643509`.
 * `location_lon`: The GPS longitude of the location the meet up took place. Example: `-82.360729`.
 * `question`: The question ID of the conversational question that was answered. Confused? You should be! Questions and their IDs have not been implemented yet! Woo!
@@ -144,10 +144,10 @@ Request: `tips.txt?count=3`
 * `person_id`: If `is_user` is `1`, then this is the user id _number_; else, if `0`, this is simply the plain-text name of the person who was met. 
 * `session`: The current user's 64-character session identifier.
 
-*Optional parameters:*
+**Optional parameters:**
 * `location`: A user-input string identifying the location the meeting took place. Example: `the dark alley behind Starbucks`.
 
-*Examples:*  
+**Examples:**  
 Request: `meetsubmit.txt?location_lat=29.649118753795555&location_lon=-82.34416704064655&question=1&answer=My%20toilet%2C%20and%20a%20lazer%20pointer&is_user=0&person_id=Bill%20Nye&session=48e9aacb18ddd6b3df6991d9082ccd882d2462a2c2ccdbda31f297a621868549&location=Starbucks`
 
     I have no idea what the output will be at the moment.

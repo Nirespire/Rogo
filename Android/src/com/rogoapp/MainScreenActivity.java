@@ -68,7 +68,7 @@ public class MainScreenActivity extends SherlockActivity {
 
     	//Adding some functionality to tips button
     	textListener(this.findViewById(R.id.tips_edit_box));
-    	//storeTips();
+    	storeTips();
 
     	//TODO no toast D:
     	toastCount = 0;
@@ -244,6 +244,15 @@ public class MainScreenActivity extends SherlockActivity {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
+		try {
+			cache.saveFile(TIPS_FILE, "");
+		} catch (FileNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		for (int i=0; i < jArray.length(); i++)
 		{
 		    try {
@@ -251,7 +260,12 @@ public class MainScreenActivity extends SherlockActivity {
 		       // Pulling items from the array
 		       // int objectInt = oneObject.getInt("tip_id");
 		        String objectString = oneObject.getString("tip");
-		        cache.saveFile(TIPS_FILE, objectString);
+		        if(cache.isEmpty(TIPS_FILE)){
+		        	cache.addFile(TIPS_FILE, objectString);
+		        }
+		        else{
+		        	cache.addFile(TIPS_FILE, ("\n"+objectString));
+		        }
 		    } catch (JSONException e) {
 		        // Oops
 		    } catch (FileNotFoundException e) {

@@ -60,8 +60,8 @@ public class RegisterActivity extends AccountAuthenticatorActivity{
             public void onClick(View arg0) {
                 //TODO send authentication for registration
             	List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
-        		nameValuePairs.add(new BasicNameValuePair("username", "JoeyS7"));
-        		nameValuePairs.add(new BasicNameValuePair("email", "joeysiracusa@gmail.com"));
+        		nameValuePairs.add(new BasicNameValuePair("username", "Nirespire"));
+        		nameValuePairs.add(new BasicNameValuePair("email", "sanjayhnair@gmail.com"));
         		nameValuePairs.add(new BasicNameValuePair("password", "a336f671080fbf4f2a230f313560ddf0d0c12dfcf1741e49e8722a234673037dc493caa8d291d8025f71089d63cea809cc8ae53e5b17054806837dbe4099c4ca"));
                 ServerClient sc = new ServerClient();
                 JSONObject jObj = sc.genericPostRequest("register", nameValuePairs);

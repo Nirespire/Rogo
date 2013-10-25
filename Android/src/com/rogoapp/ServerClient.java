@@ -54,6 +54,7 @@ import org.json.JSONException;
 public class ServerClient{
 	private boolean status;
 	private JSONObject lastResponse;
+	private ServerClientAsync requestAsync;
 	
 	public ServerClient(){
 		status = false;
@@ -72,37 +73,24 @@ public class ServerClient{
 		// nameValuePairs.add(new BasicNameValuePair("id", "12345"));
 		// Returns a JSON object
 	    HttpClient httpclient = new DefaultHttpClient();
-	    HttpPost httppost = new HttpPost("https://api.rogoapp.com/request/" + request);
-	    
-	    String response = "";
+	    HttpPost httppost = new HttpPost("http://api.rogoapp.com/request/" + request);
+	   
 	    
 	    try {
 	        
 	        httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-	
-	        // Execute HTTP Post Request
-	        HttpResponse httpresponse = httpclient.execute(httppost);	//causes exception
+	        this.requestAsync = new ServerClientAsync();
+	        this.requestAsync.execute(httppost);
 	        
-	        BufferedReader rd = new BufferedReader(new InputStreamReader(httpresponse.getEntity().getContent()));
-	        StringBuilder sb = new StringBuilder();
-	        String line = null;
-	        
-	        while ((line = rd.readLine()) != null) {
-	        	sb.append(line + "\n");
-	        }
-	        response = sb.toString();
-	        lastResponse = new JSONObject(response);
-	        status = checkSuccess();
-	        return lastResponse;
-	        
-	    } catch (ClientProtocolException e) {
-	        System.err.print(e);
-	    } catch (IOException e) {
-	    	System.err.print(e);
-	    } catch (JSONException e){
+	        while(!this.requestAsync.isFinished()){} //This is horrible and will kill the UI thread. DON'T USE THIS
+			
+			JSONObject jObj = this.requestAsync.getResult();
+			
+			return jObj;
+	    }
+	    catch (IOException e) {
 	    	System.err.print(e);
 	    }
-	    
 	    return null;
 	}  
 	

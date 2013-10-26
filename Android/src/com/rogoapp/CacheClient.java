@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.LineNumberReader;
 
 import android.content.Context;
+import android.util.Log;
 
 // how to write to files:
 // http://developer.android.com/guide/topics/data/data-storage.html#filesInternal
@@ -20,43 +21,78 @@ public class CacheClient {
 
 	final Context context;
 	
+	//Error messages
+	public static final String ERROR_1 = "ERROR_1: File not found";
+	public static final String ERROR_2 = "ERROR_2: File cannot be written to.";
+	public static final String ERROR_3 = "ERROR_3: File data cannot be accessed.";
+	
 	public CacheClient(Context context) { // from an Activity, pass "this"
 		this.context = context;
 	}
 	
-	public void saveFile(String filename, String content) throws FileNotFoundException, IOException {
+	public void saveFile(String filename, String content) {
 		File cacheDir = context.getCacheDir();
 		File file = new File(cacheDir, filename);
 
-		FileOutputStream fos = new FileOutputStream(file);
-		fos.write(content.getBytes());
-		fos.close();
+		FileOutputStream fos;
+		try {
+			fos = new FileOutputStream(file);
+			fos.write(content.getBytes());
+			fos.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+			Log.d(ERROR_1, "Searching for " + filename);
+		} catch (IOException e) {
+			e.printStackTrace();
+			Log.d(ERROR_2, "Writing to " + filename);
+		}
 	}
 	
-	public void addFile(String filename, String content) throws FileNotFoundException, IOException {
+	public void addFile(String filename, String content){
 		File cacheDir = context.getCacheDir();
 		File file = new File(cacheDir, filename);
 
-		FileOutputStream fos = new FileOutputStream(file, true);
-		fos.write(content.getBytes());
-		fos.close();
+		FileOutputStream fos;
+		try {
+			fos = new FileOutputStream(file, true);
+			fos.write(content.getBytes());
+			fos.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+			Log.d(ERROR_1, "Searching for " + filename);
+		} catch (IOException e) {
+			e.printStackTrace();
+			Log.d(ERROR_2, "Writing to " + filename);
+		}
 	}
 
 	
-	public String loadFile(String filename) throws FileNotFoundException, IOException {
+	public String loadFile(String filename){
 		File cacheDir = context.getCacheDir();
 		File file = new File(cacheDir, filename);
 		
 		StringBuilder contentString = new StringBuilder();
 
-		FileInputStream fis = new FileInputStream(file);
-		int content;
-		while((content = fis.read()) != -1){
-			contentString.append((char)content);
-		}
-		fis.close();
+		FileInputStream fis;
+		try {
+			fis = new FileInputStream(file);
+			int content;
+			while((content = fis.read()) != -1){
+				contentString.append((char)content);
+			}
+			fis.close();
 
-		return contentString.toString();
+			return contentString.toString();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+			Log.d(ERROR_1, "Searching for " + filename);
+			return ERROR_1;
+		} catch (IOException e) {
+			e.printStackTrace();
+			Log.d(ERROR_3, "Reading from " + filename);
+			return ERROR_3;
+		}
+
 	}
 	
 	public boolean isEmpty(String filename){

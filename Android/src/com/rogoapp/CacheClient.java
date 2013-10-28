@@ -90,7 +90,7 @@ public class CacheClient {
 		} catch (IOException e) {
 			e.printStackTrace();
 			Log.d(ERROR_3, "Reading from " + filename);
-			return ERROR_3;
+			return ERROR_3+"File: " + filename;
 		}
 
 	}

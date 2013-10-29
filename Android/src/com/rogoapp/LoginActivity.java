@@ -1,5 +1,7 @@
 package com.rogoapp;
 
+import com.rogoapp.auth.RegisterActivity;
+
 import android.app.Activity;
 import android.accounts.AccountAuthenticatorActivity;
 import android.content.Context;

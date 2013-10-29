@@ -1,4 +1,4 @@
-package com.rogoapp;
+package com.rogoapp.auth;
 
 import android.app.Activity;
 import android.content.Context;
@@ -14,6 +14,8 @@ import android.widget.TextView;
 import android.accounts.AccountAuthenticatorActivity;
 
 
+
+
 //for ServerClient class
 import java.util.List;
 import java.util.ArrayList;
@@ -22,6 +24,9 @@ import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONObject;
 import org.json.JSONException;
+
+import com.rogoapp.R;
+import com.rogoapp.ServerClient;
 
 public class RegisterActivity extends AccountAuthenticatorActivity{
     
@@ -96,7 +101,7 @@ public class RegisterActivity extends AccountAuthenticatorActivity{
     
     public void openLoginScreen(View v){
         final Context context = this;
-        Intent intent = new Intent(context, LoginActivity.class);
+        Intent intent = new Intent(context, RogoAuthenticatorActivity.class);
         startActivity(intent);
     }
     

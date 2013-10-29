@@ -1,7 +1,6 @@
 package com.rogoapp.auth;
 
 import com.rogoapp.R;
-import com.rogoapp.RegisterActivity;
 import com.rogoapp.auth.EmailValidator;
 
 import android.accounts.Account;

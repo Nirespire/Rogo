@@ -222,7 +222,7 @@ public class MainScreenActivity extends SherlockActivity {
 	}
 
 
-	public void parseJ(JSONObject jObject){
+	public void parseJ(JSONObject jObject, String filename){
 		//turns JObject into JArray and steps through the JArray to find all the tips 
 		JSONArray jArray = null;
 		try {
@@ -232,7 +232,7 @@ public class MainScreenActivity extends SherlockActivity {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		cache.saveFile(TIPS_FILE, "");
+		cache.saveFile(filename, "");
 		for (int i=0; i < jArray.length(); i++)
 		{
 			try {
@@ -240,11 +240,11 @@ public class MainScreenActivity extends SherlockActivity {
 				// Pulling items from the array
 				// int objectInt = oneObject.getInt("tip_id");
 				String objectString = oneObject.getString("tip");
-				if(cache.isEmpty(TIPS_FILE)){
-					cache.addFile(TIPS_FILE, objectString);
+				if(cache.isEmpty(filename)){
+					cache.addFile(filename, objectString);
 				}
 				else{
-					cache.addFile(TIPS_FILE, ("\n"+objectString));
+					cache.addFile(filename, ("\n"+objectString));
 				}
 			} catch (JSONException e) {
 				// Oops
@@ -256,7 +256,7 @@ public class MainScreenActivity extends SherlockActivity {
 	public void storeTips() {
 		ServerClient server = new ServerClient();
 		JSONObject json = server.genericPostRequest("tips", Collections.<NameValuePair>emptyList());
-		parseJ(json);
+		parseJ(json, TIPS_FILE);
 	}
 
 	public void reloadTipsArray(){
@@ -265,18 +265,15 @@ public class MainScreenActivity extends SherlockActivity {
 		if(cache.isEmpty(TIPS_FILE)){
 			oneTimeTipBuffer();
 		}
-		try {
+		else{
 			String[] _tips = cache.loadFile(TIPS_FILE).split("\n");
 			Collections.addAll(tips, _tips);
-		} catch (Exception e) {
-			tips.add("Tips not available");
 		}
-		try{
+		if(!cache.isEmpty(USER_TIPS)){
 			String[] _uTips = cache.loadFile(USER_TIPS).split("\n");
 			Collections.addAll(tips, _uTips);
-		}catch(Exception e){
-			return;
 		}
+		return;
 	}
 	//needed some tips cached, so I made this
 	public void oneTimeTipBuffer() {

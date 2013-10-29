@@ -86,7 +86,7 @@ public class CacheClient {
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 			Log.d(ERROR_1, "Searching for " + filename);
-			return ERROR_1;
+			return ERROR_1 + " " + filename;
 		} catch (IOException e) {
 			e.printStackTrace();
 			Log.d(ERROR_3, "Reading from " + filename);

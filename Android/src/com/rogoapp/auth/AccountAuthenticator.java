@@ -39,6 +39,7 @@ public class AccountAuthenticator extends AbstractAccountAuthenticator {
                 intent.putExtra(AccountManager.KEY_ACCOUNT_AUTHENTICATOR_RESPONSE, response);
                 
                 result = new Bundle();
+                result.putParcelable(AccountManager.KEY_INTENT, intent);
                 
                 return result;
                 // TODO Figure out intent? 

@@ -12,40 +12,56 @@
         android1:layout_alignParentBottom="true"
         android1:layout_centerHorizontal="true"
         android1:layout_marginBottom="74dp"
-        android1:text="I Want To Meet!" />
-
-    <TextView
-        android1:id="@+id/textView1"
-        android1:layout_width="wrap_content"
-        android1:layout_height="wrap_content"
-        android1:layout_alignParentLeft="true"
-        android1:layout_alignParentTop="true"
-        android1:layout_marginTop="44dp"
-        android1:text="User 4"
-        android1:textAppearance="?android:attr/textAppearanceLarge"
-        android1:textColor="@color/black" />
-
-    <TextView
-        android1:id="@+id/textView2"
-        android1:layout_width="wrap_content"
-        android1:layout_height="wrap_content"
-        android1:layout_alignParentLeft="true"
-        android1:layout_below="@+id/textView1"
-        android1:layout_marginTop="57dp"
-        android1:text="What are you wearing?(Or give some feature that is easily recognizable)" />
+        android1:text="Send Request!" />
 
     <EditText
         android1:id="@+id/entered_request_trait"
         android1:layout_width="wrap_content"
         android1:layout_height="wrap_content"
-        android1:layout_above="@+id/send_meet_request_button"
-        android1:layout_centerHorizontal="true"
-        android1:layout_marginBottom="67dp"
+        android1:layout_alignLeft="@+id/editText1"
+        android1:layout_below="@+id/textView2"
         android1:ems="10"
         android1:hint="Enter a Unique Trait"
-        android1:inputType="textMultiLine" >
+        android1:inputType="textMultiLine" />
+
+    <TextView
+        android1:id="@+id/textView2"
+        android1:layout_width="wrap_content"
+        android1:layout_height="wrap_content"
+        android1:layout_below="@+id/textView1"
+        android1:layout_centerHorizontal="true"
+        android1:layout_marginTop="57dp"
+        android1:text="Give Some Feature That is Easily Recognizable" />
+
+    <TextView
+        android1:id="@+id/textView3"
+        android1:layout_width="wrap_content"
+        android1:layout_height="wrap_content"
+        android1:layout_centerHorizontal="true"
+        android1:layout_centerVertical="true"
+        android1:text="Enter a Location to Meetup" />
+
+    <EditText
+        android1:id="@+id/editText1"
+        android1:layout_width="wrap_content"
+        android1:layout_height="wrap_content"
+        android1:layout_below="@+id/textView3"
+        android1:layout_centerHorizontal="true"
+        android1:ems="10"
+        android1:hint="Location to Meet" >
 
         <requestFocus />
     </EditText>
+
+    <TextView
+        android1:id="@+id/textView1"
+        android1:layout_width="wrap_content"
+        android1:layout_height="wrap_content"
+        android1:layout_alignParentTop="true"
+        android1:layout_centerHorizontal="true"
+        android1:layout_marginTop="53dp"
+        android1:text="User 4"
+        android1:textAppearance="?android:attr/textAppearanceLarge"
+        android1:textColor="@color/black" />
 
 </RelativeLayout>

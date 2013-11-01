@@ -18,6 +18,9 @@ import android.widget.Button;
 public class SendRequestActivity extends Activity {
 
 	Button sendRequestButton;
+	String userID;
+	String trait;
+	String location;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -45,9 +48,10 @@ public class SendRequestActivity extends Activity {
 				
 				//TODO NEED TO UPDATE FOR MEETUP REQUEST
 				List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
-				nameValuePairs.add(new BasicNameValuePair("location_lat", ""));
-				nameValuePairs.add(new BasicNameValuePair("location_lon", ""));
-				nameValuePairs.add(new BasicNameValuePair("trait", ""));
+				nameValuePairs.add(new BasicNameValuePair("user_id1", ""));
+				nameValuePairs.add(new BasicNameValuePair("user1_trait", ""));
+				nameValuePairs.add(new BasicNameValuePair("location", ""));
+				
 				
 				ServerClient sc = new ServerClient();
 				JSONObject jObj = sc.genericPostRequest("", nameValuePairs);

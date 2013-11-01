@@ -15,7 +15,7 @@
     </RadioGroup>
 
     <TextView
-        android1:id="@+id/textView1"
+        android1:id="@+id/user2"
         android1:layout_width="wrap_content"
         android1:layout_height="wrap_content"
         android1:layout_alignLeft="@+id/radioGroup1"
@@ -24,16 +24,6 @@
         android1:text="User 4"
         android1:textAppearance="?android:attr/textAppearanceLarge"
         android1:textColor="@color/black" />
-
-    <EditText
-        android1:id="@+id/editText1"
-        android1:layout_width="wrap_content"
-        android1:layout_height="wrap_content"
-        android1:layout_above="@+id/button1"
-        android1:layout_alignLeft="@+id/textView2"
-        android1:layout_marginBottom="28dp"
-        android1:ems="10"
-        android1:hint="Enter Verification Code" />
 
     <TextView
         android1:id="@+id/textView2"
@@ -76,7 +66,7 @@
         android1:textAppearance="?android:attr/textAppearanceMedium" />
 
     <TextView
-        android1:id="@+id/textView6"
+        android1:id="@+id/user2_interests"
         android1:layout_width="wrap_content"
         android1:layout_height="wrap_content"
         android1:layout_alignLeft="@+id/radioGroup1"
@@ -85,7 +75,7 @@
         android1:textAppearance="?android:attr/textAppearanceSmall" />
 
     <TextView
-        android1:id="@+id/textView8"
+        android1:id="@+id/location"
         android1:layout_width="wrap_content"
         android1:layout_height="wrap_content"
         android1:layout_above="@+id/textView2"
@@ -95,7 +85,7 @@
         android1:textAppearance="?android:attr/textAppearanceSmall" />
 
     <TextView
-        android1:id="@+id/textView9"
+        android1:id="@+id/verification_code"
         android1:layout_width="wrap_content"
         android1:layout_height="wrap_content"
         android1:layout_alignLeft="@+id/textView2"
@@ -105,7 +95,7 @@
         android1:textAppearance="?android:attr/textAppearanceLarge" />
 
     <TextView
-        android1:id="@+id/textView7"
+        android1:id="@+id/user2_traits"
         android1:layout_width="wrap_content"
         android1:layout_height="wrap_content"
         android1:layout_above="@+id/textView3"
@@ -114,12 +104,26 @@
         android1:textAppearance="?android:attr/textAppearanceSmall" />
 
     <Button
-        android1:id="@+id/button1"
+        android1:id="@+id/we_met_button"
         android1:layout_width="wrap_content"
         android1:layout_height="wrap_content"
         android1:layout_alignParentBottom="true"
         android1:layout_centerHorizontal="true"
         android1:layout_marginBottom="48dp"
-        android1:text="We Met!" />
+        android1:text="We Met!" 
+        android1:onClick="weMet"/>
+
+    <EditText
+        android1:id="@+id/entered_verification_code"
+        android1:layout_width="wrap_content"
+        android1:layout_height="wrap_content"
+        android1:layout_below="@+id/verification_code"
+        android1:layout_centerHorizontal="true"
+        android1:layout_marginTop="17dp"
+        android1:ems="10"
+        android1:hint="Enter Verification Code" >
+
+        <requestFocus />
+    </EditText>
 
 </RelativeLayout>

@@ -5,7 +5,11 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
 
 import android.app.Activity;
 import android.content.Context;
@@ -100,6 +104,7 @@ public class DebugActivity extends Activity {
 	            @Override
 	            public void onClick(View arg0) {
 	            	String loc = getLocation(arg0);
+	            	postLocation(loc);
 	            }
 
 	        });
@@ -175,7 +180,7 @@ public class DebugActivity extends Activity {
 					lng=(double)user.get(0).getLongitude();
 					Toast.makeText(this," DDD lat: " +lat+",  longitude: "+lng, Toast.LENGTH_LONG).show();
 					System.out.println(" DDD lat: " +lat+",  longitude: "+lng);
-					out = " DDD lat: " +lat+",  longitude: "+lng;
+					out = lat+ "," + lng;
 
 				}catch (Exception e) {
 					e.printStackTrace();
@@ -183,7 +188,17 @@ public class DebugActivity extends Activity {
 
 			}
 			return out;
-		}
+	 }
+	 
+	 public void postLocation(String location){
+		 String[] latLon = location.split(",");
+		 ServerClient sc = new ServerClient();
+		 List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
+		 
+		 nameValuePairs.add(new BasicNameValuePair("location_lat","0.000"));
+		 nameValuePairs.add(new BasicNameValuePair("location_lon","0.000"));
+		 
+	 };
 	 
 	 //TODO
 		public void onCacheRead(View v) throws IOException{

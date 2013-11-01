@@ -12,6 +12,9 @@ public class MeetingSomeoneActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.meeting_someone);
+		
+		//TODO NEED TO PULL: OTHER USER'S INTERESTS, OTHER USER'S ENTERED TRAIT, NEARBY LOCATION TO MEET AT AND SET IN TEXTVIEWS
+		
 	}
 	
 	@Override

@@ -11,17 +11,47 @@
         android1:layout_height="wrap_content"
         android1:layout_marginLeft="24dp"
         android1:layout_marginTop="47dp" >
-    </RadioGroup>
 
+    </RadioGroup>
 
     <TextView
         android1:id="@+id/textView1"
         android1:layout_width="wrap_content"
         android1:layout_height="wrap_content"
         android1:layout_alignLeft="@+id/radioGroup1"
-        android1:layout_below="@+id/radioGroup1"
-        android1:layout_marginTop="21dp"
+        android1:layout_alignParentTop="true"
+        android1:layout_marginTop="19dp"
         android1:text="User 4"
+        android1:textAppearance="?android:attr/textAppearanceLarge"
+        android1:textColor="@color/black" />
+
+    <Button
+        android1:id="@+id/button1"
+        android1:layout_width="wrap_content"
+        android1:layout_height="wrap_content"
+        android1:layout_alignParentBottom="true"
+        android1:layout_marginBottom="32dp"
+        android1:layout_marginLeft="25dp"
+        android1:layout_toRightOf="@+id/textView2"
+        android1:text="We Met!" />
+
+    <EditText
+        android1:id="@+id/editText1"
+        android1:layout_width="wrap_content"
+        android1:layout_height="wrap_content"
+        android1:layout_above="@+id/button1"
+        android1:layout_alignLeft="@+id/textView2"
+        android1:layout_marginBottom="28dp"
+        android1:ems="10"
+        android1:hint="Enter Verification Code" />
+
+    <TextView
+        android1:id="@+id/textView2"
+        android1:layout_width="wrap_content"
+        android1:layout_height="wrap_content"
+        android1:layout_alignLeft="@+id/textView3"
+        android1:layout_centerVertical="true"
+        android1:text="Verification Code"
         android1:textAppearance="?android:attr/textAppearanceLarge"
         android1:textColor="@color/black" />
 
@@ -29,41 +59,68 @@
         android1:id="@+id/textView3"
         android1:layout_width="wrap_content"
         android1:layout_height="wrap_content"
-        android1:layout_alignLeft="@+id/textView1"
-        android1:layout_below="@+id/textView1"
-        android1:layout_marginTop="90dp"
+        android1:layout_above="@+id/textView2"
+        android1:layout_alignLeft="@+id/radioGroup1"
+        android1:layout_marginBottom="58dp"
         android1:text="Meet At"
-        android1:textColor="@color/black"
-        android1:textAppearance="?android:attr/textAppearanceLarge" />
+        android1:textAppearance="?android:attr/textAppearanceLarge"
+        android1:textColor="@color/black" />
 
     <TextView
-        android1:id="@+id/textView2"
+        android1:id="@+id/textView5"
         android1:layout_width="wrap_content"
         android1:layout_height="wrap_content"
         android1:layout_alignLeft="@+id/textView3"
-        android1:layout_below="@+id/textView3"
-        android1:layout_marginTop="100dp"
-        android1:text="Verification Code"
-        android1:textColor="@color/black"
-        android1:textAppearance="?android:attr/textAppearanceLarge" />
+        android1:layout_below="@+id/textView4"
+        android1:layout_marginTop="18dp"
+        android1:text="Unique Trait"
+        android1:textAppearance="?android:attr/textAppearanceMedium" />
 
-    <EditText
-        android1:id="@+id/editText1"
+    <TextView
+        android1:id="@+id/textView4"
+        android1:layout_width="wrap_content"
+        android1:layout_height="wrap_content"
+        android1:layout_alignLeft="@+id/radioGroup1"
+        android1:layout_alignTop="@+id/radioGroup1"
+        android1:text="Interests"
+        android1:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android1:id="@+id/textView6"
+        android1:layout_width="wrap_content"
+        android1:layout_height="wrap_content"
+        android1:layout_alignLeft="@+id/radioGroup1"
+        android1:layout_below="@+id/textView4"
+        android1:text="NA"
+        android1:textAppearance="?android:attr/textAppearanceSmall" />
+
+    <TextView
+        android1:id="@+id/textView8"
+        android1:layout_width="wrap_content"
+        android1:layout_height="wrap_content"
+        android1:layout_above="@+id/textView2"
+        android1:layout_alignLeft="@+id/textView3"
+        android1:layout_marginBottom="23dp"
+        android1:text="NA"
+        android1:textAppearance="?android:attr/textAppearanceSmall" />
+
+    <TextView
+        android1:id="@+id/textView9"
         android1:layout_width="wrap_content"
         android1:layout_height="wrap_content"
         android1:layout_alignLeft="@+id/textView2"
         android1:layout_below="@+id/textView2"
-        android1:layout_marginTop="29dp"
-        android1:ems="10"
-        android1:hint="Enter Verification Code" />
+        android1:layout_marginTop="22dp"
+        android1:text="XXXXXX"
+        android1:textAppearance="?android:attr/textAppearanceLarge" />
 
-    <Button
-        android1:id="@+id/button1"
+    <TextView
+        android1:id="@+id/textView7"
         android1:layout_width="wrap_content"
         android1:layout_height="wrap_content"
-        android1:layout_below="@+id/editText1"
-        android1:layout_marginLeft="21dp"
-        android1:layout_toRightOf="@+id/textView2"
-        android1:text="We Met!" />
+        android1:layout_above="@+id/textView3"
+        android1:layout_alignLeft="@+id/textView3"
+        android1:text="NA"
+        android1:textAppearance="?android:attr/textAppearanceSmall" />
 
 </RelativeLayout>

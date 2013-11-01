@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:android1="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/gradient" >
+
+    <Button
+        android1:id="@+id/send_meet_request_button"
+        android1:layout_width="wrap_content"
+        android1:layout_height="wrap_content"
+        android1:layout_alignParentBottom="true"
+        android1:layout_centerHorizontal="true"
+        android1:layout_marginBottom="74dp"
+        android1:text="I Want To Meet!" />
+
+    <TextView
+        android1:id="@+id/textView1"
+        android1:layout_width="wrap_content"
+        android1:layout_height="wrap_content"
+        android1:layout_alignParentLeft="true"
+        android1:layout_alignParentTop="true"
+        android1:layout_marginTop="44dp"
+        android1:text="User 4"
+        android1:textAppearance="?android:attr/textAppearanceLarge"
+        android1:textColor="@color/black" />
+
+    <TextView
+        android1:id="@+id/textView2"
+        android1:layout_width="wrap_content"
+        android1:layout_height="wrap_content"
+        android1:layout_alignParentLeft="true"
+        android1:layout_below="@+id/textView1"
+        android1:layout_marginTop="57dp"
+        android1:text="What are you wearing?(Or give some feature that is easily recognizable)" />
+
+    <EditText
+        android1:id="@+id/entered_request_trait"
+        android1:layout_width="wrap_content"
+        android1:layout_height="wrap_content"
+        android1:layout_above="@+id/send_meet_request_button"
+        android1:layout_centerHorizontal="true"
+        android1:layout_marginBottom="67dp"
+        android1:ems="10"
+        android1:hint="Enter a Unique Trait"
+        android1:inputType="textMultiLine" >
+
+        <requestFocus />
+    </EditText>
+
+</RelativeLayout>

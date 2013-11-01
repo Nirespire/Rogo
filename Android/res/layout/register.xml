@@ -36,7 +36,7 @@
                 android:textColor="#372c24" />
 
             <EditText
-                android:id="@+id/reg_lastname"
+                android:id="@+id/reg_username"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20dip"

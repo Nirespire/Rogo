@@ -1,6 +1,15 @@
 package com.rogoapp.auth;
 
-import android.app.Activity;
+import java.util.ArrayList;
+//for ServerClient class
+import java.util.List;
+
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import android.accounts.AccountAuthenticatorActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -11,19 +20,6 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.accounts.AccountAuthenticatorActivity;
-
-
-
-
-//for ServerClient class
-import java.util.List;
-import java.util.ArrayList;
-
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONObject;
-import org.json.JSONException;
 
 import com.rogoapp.R;
 import com.rogoapp.ServerClient;
@@ -64,10 +60,18 @@ public class RegisterActivity extends AccountAuthenticatorActivity{
             @Override
             public void onClick(View arg0) {
                 //TODO send authentication for registration
-            	List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
-        		nameValuePairs.add(new BasicNameValuePair("username", "Nirespire"));
-        		nameValuePairs.add(new BasicNameValuePair("email", "sanjayhnair@gmail.com"));
-        		nameValuePairs.add(new BasicNameValuePair("password", "a336f671080fbf4f2a230f313560ddf0d0c12dfcf1741e49e8722a234673037dc493caa8d291d8025f71089d63cea809cc8ae53e5b17054806837dbe4099c4ca"));
+                //TODO add validation of entered strings
+                
+                EditText username = (EditText) findViewById(R.id.reg_username);
+                EditText first = (EditText) findViewById(R.id.reg_firstname);
+                EditText email = (EditText) findViewById(R.id.reg_email);
+                EditText password = (EditText) findViewById(R.id.reg_password);
+                
+            	List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(3);
+        		nameValuePairs.add(new BasicNameValuePair("username", username.getText().toString()));
+        		nameValuePairs.add(new BasicNameValuePair("email", email.getText().toString()));
+        		nameValuePairs.add(new BasicNameValuePair("password", password.getText().toString()));
+        		
                 ServerClient sc = new ServerClient();
                 JSONObject jObj = sc.genericPostRequest("register", nameValuePairs);
                 String uid = null;

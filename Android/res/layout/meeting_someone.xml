@@ -3,7 +3,7 @@
     xmlns:android1="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white" >
+    android:background="@drawable/gradient" >
 
     <RadioGroup
         android1:id="@+id/radioGroup1"
@@ -24,16 +24,6 @@
         android1:text="User 4"
         android1:textAppearance="?android:attr/textAppearanceLarge"
         android1:textColor="@color/black" />
-
-    <Button
-        android1:id="@+id/button1"
-        android1:layout_width="wrap_content"
-        android1:layout_height="wrap_content"
-        android1:layout_alignParentBottom="true"
-        android1:layout_marginBottom="32dp"
-        android1:layout_marginLeft="25dp"
-        android1:layout_toRightOf="@+id/textView2"
-        android1:text="We Met!" />
 
     <EditText
         android1:id="@+id/editText1"
@@ -122,5 +112,14 @@
         android1:layout_alignLeft="@+id/textView3"
         android1:text="NA"
         android1:textAppearance="?android:attr/textAppearanceSmall" />
+
+    <Button
+        android1:id="@+id/button1"
+        android1:layout_width="wrap_content"
+        android1:layout_height="wrap_content"
+        android1:layout_alignParentBottom="true"
+        android1:layout_centerHorizontal="true"
+        android1:layout_marginBottom="48dp"
+        android1:text="We Met!" />
 
 </RelativeLayout>

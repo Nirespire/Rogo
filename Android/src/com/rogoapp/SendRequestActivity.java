@@ -22,6 +22,9 @@ public class SendRequestActivity extends Activity {
 	String trait;
 	String location;
 
+	
+	
+	//TODO on create, text fields related to user that has been selected must be updated
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);

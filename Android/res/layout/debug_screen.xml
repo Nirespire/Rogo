@@ -8,39 +8,23 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".DebugActivity" >
 
-    <TextView
-        android:id="@+id/textView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="WELCOME TO DEBUG" />
-
     <Button
         android:id="@+id/server_debug_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/meeting_someone_debug_button"
         android:layout_below="@+id/textView1"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="51dp"
+        android:layout_marginTop="16dp"
         android:text="SERVER REQUEST" />
 
     <Button
-        android:id="@+id/registration_debug_button"
+        android:id="@+id/location_debug_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/server_debug_button"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="34dp"
-        android:text="REGISTRATION SCREEN" 
-        android:onClick="openRegistrationScreen"/>
-
-    <Button
-        android:id="@+id/login_debug_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:text="Login Screen" 
-        android:onClick="openLoginScreen"/>
+        android:layout_alignRight="@+id/login_debug_button"
+        android:layout_below="@+id/meeting_someone_debug_button"
+        android:onClick="getLocation"
+        android:text="Get Location" />
 
     <Button
         android:id="@+id/meeting_someone_debug_button"
@@ -48,27 +32,42 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/login_debug_button"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="40dp"
-        android:text="Meeting Someone" 
-        android:onClick="openMeetingSomeoneScreen"/>
+        android:onClick="openMeetingSomeoneScreen"
+        android:text="Meeting Someone" />
 
     <Button
-        android:id="@+id/location_debug_button"
+        android:id="@+id/login_debug_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/login_debug_button"
-        android:layout_below="@+id/meeting_someone_debug_button"
-        android:layout_marginTop="22dp"
-        android:text="Get Location" 
-        android:onClick="getLocation"/>
+        android:layout_below="@+id/registration_debug_button"
+        android:layout_centerHorizontal="true"
+        android:onClick="openLoginScreen"
+        android:text="Login Screen" />
+
+    <Button
+        android:id="@+id/registration_debug_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/server_debug_button"
+        android:layout_centerHorizontal="true"
+        android:onClick="openRegistrationScreen"
+        android:text="REGISTRATION SCREEN" />
+
     <Button
         android:id="@+id/cache_read"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/login_debug_button"
         android:layout_below="@+id/location_debug_button"
-        android:layout_marginTop="22dp"
-        android:text="Cache Test" 
-        android:onClick="onCacheRead"/>
+        android:layout_centerHorizontal="true"
+        android:onClick="onCacheRead"
+        android:text="Cache Test" />
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:text="WELCOME TO DEBUG" />
 
 </RelativeLayout>

@@ -8,7 +8,10 @@ class RequestHandler{
 		'test' => 'test.php',
 		'login' => 'login.php',
 		'register' => 'register.php',
-		'nearby' => 'nearby.php'
+		'nearby' => 'nearby.php',
+		'tips' => 'tips.php',
+		'meetsubmit' => 'meetsubmit.php',
+		'passwordch' => 'changepw.php'
 	);
 	private static $REQUEST_STATUS = array(
 		STATUS_SUCCESS => 'success',
@@ -135,7 +138,7 @@ class RequestHandler{
 }
 
 global $SQLCON;
-$Handler = new RequestHandler($SQLCON);
+$Handler = new RequestHandler($SQLCON,$_REQUEST);
 $Handler->setRequest($_GET['_request_data']);
 $Handler->executeRequest();
 ?>

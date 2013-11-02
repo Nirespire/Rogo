@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" >
  
     <PreferenceCategory android:title="@string/pref_user_profile" >
         <EditTextPreference
@@ -7,21 +8,28 @@
                 android:summary="@string/pref_user_name_summary"
                 android:key="prefUsername"/>
     </PreferenceCategory>
-     
-    <PreferenceCategory android:title="@string/pref_update_setting" >
+    
+    <PreferenceCategory
+        android:title="Availability and search radius"
+        android:key="available/radius">
+        
         <CheckBoxPreference
-            android:defaultValue="false"
-            android:key="prefSendReport"
-            android:summary="@string/pref_send_report_summary"
-            android:title="@string/pref_send_report" >
-        </CheckBoxPreference>
- 
+            android:key="availability"
+            android:summary="Set availability status"
+            android:title="Available for Meetup"
+            android:defaultValue="true"
+        />
         <ListPreference
-            android:key="prefRadius"
+            android:key="radius"
+            android:title="Radius"
+            android:summary="Define radius of meetup search"
+            android:defaultValue="2"
             android:entries="@array/radius"
-            android:summary="@string/pref_radius_summary"
             android:entryValues="@array/radiusValues"
-            android:title="@string/pref_radius" />
+            android:dependency="availability"
+        />
+        
     </PreferenceCategory>
- 
+     
+    
 </PreferenceScreen>

@@ -5,7 +5,11 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
 
 import android.app.Activity;
 import android.content.Context;
@@ -22,6 +26,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.rogoapp.auth.RegisterActivity;
 import com.rogoapp.auth.RogoAuthenticatorActivity;
 
 public class DebugActivity extends Activity {
@@ -30,6 +35,7 @@ public class DebugActivity extends Activity {
     Button registerButton;
     Button loginButton;
     Button meetingSomeoneButton;
+ 	Button buddyList;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -98,11 +104,28 @@ public class DebugActivity extends Activity {
 	            @Override
 	            public void onClick(View arg0) {
 	            	String loc = getLocation(arg0);
+	            	postLocation(loc);
 	            }
 
 	        });
 
 	 }
+
+	 public void addListenerOnBuddyListButton() {
+
+         	//registerButton = (Button) findViewById(R.id.buddy_list_button);
+
+         	registerButton.setOnClickListener(new OnClickListener() {
+
+         		@Override
+         		public void onClick(View arg0) {
+	                     //openBuddyListScreen(arg0);
+	                 }
+
+	         	});
+	     }
+	 
+
 	 
 	 public void openRegistrationScreen(View v){
 	        final Context context = this;
@@ -115,6 +138,14 @@ public class DebugActivity extends Activity {
 	        Intent intent = new Intent(context, RogoAuthenticatorActivity.class);
 	        startActivity(intent);
 	 }
+	 
+	 /*
+	 public void openBuddyListScreen(View v){
+	        final Context context = this;
+	        Intent intent = new Intent(context, BuddyListActivity.class);
+	        startActivity(intent);
+	}
+	    */
 	
 	 public void openMeetingSomeoneScreen(View v){
 	        final Context context = this;
@@ -149,7 +180,7 @@ public class DebugActivity extends Activity {
 					lng=(double)user.get(0).getLongitude();
 					Toast.makeText(this," DDD lat: " +lat+",  longitude: "+lng, Toast.LENGTH_LONG).show();
 					System.out.println(" DDD lat: " +lat+",  longitude: "+lng);
-					out = " DDD lat: " +lat+",  longitude: "+lng;
+					out = lat+ "," + lng;
 
 				}catch (Exception e) {
 					e.printStackTrace();
@@ -157,7 +188,17 @@ public class DebugActivity extends Activity {
 
 			}
 			return out;
-		}
+	 }
+	 
+	 public void postLocation(String location){
+		 String[] latLon = location.split(",");
+		 ServerClient sc = new ServerClient();
+		 List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
+		 
+		 nameValuePairs.add(new BasicNameValuePair("location_lat","0.000"));
+		 nameValuePairs.add(new BasicNameValuePair("location_lon","0.000"));
+		 
+	 };
 	 
 	 //TODO
 		public void onCacheRead(View v) throws IOException{

@@ -57,9 +57,12 @@ public class SendRequestActivity extends Activity {
 				
 				
 				ServerClient sc = new ServerClient();
-				JSONObject jObj = sc.genericPostRequest("", nameValuePairs);
+				
+				//TODO create server request for this post
+				JSONObject jObj = sc.genericPostRequest("meetup_request", nameValuePairs);
 				String uid = null;
 				String status = null;
+				
 				try{
 					//uid = sc.getLastResponse().getString("uid");
 					status = jObj.getString("status");

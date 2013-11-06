@@ -254,9 +254,9 @@ public class MainScreenActivity extends SherlockActivity {
 	}
 
 	public void storeTips() {
-		ServerClient server = new ServerClient();
-		JSONObject json = server.genericPostRequest("tips", Collections.<NameValuePair>emptyList());
-		parseJ(json, TIPS_FILE);
+		//ServerClient server = new ServerClient();
+		//JSONObject json = server.genericPostRequest("tips", Collections.<NameValuePair>emptyList());
+		//parseJ(json, TIPS_FILE);
 	}
 
 	public void reloadTipsArray(){

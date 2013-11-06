@@ -50,6 +50,7 @@ import org.apache.http.client.ClientProtocolException;
 import java.util.*;
 import org.json.JSONObject;
 import org.json.JSONException;
+import android.os.*;
 
 public class ServerClient{
 	private boolean status;
@@ -79,10 +80,14 @@ public class ServerClient{
 	    try {
 	        
 	        httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-	        this.requestAsync = new ServerClientAsync();
-	        this.requestAsync.execute(httppost);
 	        
-	        while(!this.requestAsync.isFinished()){} //This is horrible and will kill the UI thread. DON'T USE THIS
+	        this.requestAsync = new ServerClientAsync();
+	        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
+	            this.requestAsync.executeOnExecutor(ServerClientAsync.THREAD_POOL_EXECUTOR, httppost);
+	        else
+	            this.requestAsync.execute(httppost);
+	        
+	        //while(!this.requestAsync.isFinished()){} //This is horrible and will kill the UI thread. DON'T USE THIS
 			
 			JSONObject jObj = this.requestAsync.getResult();
 			
@@ -121,19 +126,5 @@ public class ServerClient{
 	public JSONObject getLastResponse(){
 		return lastResponse;
 	}
-	
-	
-	
-	
-	public JSONObject register(String username, String email, String saltedPassword){
-		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
-		nameValuePairs.add(new BasicNameValuePair("username", username));
-		nameValuePairs.add(new BasicNameValuePair("email", email));
-		nameValuePairs.add(new BasicNameValuePair("password", saltedPassword));
-		JSONObject jObj = genericPostRequest("register.json", nameValuePairs);
-		
-		return jObj;
-	}
-	
 	
 }

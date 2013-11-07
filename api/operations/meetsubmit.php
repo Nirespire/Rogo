@@ -17,7 +17,7 @@ class RequestObject{
 				if($class == 'PDO'){
 					$this->_sqlCon = $arg;
 				}
-				if($class == 'User'){
+				elseif($class == 'User'){
 					$this->_user = $arg;
 				}
 			}

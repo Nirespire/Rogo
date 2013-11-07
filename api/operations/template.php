@@ -61,8 +61,9 @@ class RequestObject{
 	
 	/** Sets the resultant status and data.
 	 ** This is a little nicer than manually setting the variables
-	 ** Status can be (currently) STATUS_SUCCESS, STATUS_ERROR, STATUS_FAILURE
-	 ** At the moment, I'm using failure for server issues like exceptions, and problems, and error for invalid input and the like **/
+	 ** Status can be (currently) STATUS_SUCCESS, STATUS_ERROR, STATUS_FAILURE, STATUS_NLI
+	 ** At the moment, I'm using failure for server issues like exceptions, and problems, and error for invalid input and the like 
+	 ** NLI is for "not logged in"; use in cases where the user must be logged in **/
 	private function setResult($status,$data){
 		$this->_STATUS = $status;
 		$this->_DATA = $data;

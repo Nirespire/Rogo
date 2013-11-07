@@ -4,6 +4,7 @@ class RequestObject{
 	private $_STATUS = 0;
 	
 	private $_sqlCon;
+	private $_user;
 	/** Constructor
 	 ** Currently takes optional PDO connection argument
 	 ** There really isn't much of a reason to modify this unless you really need something initialized before performRequest()
@@ -16,6 +17,9 @@ class RequestObject{
 				if($class == 'PDO'){		//Hey look! It's our SQL object
 					$this->_sqlCon = $arg; 	//We should save this. 
 				}
+				elseif($class == 'User'){	//If it's our User class
+					$this->_user = $arg;
+				}
 			}
 		} 
 		if(REQUEST_DATA_ARRAY == 0){ 		//Determine whether we want request data from $_REQUEST or $_POST
@@ -24,13 +28,32 @@ class RequestObject{
 		else{
 			$this->_req = $_POST;
 		}
+		
+		if($this->_user == null){
+			$this->_user = new User();
+		}
+		// Uncomment this initialize line if we need user information from session, otherwise, leave this commented out.
+		// That is, if we need to make sure the user is logged in and/or need to get UID/email/username/whatnot for the requesting user.
+		// $this->_user->initialize();
 	}
 	
 	/** This is where the request actually occurs an is processed.
 	 ** Once request.php determines the correct file corresponding to a request, it will call performRequest.
 	 ** Do your processing and whatnot in here, then use $this->setResult() to set the output data. **/
 	public function performRequest(){
+		
+	
 		$data = 'data';
+		
+		/*
+		//Here's a quick way to check if the user is logged in. Make sure to uncomment the initialize line in the constructor if we wish to use this 
+		if(!$this->_user->IsLoggedIn()){
+			$this->setResult(STATUS_NLI,'You must be logged in!');
+			return;
+		}
+		$uid = $this->_user->getUID();
+		*/
+		
 		
 		/*
 		// Here's a nice sample SQL query based on the tips request:

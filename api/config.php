@@ -26,9 +26,16 @@ define('OP_PATH','operations/');
 
 date_default_timezone_set('America/New_York');
 
-define('AUTH_HASH_COMPLEXITY',14);
-
 define('REQUEST_DATA_ARRAY',0); //Use 0 for $_REQUEST, 1 for $_POST
+
+
+/****************************************************************/
+/** Some authentication stuff                                  **/
+/****************************************************************/
+define('AUTH_HASH_COMPLEXITY',14);
+define('AUTH_SECRET_BYTES',16); 	//Length in bytes for the secret key
+define('AUTH_SESSION_BYTES',128);	//Length in bytes for the session identifier
+
 
 
 /****************************************************************/
@@ -68,4 +75,5 @@ define('REQUEST_FUNC_RET_STATUS','getStatus');
 define('STATUS_SUCCESS',1);
 define('STATUS_ERROR',2);
 define('STATUS_FAILURE',3);
+define('STATUS_NLI',4); //Not logged in
 ?>

@@ -5,6 +5,7 @@ class RequestObject{
 	private $_req;
 	
 	private $_sqlCon;
+	private $_user;
 	/** Constructor
 	 ** Currently takes optional PDO connection argument
 	 **/
@@ -16,6 +17,9 @@ class RequestObject{
 				if($class == 'PDO'){
 					$this->_sqlCon = $arg;
 				}
+				if($class == 'User'){
+					$this->_user = $arg;
+				}
 			}
 		} 
 		if(REQUEST_DATA_ARRAY == 0){
@@ -24,8 +28,18 @@ class RequestObject{
 		else{
 			$this->_req = $_POST;
 		}
+		
+		if($this->_user == null){
+			$this->_user = new User();
+		}
+		$this->_user->initialize(); //We are going to use the session, so initialize it.
 	}
 	public function performRequest(){
+		if(!$this->_user->IsLoggedIn()){
+			$this->setResult(STATUS_NLI,'You must be logged in!');
+			return;
+		}
+	
 		$required = array('location_lat','location_lon','question','answer','is_user','person_id','session');
 		$missing = array();
 		if(!$this->checkRequiredArgs($required,$missing)){
@@ -85,20 +99,11 @@ class RequestObject{
 	}
 	
 	private function getUID(){
-		try{
-			$idStatement = $this->_sqlCon->prepare('SELECT uid FROM sessions WHERE session=:session');
-			$idStatement->bindParam(':session',$this->_req['session'],PDO::PARAM_STR);
-			$idStatement->execute();
-			if($idStatement->rowCount() != 1){
-				return false;
-			}
-			$sesData = $idStatement->fetch(PDO::FETCH_ASSOC);
-			return $sesData['uid'];
-		}
-		catch(PDOException $e){
-			logError($_SERVER['SCRIPT_NAME'],__LINE__,'Error while checking if User ID exists',$e->getMessage(),time());
+		if(!$this->_user->IsLoggedIn()){
+			$this->setResult(STATUS_NLI,'You must be logged in!');
 			return false;
 		}
+		return $this->_user->getUID();
 	}
 	
 	private function validateAllOfTheInput(){

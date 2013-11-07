@@ -145,10 +145,10 @@ class RequestObject{
 		$this->setResult(STATUS_FAIL,'Something has gone horribly wrong! Panic!');
 	}
 	private function giveCredentials($uid,$username,$currentTime){
-		$bytes = openssl_random_pseudo_bytes(16);
+		$bytes = openssl_random_pseudo_bytes(AUTH_SECRET_BYTES);
 		$secret   = bin2hex($bytes);
 		
-		$bytes = openssl_random_pseudo_bytes(128);
+		$bytes = openssl_random_pseudo_bytes(AUTH_SESSION_BYTES);
 		$session = hash('sha256',$bytes);
 		
 		try{

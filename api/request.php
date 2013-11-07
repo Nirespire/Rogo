@@ -11,16 +11,19 @@ class RequestHandler{
 		'nearby' => 'nearby.php',
 		'tips' => 'tips.php',
 		'meetsubmit' => 'meetsubmit.php',
-		'passwordch' => 'changepw.php'
+		'passwordch' => 'changepw.php',
+		'availability' => 'availability.php'
 	);
 	private static $REQUEST_STATUS = array(
 		STATUS_SUCCESS => 'success',
 		STATUS_ERROR => 'error',
-		STATUS_FAILURE => 'failure'
+		STATUS_FAILURE => 'failure',
+		STATUS_NLI => 'not logged in'
 	);
 	
 	private $_request = null;
 	private $_sqlCon = null;
+	private $_user = null;
 	
 	/** Contructor
 	 ** Optional arguments: string Request, PDO SQL connection
@@ -38,6 +41,7 @@ class RequestHandler{
 				}
 			}
 		}
+		$this->_user = new User();
 	}
 	
 	/** Set the request **/
@@ -69,7 +73,7 @@ class RequestHandler{
 			}
 			
 			$requestClass = REQUEST_CLASS;
-			$requestHandler = new $requestClass($this->_sqlCon);
+			$requestHandler = new $requestClass($this->_sqlCon,$this->_user);
 			call_user_func(array($requestHandler,REQUEST_FUNC_EXEC));
 			
 			$outputData = call_user_func(array($requestHandler, REQUEST_FUNC_RET_DATA));
@@ -117,19 +121,28 @@ class RequestHandler{
 			$this->unexpectedError();
 		}
 		$pretty = $this->writeContentType();
+		$outputArray = array('status'=>RequestHandler::$REQUEST_STATUS[$status],'data'=>$data,'session'=>$this->IsSessionUpdated());
+		
         if($pretty){
             if(PHP_VERSION_ID < 50400){
                 require_once 'prettyjson.php';
-                echo prettyPrint(json_encode(array('status'=>RequestHandler::$REQUEST_STATUS[$status],'data'=>$data)));
+                echo prettyPrint(json_encode($outputArray));
             }
             else{
-                echo json_encode(array('status'=>RequestHandler::$REQUEST_STATUS[$status],'data'=>$data),JSON_PRETTY_PRINT);
+                echo json_encode($outputArray,JSON_PRETTY_PRINT);
             }
         }
         else{
-            echo json_encode(array('status'=>RequestHandler::$REQUEST_STATUS[$status],'data'=>$data));
+            echo json_encode($outputArray);
         }
 	}
+	private function IsSessionUpdated(){
+		if($this->_user->isLoggedIn()){
+			return ($this->_user->didSessionUpdate())?'changed':'unchanged';
+		}
+		return 'nli'; //Not logged in
+	}
+	
 	private function unexpectedError(){
 		header('HTTP/1.0 500 Internal Server Error');
 		$this->handleOutput(STATUS_ERROR,'An unexpected error has occurred!');
@@ -138,7 +151,7 @@ class RequestHandler{
 }
 
 global $SQLCON;
-$Handler = new RequestHandler($SQLCON,$_REQUEST);
+$Handler = new RequestHandler($SQLCON);
 $Handler->setRequest($_GET['_request_data']);
 $Handler->executeRequest();
 ?>

@@ -118,7 +118,7 @@ class RequestObject{
 			$this->setResult(STATUS_ERROR,'The value for available must be either "available" or "busy"!');
 			return false;
 		}
-		$available = ($this->_req['availability'] === '1')?'available':'busy';
+		$available = ($this->_req['availability'] === 'available')?'available':'busy';
 		
 		
 

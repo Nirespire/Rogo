@@ -83,14 +83,17 @@ class User{
 		$secret = $this->_userData['secret'];
 		$uid = $this->_userData['uid'];
 		
+		$now = date('Y-m-d H:i:s');
+		
 		$newSession = hash('sha256',$session . $secret);
 		
 		try{
-			$updateQuery = 'UPDATE sessions SET session=:newsession WHERE uid=:uid AND session=:oldsession'; //The oldsession thing is there because I think it's a good idea. I have no decent rational explanation for it, though.
+			$updateQuery = 'UPDATE sessions SET session=:newsession, last_use=:now WHERE uid=:uid AND session=:oldsession'; //The oldsession thing is there because I think it's a good idea. I have no decent rational explanation for it, though.
 			$updateStatement = $this->_sqlCon->prepare($updateQuery);
 			$updateStatement->bindParam(':newsession',$newSession,PDO::PARAM_STR);
 			$updateStatement->bindParam(':uid',$uid,PDO::PARAM_INT);
 			$updateStatement->bindParam(':oldsession',$session,PDO::PARAM_STR);
+			$updateStatement->bindParam(':now',$now,PDO::PARAM_STR);
 			$updateStatement->execute();
 			if($updateStatement->rowCount() == 1){
 				$this->_updatedSession = true;

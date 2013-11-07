@@ -60,21 +60,25 @@ class RequestObject{
 	
 		//Perform the insert
 		try{
-			$insertUpdateQuery = '	INSERT INTO availability VALUES (:uid, :status, :label, :lat, :lon) 
-									ON DUPLICATE KEY UPDATE status=:status, location_label=:label, location_lat=:lat, location_lon=:lon';
+			$insertUpdateQuery = '	INSERT INTO availability VALUES (:uid, :status, :label, :lat, :lon, :now) 
+									ON DUPLICATE KEY UPDATE status=:status, location_label=:label, location_lat=:lat, location_lon=:lon, update_time=:now';
 			$iUStatement = $this->_sqlCon->prepare($insertUpdateQuery); 		//Now we prepare the query. Just go with it, otherwise look it up. I don't feel like explaining it
 			$iUStatement->execute(array(
 				':uid'=>$this->_user->getUID(),
 				':status'=>$data['availability'],
 				':label'=>$data['location'],
 				':lat'=>$data['location_lat'],
-				':lon'=>$data['location_lon'])
-			);	
+				':lon'=>$data['location_lon'],
+				':now'=>date('Y-m-d H:i:s')
+			));	
 			if($iUStatement->rowCount() == 1){
-				$this->setResult(STATUS_SUCCESS,'Updated!');															
+				$this->setResult(STATUS_SUCCESS,'Inserted!');															
+			}
+			elseif($iUStatement->rowCount() == 2){
+				$this->setResult(STATUS_SUCCESS,'Updated!');
 			}
 			else{
-				logError($_SERVER['SCRIPT_NAME'],__LINE__,'Something went wrong while inserting/updating availability!','No exception!',time()); 
+				logError($_SERVER['SCRIPT_NAME'],__LINE__,'Something went wrong while inserting/updating availability!','No exception! ('.$iUStatement->rowCount().' rows altered)',time()); 
 				$this->setResult(STATUS_FAILURE,'Something went wrong while trying to update your availability and location!');	//Tell the user everything died
 			}
 		}

@@ -86,8 +86,9 @@ class RequestObject{
 				$accountDisabled = 0;
 				if($attemptCount >= DISABLED_ACCOUNT_TRIES){
 					$accountDisabled = 1;
+					$attemptCount = 0; //Reset attempt count now that the account has been locked 
 				}
-				$attemptCount = 0; //Reset attempt count now that the account has been locked 
+				
 				$updateSQL = "UPDATE users SET last_attempt=:currentTime, disabled=:accountDisabled,attempt_count=:attemptCount WHERE uid=:uid;";
 				try{
 					$updateStatement = $this->_sqlCon->prepare($updateSQL);

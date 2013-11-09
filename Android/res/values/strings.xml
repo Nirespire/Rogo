@@ -71,12 +71,15 @@
     <string name="pref_user_profile">User Profile</string>
     <string name="pref_update_setting">Update Settings</string>
     <string name="title_activity_main">MainActivity</string>
-    
+    <string name="personalized_tips">Save a tip!</string>
+    <string name="description">Rogo stock image.</string>
+    <string name="self_improvement">New Tip Reminder +5 points!</string>
+
     <!-- Account Preferences -->
     <string name="title_fmt">Rogo</string>
     <string name="key1_action">Stuff</string>
     <string name="key1_summary">And things</string>
-    
+
     <!-- Account Login XML -->
     <string name="auth_username">Email</string>
     <string name="auth_pass">Password</string>
@@ -85,5 +88,9 @@
     <string name="cancel_button">Cancel</string>
     <string name="remember_me">Remember me</string>
     <string name="register_quest">Don\'t have a Rogo account? </string>
+    <string name="SettingsText">Settings</string>
+    <string name="buddy_list">Buddy List </string>
+    <string name="add_friend">Add Buddy </string>
+    <string name="title_activity_send_request">SendRequestActivity</string>
 
 </resources>

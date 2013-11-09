@@ -22,7 +22,7 @@ public class NearYouActivity extends Activity {
         goToMapButton.setOnClickListener(new OnClickListener() {
         	
             public void onClick(View arg0) {
-               startActivity(new Intent(NearYouActivity.this, NearYouMapActivity.class));
+            	startActivity(new Intent(NearYouActivity.this, NearYouMapActivity.class));
            
             }
         });
@@ -35,12 +35,6 @@ public class NearYouActivity extends Activity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main_screen, menu);
         return true;
-    }
-	
-	public void openSettingsScreen(View v){
-        final Context context = this;
-        Intent intent = new Intent(context, SettingsActivity.class);
-        startActivity(intent);
     }
     
     public void openUserScreen(View v){

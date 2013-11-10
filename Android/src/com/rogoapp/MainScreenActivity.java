@@ -253,22 +253,25 @@ public class MainScreenActivity extends SherlockActivity {
 
 	}
 
-	public void storeTips() {
+	public boolean storeTips() {
 		ServerClient server = new ServerClient();
 		JSONObject json = server.genericPostRequest("tips", Collections.<NameValuePair>emptyList());
-		parseJ(json, TIPS_FILE);
+		if(json != null)
+			parseJ(json, TIPS_FILE);
+		return json != null;
 	}
 
 	public void reloadTipsArray(){
 		//needed some tips so the file wasn't empty
 		//if file is empty, it loads the Tips not available exception constantly
 		if(cache.isEmpty(TIPS_FILE)){
-			oneTimeTipBuffer();
+			if(!storeTips()){
+				oneTimeTipBuffer();
+			}
 		}
-		else{
-			String[] _tips = cache.loadFile(TIPS_FILE).split("\n");
-			Collections.addAll(tips, _tips);
-		}
+		
+		String[] _tips = cache.loadFile(TIPS_FILE).split("\n");
+		Collections.addAll(tips, _tips);
 		if(!cache.isEmpty(USER_TIPS)){
 			String[] _uTips = cache.loadFile(USER_TIPS).split("\n");
 			Collections.addAll(tips, _uTips);

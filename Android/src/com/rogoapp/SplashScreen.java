@@ -1,5 +1,7 @@
 package com.rogoapp;
 
+import com.rogoapp.auth.RogoAuthenticatorActivity;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,7 +20,7 @@ public class SplashScreen extends Activity {
 			
 			public void run() {
 				/* Start main activity after splash screen over */
-				Intent i = new Intent(SplashScreen.this,MainScreenActivity.class);
+				Intent i = new Intent(SplashScreen.this,RogoAuthenticatorActivity.class);
 				startActivity(i);
 				
 				// close the activity

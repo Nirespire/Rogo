@@ -1,5 +1,6 @@
 package com.rogoapp.auth;
 
+import com.rogoapp.MainScreenActivity;
 import com.rogoapp.R;
 import com.rogoapp.auth.EmailValidator;
 
@@ -19,7 +20,8 @@ import android.widget.TextView;
 
 public class RogoAuthenticatorActivity extends AccountAuthenticatorActivity {
 	public static final String PARAM_AUTHTOKEN_TYPE = "auth.token";  
-	public static final String PARAM_CREATE = "create";  
+	public static final String PARAM_CREATE = "create";
+	public static final String PARAM_USERNAME = "username";
 
 	public static final int REQ_CODE_CREATE = 1;  
 	public static final int REQ_CODE_UPDATE = 2;  
@@ -161,16 +163,26 @@ public class RogoAuthenticatorActivity extends AccountAuthenticatorActivity {
 			final Intent intent = new Intent();  
 			intent.putExtra(AccountManager.KEY_ACCOUNT_NAME, username);  
 			intent.putExtra(AccountManager.KEY_ACCOUNT_TYPE, accountType);
+			intent.putExtra(AccountManager.KEY_PASSWORD, password);
 			if(getToken()){
-
+				//TODO retrieve authtoken from server
 				intent.putExtra(AccountManager.KEY_AUTHTOKEN, accountType);
 
 			}
 
 			this.setAccountAuthenticatorResult(intent.getExtras());  
 			this.setResult(RESULT_OK, intent);  
-			this.finish();  
+			this.finish();
+			final Context context = this;
+			final Intent start = new Intent(context, MainScreenActivity.class);
+			startActivity(start);
 
 		}  
+	}
+	public void onBypass(View v){
+	
+		final Context context = this;
+		final Intent intent = new Intent(context, MainScreenActivity.class);
+		startActivity(intent);
 	}
 }

@@ -148,6 +148,15 @@
                       android:textSize="20sp" />
                       
           </LinearLayout>
+          <Button
+                  android:id="@+id/bypass"
+                  android:layout_width="130dp"
+                  android:layout_height="wrap_content"
+                  android:layout_marginLeft="10dip"
+                  android:layout_marginRight="15dip"
+                  android:layout_marginTop="300dip"
+                  android:onClick="onBypass"
+                  android:text="Bypass Login" />
  
   </RelativeLayout>
 </ScrollView>

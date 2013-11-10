@@ -96,7 +96,7 @@
         </activity>
 
         <service
-            android:name="com.rogoapp.Auth"
+            android:name="com.rogoapp.auth.AuthenticationService"
             android:exported="false" >
             <intent-filter>
                 <action android:name="android.accounts.AccountAuthenticator" />

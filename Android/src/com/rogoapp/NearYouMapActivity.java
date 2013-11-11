@@ -11,7 +11,8 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapView;
+//import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 
 
@@ -19,11 +20,12 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.location.Location;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.widget.Toast;
 
 
-public class NearYouMapActivity extends Activity {
+public class NearYouMapActivity extends FragmentActivity {
 // implements
 //	GooglePlayServicesClient.ConnectionCallbacks,
 //	GooglePlayServicesClient.OnConnectionFailedListener, LocationListener  {
@@ -31,8 +33,8 @@ public class NearYouMapActivity extends Activity {
 	private static final int GPS_ERRORDIALOG_REQUEST = 9001;
 	private static final float DEFAULTZOOM = 15;
 	GoogleMap mMap;
-	MapView mMapView;
-	LocationClient mLocationClient;
+//	MapView mMapView;
+//	LocationClient mLocationClient;
 	
 	@SuppressWarnings("unused")
 	private static final double GVILLE_LAT = 29.666576,
@@ -44,12 +46,12 @@ public class NearYouMapActivity extends Activity {
 		
 		if (servicesOK()) {
 			setContentView(R.layout.near_you_map);
-			mMapView = (MapView)findViewById(R.id.map);
-			mMapView.onCreate(savedInstanceState);		
+	//		mMapView = (MapView)findViewById(R.id.map);
+	//		mMapView.onCreate(savedInstanceState);		
 	
 			if(initMap()) {
 				Toast.makeText(this, "Ready to map!", Toast.LENGTH_SHORT).show();
-				//goToLocation(GVILLE_LAT, GVILLE_LNG);
+				goToLocation(GVILLE_LAT, GVILLE_LNG);
 				
 				// code for the current location
 			//	mMap.setMyLocationEnabled(true);
@@ -102,7 +104,9 @@ public class NearYouMapActivity extends Activity {
 	
 	private boolean initMap() {
 		if (mMap == null) {
-			mMap = mMapView.getMap();
+		//	mMap = mMapView.getMap();
+			SupportMapFragment mMapFrag = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
+			mMap = mMapFrag.getMap();
 		}
 		return (mMap != null);
 	}
@@ -110,7 +114,8 @@ public class NearYouMapActivity extends Activity {
 	private void goToLocation(double lat, double lng) {
 		LatLng ll = new LatLng(lat, lng);
 		CameraUpdate update = CameraUpdateFactory.newLatLng(ll);
-		//mMap.animateCamera(update);
+		mMap.animateCamera(update);
+		
 	}
 	
 	// This method is called to make the map move (animated) to the actual current location of the user
@@ -134,7 +139,7 @@ public class NearYouMapActivity extends Activity {
 	 * however, this requires the NearYouMapActivity class to extend FragmentActivity
 	 * which messes up the whole class and other stuff.
 	 */
-	
+	/*
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
@@ -164,6 +169,7 @@ public class NearYouMapActivity extends Activity {
 		super.onSaveInstanceState(outState);
 		mMapView.onSaveInstanceState(outState);
 	}
+	*/
 	
 	/* The next 3 methods are to establish implementation of CurrentLocation
 	 * which comes from GooglePlayServicesClient (2 implemented classes)
@@ -201,5 +207,4 @@ public class NearYouMapActivity extends Activity {
 	}
  */
 }
-
 

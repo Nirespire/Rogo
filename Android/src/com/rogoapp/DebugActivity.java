@@ -12,7 +12,9 @@ import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Address;
 import android.location.Criteria;
@@ -30,214 +32,226 @@ import com.rogoapp.auth.RegisterActivity;
 import com.rogoapp.auth.RogoAuthenticatorActivity;
 
 public class DebugActivity extends Activity {
-    
+
     Button serverButton;
     Button registerButton;
     Button loginButton;
     Button meetingSomeoneButton;
- 	Button buddyList;
+    Button buddyList;
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.debug_screen);
-	}
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.debug_screen);
+    }
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.main_screen, menu);
-		return true;
-	}
-	
-	 public void addListenerOnButton1() {
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.main_screen, menu);
+        return true;
+    }
 
-	        registerButton = (Button) findViewById(R.id.registration_debug_button);
+    public void addListenerOnButton1() {
 
-	        registerButton.setOnClickListener(new OnClickListener() {
+        registerButton = (Button) findViewById(R.id.registration_debug_button);
 
-	            @Override
-	            public void onClick(View arg0) {
-	            	openRegistrationScreen(arg0);
-	            }
+        registerButton.setOnClickListener(new OnClickListener() {
 
-	        });
+            @Override
+            public void onClick(View arg0) {
+                openRegistrationScreen(arg0);
+            }
 
-	 }
-	 
-	 public void addListenerOnButton2() {
+        });
 
-	        registerButton = (Button) findViewById(R.id.login_debug_button);
+    }
 
-	        registerButton.setOnClickListener(new OnClickListener() {
+    public void addListenerOnButton2() {
 
-	            @Override
-	            public void onClick(View arg0) {
-	            	openLoginScreen(arg0);
-	            }
+        registerButton = (Button) findViewById(R.id.login_debug_button);
 
-	        });
+        registerButton.setOnClickListener(new OnClickListener() {
 
-	 }
-	 
-	 public void addListenerOnButton3() {
+            @Override
+            public void onClick(View arg0) {
+                openLoginScreen(arg0);
+            }
 
-	        registerButton = (Button) findViewById(R.id.meeting_someone_debug_button);
+        });
 
-	        registerButton.setOnClickListener(new OnClickListener() {
+    }
 
-	            @Override
-	            public void onClick(View arg0) {
-	            	openMeetingSomeoneScreen(arg0);
-	            }
+    public void addListenerOnButton3() {
 
-	        });
+        registerButton = (Button) findViewById(R.id.meeting_someone_debug_button);
 
-	 }
-	 
-	 public void addListenerOnButton4() {
+        registerButton.setOnClickListener(new OnClickListener() {
 
-	        registerButton = (Button) findViewById(R.id.location_debug_button);
+            @Override
+            public void onClick(View arg0) {
+                openMeetingSomeoneScreen(arg0);
+            }
 
-	        registerButton.setOnClickListener(new OnClickListener() {
+        });
 
-	            @Override
-	            public void onClick(View arg0) {
-	            	String loc = getLocation(arg0);
-	            	postLocation(loc);
-	            }
+    }
 
-	        });
+    public void addListenerOnButton4() {
 
-	 }
+        registerButton = (Button) findViewById(R.id.location_debug_button);
 
-	 public void addListenerOnBuddyListButton() {
+        registerButton.setOnClickListener(new OnClickListener() {
 
-         	//registerButton = (Button) findViewById(R.id.buddy_list_button);
+            @Override
+            public void onClick(View arg0) {
+                String loc = getLocation(arg0);
+                postLocation(loc);
+            }
 
-         	registerButton.setOnClickListener(new OnClickListener() {
+        });
 
-         		@Override
-         		public void onClick(View arg0) {
-	                     //openBuddyListScreen(arg0);
-	                 }
+    }
 
-	         	});
-	     }
-	 
+    public void addListenerOnBuddyListButton() {
 
-	 
-	 public void openRegistrationScreen(View v){
-	        final Context context = this;
-	        Intent intent = new Intent(context, RegisterActivity.class);
-	        startActivity(intent);
-	 }
-	 
-	 public void openLoginScreen(View v){
-	        final Context context = this;
-	        Intent intent = new Intent(context, RogoAuthenticatorActivity.class);
-	        startActivity(intent);
-	 }
-	 
-	 /*
+        //registerButton = (Button) findViewById(R.id.buddy_list_button);
+
+        registerButton.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View arg0) {
+                //openBuddyListScreen(arg0);
+            }
+
+        });
+    }
+
+
+
+    public void openRegistrationScreen(View v){
+        final Context context = this;
+        Intent intent = new Intent(context, RegisterActivity.class);
+        startActivity(intent);
+    }
+
+    public void openLoginScreen(View v){
+        final Context context = this;
+        Intent intent = new Intent(context, RogoAuthenticatorActivity.class);
+        startActivity(intent);
+    }
+
+    /*
 	 public void openBuddyListScreen(View v){
 	        final Context context = this;
 	        Intent intent = new Intent(context, BuddyListActivity.class);
 	        startActivity(intent);
 	}
-	    */
-	
-	 public void openMeetingSomeoneScreen(View v){
-	        final Context context = this;
-	        Intent intent = new Intent(context, MeetingSomeoneActivity.class);
-	        startActivity(intent);
-	 }
-	 
-	 public String getLocation(View v){
+     */
 
-			final Context context = this;
-			String bestProvider;
-			List<Address> user = null;
-			double lat;
-			double lng;
-			Geocoder geocoder;
-			String out = "";
+    public void openMeetingSomeoneScreen(View v){
+        final Context context = this;
+        Intent intent = new Intent(context, MeetingSomeoneActivity.class);
+        startActivity(intent);
+    }
 
-			LocationManager loc = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+    public String getLocation(View v){
 
-			Criteria criteria = new Criteria();
-			bestProvider = loc.getBestProvider(criteria, false);
-			Location location = loc.getLastKnownLocation(bestProvider);
+        final Context context = this;
+        String bestProvider;
+        List<Address> user = null;
+        double lat;
+        double lng;
+        Geocoder geocoder;
+        String out = "";
 
-			if (location == null){
-				Toast.makeText(this,"Location Not found",Toast.LENGTH_LONG).show();
-				out = "Location Not found";
-			}else{
-				geocoder = new Geocoder(this);
-				try {
-					user = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
-					lat=(double)user.get(0).getLatitude();
-					lng=(double)user.get(0).getLongitude();
-					Toast.makeText(this," DDD lat: " +lat+",  longitude: "+lng, Toast.LENGTH_LONG).show();
-					System.out.println(" DDD lat: " +lat+",  longitude: "+lng);
-					out = lat+ "," + lng;
+        LocationManager loc = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
 
-				}catch (Exception e) {
-					e.printStackTrace();
-				}
+        Criteria criteria = new Criteria();
+        bestProvider = loc.getBestProvider(criteria, false);
+        Location location = loc.getLastKnownLocation(bestProvider);
 
-			}
-			return out;
-	 }
-	 
-	 public void postLocation(String location){
-		 String[] latLon = location.split(",");
-		 ServerClient sc = new ServerClient();
-		 List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
-		 
-		 nameValuePairs.add(new BasicNameValuePair("location_lat","0.000"));
-		 nameValuePairs.add(new BasicNameValuePair("location_lon","0.000"));
-		 
-	 };
-	 
-	 //TODO
-		public void onCacheRead(View v) throws IOException{
-			String FILENAME = "Test";
-			String txt = "Store this";
-			String newVal = "";
-			final Context context = this;
-			File cacheDir = context.getCacheDir();
-			File file = new File(cacheDir,FILENAME);
-			
-			Button name = (Button) this.findViewById(R.id.cache_read);
-			
-			try {
-				FileOutputStream fos = new FileOutputStream(file);
-				fos.write(txt.getBytes());
-				fos.close();
-			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
-			try {
-				FileInputStream fis = new FileInputStream(file);
-				int content;
-				while((content = fis.read()) != -1){
-					newVal += (char) content;
-				}
-				fis.close();
-				name.setText(newVal);
-				
-			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-	
-	
+        if (location == null){
+            Toast.makeText(this,"Location Not found",Toast.LENGTH_LONG).show();
+            out = "Location Not found";
+        }else{
+            geocoder = new Geocoder(this);
+            try {
+                user = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
+                lat=(double)user.get(0).getLatitude();
+                lng=(double)user.get(0).getLongitude();
+                Toast.makeText(this," DDD lat: " +lat+",  longitude: "+lng, Toast.LENGTH_LONG).show();
+                System.out.println(" DDD lat: " +lat+",  longitude: "+lng);
+                out = lat+ "," + lng;
+
+            }catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        }
+        return out;
+    }
+
+    public void postLocation(String location){
+        String[] latLon = location.split(",");
+        ServerClient sc = new ServerClient();
+        List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
+
+        nameValuePairs.add(new BasicNameValuePair("location_lat","0.000"));
+        nameValuePairs.add(new BasicNameValuePair("location_lon","0.000"));
+
+    };
+
+    //TODO
+    public void onCacheRead(View v) throws IOException{
+        String FILENAME = "Test";
+        String txt = "Store this";
+        String newVal = "";
+        final Context context = this;
+        File cacheDir = context.getCacheDir();
+        File file = new File(cacheDir,FILENAME);
+
+        Button name = (Button) this.findViewById(R.id.cache_read);
+
+        try {
+            FileOutputStream fos = new FileOutputStream(file);
+            fos.write(txt.getBytes());
+            fos.close();
+        } catch (FileNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+        try {
+            FileInputStream fis = new FileInputStream(file);
+            int content;
+            while((content = fis.read()) != -1){
+                newVal += (char) content;
+            }
+            fis.close();
+            name.setText(newVal);
+
+        } catch (FileNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
+    public void openRequestPopup(View v){
+        AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+        alertDialog.setTitle("Send Request");
+        alertDialog.setMessage("Send Request to User?");
+        alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                // here you can add functions
+            }
+        });
+        alertDialog.show();
+    }
+
+
 
 }

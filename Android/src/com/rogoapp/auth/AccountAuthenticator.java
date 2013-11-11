@@ -5,6 +5,7 @@
 
 package com.rogoapp.auth;
 
+import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -199,6 +200,27 @@ public class AccountAuthenticator extends AbstractAccountAuthenticator {
 				return null;
 
 			}
+        }
+        
+        public static String hashPassword(String pass){
+            MessageDigest md = null;
+            try{
+                md = MessageDigest.getInstance("SHA-512");
+            }
+            catch(Exception e){
+                e.printStackTrace();
+            }
+            
+            md.update(pass.getBytes());
+             
+            byte byteData[] = md.digest();
+            
+            StringBuffer sb = new StringBuffer();
+            for (int i = 0; i < byteData.length; i++) {
+             sb.append(Integer.toString((byteData[i] & 0xff) + 0x100, 16).substring(1));
+            }
+            
+            return sb.toString();
         }
         
 }

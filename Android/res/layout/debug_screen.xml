@@ -70,4 +70,13 @@
         android:layout_centerHorizontal="true"
         android:text="WELCOME TO DEBUG" />
 
+    <Button
+        android:id="@+id/meet_request_popup_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/cache_read"
+        android:layout_centerHorizontal="true"
+        android:text="Send Request" 
+        android:onClick="openRequestPopup"/>
+
 </RelativeLayout>

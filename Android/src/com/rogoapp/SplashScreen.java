@@ -55,6 +55,8 @@ public class SplashScreen extends Activity {
                 else{
                     i = new Intent(SplashScreen.this,RogoAuthenticatorActivity.class);
                 }
+                
+                i.putExtra(RogoAuthenticatorActivity.OPEN_MAIN, true);
                 startActivity(i);
 
                 // close the activity

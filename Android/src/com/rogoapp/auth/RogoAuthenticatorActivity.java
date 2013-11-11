@@ -31,6 +31,7 @@ public class RogoAuthenticatorActivity extends AccountAuthenticatorActivity {
 	public static final String PARAM_AUTHTOKEN_TYPE = "com.rogoapp";  
 	public static final String PARAM_CREATE = "create";
 	public static final String PARAM_USERNAME = "username";
+	public static final String OPEN_MAIN = "open main";
 
 	public static final int REQ_CODE_CREATE = 1;  
 	public static final int REQ_CODE_UPDATE = 2;  
@@ -43,7 +44,7 @@ public class RogoAuthenticatorActivity extends AccountAuthenticatorActivity {
 	public static final String PARAM_CONFIRMCREDENTIALS = "server confirmation"; 
 
 	public static boolean createToken;
-	
+	public boolean openMain;
 	
 	private EditText tvUsername;  
 	private EditText tvPassword;
@@ -62,13 +63,11 @@ public class RogoAuthenticatorActivity extends AccountAuthenticatorActivity {
 		
 		// recreates from saved state -- icicle is the same as savedInstanceState  
 		super.onCreate(icicle);  
-		
-		//TODO allow view to be created for sign in and authorization forms
-		
+				
 		//creates a view from the login.xml file
 		this.setContentView(R.layout.login);
 		
-		//set variables and aestetic changes
+		//set variables and aesthetic changes
 		tvUsername = (EditText) this.findViewById(R.id.auth_txt_username);  
 		tvPassword = (EditText) this.findViewById(R.id.auth_txt_pswd);
 
@@ -80,6 +79,9 @@ public class RogoAuthenticatorActivity extends AccountAuthenticatorActivity {
 		password = tvPassword.getText().toString();  
 		Button button = (Button) this.findViewById(R.id.link_to_register);
 		button.setBackgroundColor(Color.WHITE);
+		
+		
+		openMain = getIntent().getBooleanExtra(OPEN_MAIN, false);
 	}
 
 	
@@ -146,7 +148,7 @@ public class RogoAuthenticatorActivity extends AccountAuthenticatorActivity {
 	}
 	
 	public void onBypass(View v){
-		//TODO Delete this after implenting stored auth tokens
+		//TODO Delete this after implementing stored auth tokens
 		this.finish();
 		final Intent intent = new Intent(context, MainScreenActivity.class);
 		startActivity(intent);
@@ -186,7 +188,7 @@ public class RogoAuthenticatorActivity extends AccountAuthenticatorActivity {
 				}
 			} catch (JSONException e) {
 				e.printStackTrace();
-				System.out.println("Json did not return success");
+				System.out.println("Json did not return 'success'");
 				return;
 			}
 			
@@ -223,11 +225,13 @@ public class RogoAuthenticatorActivity extends AccountAuthenticatorActivity {
 			this.setAccountAuthenticatorResult(intent.getExtras());  
 			this.setResult(RESULT_OK, intent);  
 			
-			//after setting the account, close the login activity and open the MainScreenActivity
-			this.finish();
-			final Intent start = new Intent(context, MainScreenActivity.class);
-	        start.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-			startActivity(start);
+			if(openMain){
+				//after setting the account, close the login activity and open the MainScreenActivity
+				this.finish();
+				final Intent start = new Intent(context, MainScreenActivity.class);
+				start.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+				startActivity(start);
+			}
 
 		}
 	}

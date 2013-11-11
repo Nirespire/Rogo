@@ -2,6 +2,7 @@ package com.rogoapp;
 
 import com.rogoapp.auth.RogoAuthenticatorActivity;
 
+import android.accounts.AccountManager;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -20,7 +21,17 @@ public class SplashScreen extends Activity {
 			
 			public void run() {
 				/* Start main activity after splash screen over */
-				Intent i = new Intent(SplashScreen.this,RogoAuthenticatorActivity.class);
+				//AccountManager am = AccountManager.get(getBaseContext());
+				//android.accounts.Account[] accounts = am.getAccountsByType(RogoAuthenticatorActivity.PARAM_AUTHTOKEN_TYPE);
+	            //String authToken = am.peekAuthToken(accounts[0], RogoAuthenticatorActivity.PARAM_AUTHTOKEN_TYPE);
+
+	            Intent i;
+	            //if(authToken == null){
+	           // 	i = new Intent(SplashScreen.this, MainScreenActivity.class);
+	           // }
+	           // else{
+	            	i = new Intent(SplashScreen.this,RogoAuthenticatorActivity.class);
+	           // }
 				startActivity(i);
 				
 				// close the activity

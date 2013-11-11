@@ -46,7 +46,7 @@
         <item>250 ft</item>
         <item>500 ft</item>
         <item>1000 ft</item>
-        <item>1/2 mile</item>
+        <item>(&#189;) mile</item>
         <item>1 mile</item>
         <item>2 miles</item>
         <item>5 miles</item>
@@ -59,6 +59,8 @@
     <string name="desc">Rogo Logo</string>
     <string name="title_activity_near_you_map">NearYourMapActivity</string>
     <string name="title_activity_debug">DebugActivity</string>
+    <string name="title_activity_auth">Login</string>
+    <string name="title_register_activity">Register</string>
     <string name="menu_settings">Settings</string>
     <string name="pref_send_report">Send crash reports</string>
     <string name="pref_send_report_summary">Helps to fix bugs</string>
@@ -71,6 +73,7 @@
     <string name="title_activity_main">MainActivity</string>
     <string name="personalized_tips">Save a tip!</string>
     <string name="description">Rogo stock image.</string>
+    <string name="burnt_toast">You forgot the toast!</string>
     <string name="self_improvement">New Tip Reminder +5 points!</string>
 
     <!-- Account Preferences -->

@@ -51,6 +51,7 @@
             </intent-filter>
         </activity>
         <activity
+			android:launchMode="singleTop"
             android:name="com.rogoapp.MainScreenActivity"
             android:label="@string/app_name" >
         </activity>
@@ -83,16 +84,14 @@
             android:label="@string/title_activity_debug" >
         </activity>
         <activity
+            android:launchMode="singleTop"
             android:name="com.rogoapp.auth.RegisterActivity"
-            android:label="@string/app_name" >
+            android:label="@string/title_register_activity" >
         </activity>
         <activity
-            android:name="com.rogoapp.LoginActivity"
-            android:label="@string/app_name" >
-        </activity>
-        <activity
+            android:launchMode="singleTop"
             android:name="com.rogoapp.auth.RogoAuthenticatorActivity"
-            android:label="@string/app_name" >
+            android:label="@string/title_activity_auth" >
         </activity>
 
         <service

@@ -5,6 +5,14 @@
 
 package com.rogoapp.auth;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONException;
+
+import com.rogoapp.R;
 import com.rogoapp.ServerClient;
 
 import android.accounts.AbstractAccountAuthenticator;
@@ -50,15 +58,34 @@ public class AccountAuthenticator extends AbstractAccountAuthenticator {
         @Override
         public Bundle confirmCredentials(AccountAuthenticatorResponse response,
                         Account account, Bundle options) throws NetworkErrorException {
-                // TODO Auto-generated method stub
-                return null;
+            
+        	//checks for empty bundles and bundles without cached passwords
+        	if (options != null && options.containsKey(AccountManager.KEY_PASSWORD)) {
+        		
+        		//retrieves and authenticates user data with the server
+        		final String password = options.getString(AccountManager.KEY_PASSWORD);
+                final boolean verified = sValidate(account.name, password);
+                
+                final Bundle result = new Bundle();
+                result.putBoolean(AccountManager.KEY_BOOLEAN_RESULT, verified);
+                return result;
+            }
+            // Launch AuthenticatorActivity to confirm credentials
+            final Intent intent = new Intent(mContext, RogoAuthenticatorActivity.class);
+            intent.putExtra(RogoAuthenticatorActivity.PARAM_USERNAME, account.name);
+            intent.putExtra(RogoAuthenticatorActivity.PARAM_CONFIRMCREDENTIALS, true);
+            intent.putExtra(AccountManager.KEY_ACCOUNT_AUTHENTICATOR_RESPONSE, response);
+            
+            final Bundle bundle = new Bundle();
+            bundle.putParcelable(AccountManager.KEY_INTENT, intent);
+            return bundle;
         }
 
         @Override
         public Bundle editProperties(AccountAuthenticatorResponse response,
                         String accountType) {
-                // TODO Auto-generated method stub
-                return null;
+        	
+            throw new UnsupportedOperationException();
         }
 
         @Override
@@ -83,7 +110,7 @@ public class AccountAuthenticator extends AbstractAccountAuthenticator {
             if (TextUtils.isEmpty(authToken)) {
                 final String password = am.getPassword(account);
                 if (password != null) {
-                    //TODO authToken = server.userSignIn(account.name, password, authTokenType);
+                    authToken = authRetrieve(account.name, password, authTokenType);
                 }
             }
          
@@ -103,7 +130,8 @@ public class AccountAuthenticator extends AbstractAccountAuthenticator {
             intent.putExtra(AccountManager.KEY_ACCOUNT_AUTHENTICATOR_RESPONSE, response);
             //intent.putExtra(RogoAuthenticatorActivity.ARG_ACCOUNT_TYPE, account.type);
             intent.putExtra(RogoAuthenticatorActivity.PARAM_AUTHTOKEN_TYPE, authTokenType);
-            intent.putExtra(RogoAuthenticatorActivity.PARAM_USERNAME, account.name); //TODO
+            intent.putExtra(RogoAuthenticatorActivity.PARAM_USERNAME, account.name); 
+            
             final Bundle bundle = new Bundle();
             bundle.putParcelable(AccountManager.KEY_INTENT, intent);
             return bundle;
@@ -111,24 +139,66 @@ public class AccountAuthenticator extends AbstractAccountAuthenticator {
 
         @Override
         public String getAuthTokenLabel(String authTokenType) {
-                // TODO Auto-generated method stub
-                return null;
+        	
+        	if (authTokenType.equals(RogoAuthenticatorActivity.PARAM_AUTHTOKEN_TYPE)) {
+                return mContext.getString(R.string.app_name);
+            }
+            return null;
         }
 
         @Override
         public Bundle hasFeatures(AccountAuthenticatorResponse response,
                         Account account, String[] features) throws NetworkErrorException {
-                // TODO Auto-generated method stub
-                return null;
+        	final Bundle result = new Bundle();
+            result.putBoolean(AccountManager.KEY_BOOLEAN_RESULT, false);
+            return result;
         }
 
         @Override
         public Bundle updateCredentials(AccountAuthenticatorResponse response,
                         Account account, String authTokenType, Bundle options)
                         throws NetworkErrorException {
-                // TODO Auto-generated method stub
-                return null;
+                
+        		final Intent intent = new Intent(mContext, RogoAuthenticatorActivity.class);
+                intent.putExtra(RogoAuthenticatorActivity.PARAM_USERNAME, account.name);
+                intent.putExtra(RogoAuthenticatorActivity.PARAM_AUTHTOKEN_TYPE,
+                    authTokenType);
+                intent.putExtra(RogoAuthenticatorActivity.PARAM_CONFIRMCREDENTIALS, false);
+                final Bundle bundle = new Bundle();
+                bundle.putParcelable(AccountManager.KEY_INTENT, intent);
+                
+                return bundle;
         }
+        
+        public Boolean sValidate(String name, String password){
+        	
+        	List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
+        	nameValuePairs.add(new BasicNameValuePair("email", name));
+        	nameValuePairs.add(new BasicNameValuePair("password", password));
+			
+    		try {
+				return server.genericPostRequest("login", nameValuePairs).getString("status") == "success";
+			} catch (JSONException e) {
+				e.printStackTrace();
+				return false;
 
+			}
+    		
+        }
+ 
+        public String authRetrieve(String name, String password, String authToken){
+        	
+        	List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
+        	nameValuePairs.add(new BasicNameValuePair("email", name));
+        	nameValuePairs.add(new BasicNameValuePair("password", password));
+			
+    		try {
+				return server.genericPostRequest("login", nameValuePairs).getString("session");
+			} catch (JSONException e) {
+				e.printStackTrace();
+				return null;
+
+			}
+        }
         
 }

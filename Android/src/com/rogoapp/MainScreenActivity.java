@@ -51,8 +51,6 @@ public class MainScreenActivity extends SherlockActivity {
 
 	CacheClient cache = new CacheClient(this);
 
-	//Counting my Toast
-	//private int toastCount;	//Deprecated
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -67,9 +65,6 @@ public class MainScreenActivity extends SherlockActivity {
 		//Adding some functionality to tips button
 		textListener(this.findViewById(R.id.tips_edit_box));
 		storeTips();
-
-		//TODO no toast D:
-		//toastCount = 0;
 	}
 
 
@@ -87,7 +82,7 @@ public class MainScreenActivity extends SherlockActivity {
 	}
 
 	//adds toast
-	public void toaster(){
+	public void toaster(String bread){
 		LayoutInflater inflater = getLayoutInflater();
 
 		View layout = inflater.inflate(R.layout.custom_toast, (ViewGroup) findViewById(R.id.custom_toast_layout_id));
@@ -96,7 +91,35 @@ public class MainScreenActivity extends SherlockActivity {
 		image.setImageResource(R.drawable.ic_launcher);
 
 		TextView text = (TextView) layout.findViewById(R.id.text);
-		text.setText(R.string.self_improvement);
+		if(!(bread==null || bread=="")){
+			text.setText(bread);
+		}
+		else{
+			text.setText(R.string.burnt_toast);
+		}
+
+		Toast toast = new Toast(getApplicationContext());
+		toast.setGravity(Gravity.BOTTOM, 0, 0);
+		toast.setDuration(Toast.LENGTH_SHORT);
+		toast.setView(layout);
+		toast.show();
+	}
+	public void toaster(int bread){
+		LayoutInflater inflater = getLayoutInflater();
+
+		View layout = inflater.inflate(R.layout.custom_toast, (ViewGroup) findViewById(R.id.custom_toast_layout_id));
+
+		ImageView image = (ImageView) layout.findViewById(R.id.image);
+		image.setImageResource(R.drawable.ic_launcher);
+
+		TextView text = (TextView) layout.findViewById(R.id.text);
+		
+		if(!(bread == 0)){
+			text.setText(bread);
+		}
+		else{
+			text.setText(R.string.burnt_toast);
+		}
 
 		Toast toast = new Toast(getApplicationContext());
 		toast.setGravity(Gravity.BOTTOM, 0, 0);
@@ -196,7 +219,7 @@ public class MainScreenActivity extends SherlockActivity {
 			}
 			tipsText.setText("");
 			if(cache.lines(USER_TIPS) <=5){
-				toaster();
+				toaster(R.string.self_improvement);
 				//this.toastCount++;
 			}
 		}        

@@ -1,5 +1,7 @@
 package com.rogoapp;
 
+import java.lang.reflect.InvocationTargetException;
+
 import com.rogoapp.auth.AccountAuthenticator;
 import com.rogoapp.auth.RogoAuthenticatorActivity;
 
@@ -14,46 +16,51 @@ import android.os.Handler;	// Wait for specified time before going to main scree
 
 public class SplashScreen extends Activity {
 
-	static int SPLASH_TIME_OUT = 1500;	// Splash screen timer
-	
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_splash);
-		
-		new Handler().postDelayed(new Runnable() {
-			/* Showing splash screen with timer */
-			
-			public void run() {
-				/* Start main activity after splash screen over */
-				AccountManager am = AccountManager.get(getBaseContext());
-				android.accounts.Account[] accounts = am.getAccountsByType(RogoAuthenticatorActivity.PARAM_AUTHTOKEN_TYPE);
-	            
-//				AccountAuthenticatorResponse response = new AccountAuthenticatorResponse(null);
-//				AccountAuthenticator auth = new AccountAuthenticator(MyApplication.getAppContext());
-//				
-//				Bundle token = null;
-//				try {
-//					token = auth.getAuthToken(response, accounts[0], RogoAuthenticatorActivity.PARAM_AUTHTOKEN_TYPE, null);
-//				} catch (NetworkErrorException e) {
-//					token = null;
-//					e.printStackTrace();
-//				}
-				
-				String token = am.peekAuthToken(accounts[0], RogoAuthenticatorActivity.PARAM_AUTHTOKEN_TYPE);
+    static int SPLASH_TIME_OUT = 1500;	// Splash screen timer
 
-	            Intent i;
-	            if(token != null){
-	            	i = new Intent(SplashScreen.this, MainScreenActivity.class);
-	            }
-	            else{
-	            	i = new Intent(SplashScreen.this,RogoAuthenticatorActivity.class);
-	            }
-				startActivity(i);
-				
-				// close the activity
-				finish();
-			}
-		}, SPLASH_TIME_OUT);
-	}
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_splash);
+
+        new Handler().postDelayed(new Runnable() {
+            /* Showing splash screen with timer */
+
+            public void run() {
+                /* Start main activity after splash screen over */
+                AccountManager am = AccountManager.get(getBaseContext());
+                android.accounts.Account[] accounts = am.getAccountsByType(RogoAuthenticatorActivity.PARAM_AUTHTOKEN_TYPE);
+
+                //				AccountAuthenticatorResponse response = new AccountAuthenticatorResponse(null);
+                //				AccountAuthenticator auth = new AccountAuthenticator(MyApplication.getAppContext());
+                //				
+                //				Bundle token = null;
+                //				try {
+                //					token = auth.getAuthToken(response, accounts[0], RogoAuthenticatorActivity.PARAM_AUTHTOKEN_TYPE, null);
+                //				} catch (NetworkErrorException e) {
+                //					token = null;
+                //					e.printStackTrace();
+                //				}
+                String token = "";
+                try{
+                    if(accounts != null)
+                        token = am.peekAuthToken(accounts[0], RogoAuthenticatorActivity.PARAM_AUTHTOKEN_TYPE);
+                }catch(Exception e){
+                    e.printStackTrace();
+                }
+
+                Intent i;
+                if(token != null){
+                    i = new Intent(SplashScreen.this, MainScreenActivity.class);
+                }
+                else{
+                    i = new Intent(SplashScreen.this,RogoAuthenticatorActivity.class);
+                }
+                startActivity(i);
+
+                // close the activity
+                finish();
+            }
+        }, SPLASH_TIME_OUT);
+    }
 
 }

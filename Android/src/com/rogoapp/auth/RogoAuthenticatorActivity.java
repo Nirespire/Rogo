@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import com.rogoapp.MainScreenActivity;
 import com.rogoapp.R;
@@ -177,7 +179,16 @@ public class RogoAuthenticatorActivity extends AccountAuthenticatorActivity {
         	nameValuePairs.add(new BasicNameValuePair("email", username));
         	nameValuePairs.add(new BasicNameValuePair("password", password));
         	
-        	server.genericPostRequest("login", nameValuePairs);
+        	JSONObject json = server.genericPostRequest("login", nameValuePairs);
+        	try {
+				if(!json.getString("status").equals("success")){
+					return;
+				}
+			} catch (JSONException e) {
+				e.printStackTrace();
+				System.out.println("Json did not return success");
+				return;
+			}
 			
 			// finished  
 			
@@ -212,9 +223,10 @@ public class RogoAuthenticatorActivity extends AccountAuthenticatorActivity {
 			this.setAccountAuthenticatorResult(intent.getExtras());  
 			this.setResult(RESULT_OK, intent);  
 			
-			//after setting the account, open the MainScreenActivity
+			//after setting the account, close the login activity and open the MainScreenActivity
+			this.finish();
 			final Intent start = new Intent(context, MainScreenActivity.class);
-	        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+	        start.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			startActivity(start);
 
 		}

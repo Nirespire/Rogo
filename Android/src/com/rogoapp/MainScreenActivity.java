@@ -214,10 +214,10 @@ public class MainScreenActivity extends SherlockActivity {
 			tips.add(what);
 			button.setText(R.string.tips);
 			if(cache.isEmpty(USER_TIPS)){
-				cache.addFile(USER_TIPS,what);
+				cache.addToFile(USER_TIPS,what);
 			}
 			else{
-				cache.addFile(USER_TIPS,"\n"+what);
+				cache.addToFile(USER_TIPS,"\n"+what);
 			}
 			tipsText.setText("");
 			if(cache.lines(USER_TIPS) <=5){
@@ -266,10 +266,10 @@ public class MainScreenActivity extends SherlockActivity {
 				// int objectInt = oneObject.getInt("tip_id");
 				String objectString = oneObject.getString("tip");
 				if(cache.isEmpty(filename)){
-					cache.addFile(filename, objectString);
+					cache.addToFile(filename, objectString);
 				}
 				else{
-					cache.addFile(filename, ("\n"+objectString));
+					cache.addToFile(filename, ("\n"+objectString));
 				}
 			} catch (JSONException e) {
 				// Oops

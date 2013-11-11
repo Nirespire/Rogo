@@ -1,7 +1,5 @@
 package com.rogoapp;
 
-import java.lang.reflect.InvocationTargetException;
-
 import com.rogoapp.auth.AccountAuthenticator;
 import com.rogoapp.auth.RogoAuthenticatorActivity;
 

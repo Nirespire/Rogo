@@ -5,8 +5,6 @@ import java.util.List;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import com.rogoapp.MainScreenActivity;
 import com.rogoapp.R;
@@ -28,7 +26,7 @@ import android.widget.TextView;
 
 public class RogoAuthenticatorActivity extends AccountAuthenticatorActivity {
 	
-	public static final String PARAM_AUTHTOKEN_TYPE = "auth.token";  
+	public static final String PARAM_AUTHTOKEN_TYPE = "com.rogoapp";  
 	public static final String PARAM_CREATE = "create";
 	public static final String PARAM_USERNAME = "username";
 
@@ -173,8 +171,6 @@ public class RogoAuthenticatorActivity extends AccountAuthenticatorActivity {
 
 			// Now that we have done some simple "client side" validation it  
 			// is time to check with the server  
-			
-			//TODO ... perform some network activity here  
 			
 			ServerClient server = new ServerClient();
 			List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);

@@ -1,9 +1,13 @@
 package com.rogoapp;
 
+import com.rogoapp.auth.AccountAuthenticator;
 import com.rogoapp.auth.RogoAuthenticatorActivity;
 
+import android.accounts.AccountAuthenticatorResponse;
 import android.accounts.AccountManager;
+import android.accounts.NetworkErrorException;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;	// Wait for specified time before going to main screen
@@ -21,17 +25,29 @@ public class SplashScreen extends Activity {
 			
 			public void run() {
 				/* Start main activity after splash screen over */
-				//AccountManager am = AccountManager.get(getBaseContext());
-				//android.accounts.Account[] accounts = am.getAccountsByType(RogoAuthenticatorActivity.PARAM_AUTHTOKEN_TYPE);
-	            //String authToken = am.peekAuthToken(accounts[0], RogoAuthenticatorActivity.PARAM_AUTHTOKEN_TYPE);
+				AccountManager am = AccountManager.get(getBaseContext());
+				android.accounts.Account[] accounts = am.getAccountsByType(RogoAuthenticatorActivity.PARAM_AUTHTOKEN_TYPE);
+	            
+//				AccountAuthenticatorResponse response = new AccountAuthenticatorResponse(null);
+//				AccountAuthenticator auth = new AccountAuthenticator(MyApplication.getAppContext());
+//				
+//				Bundle token = null;
+//				try {
+//					token = auth.getAuthToken(response, accounts[0], RogoAuthenticatorActivity.PARAM_AUTHTOKEN_TYPE, null);
+//				} catch (NetworkErrorException e) {
+//					token = null;
+//					e.printStackTrace();
+//				}
+				
+				String token = am.peekAuthToken(accounts[0], RogoAuthenticatorActivity.PARAM_AUTHTOKEN_TYPE);
 
 	            Intent i;
-	            //if(authToken == null){
-	           // 	i = new Intent(SplashScreen.this, MainScreenActivity.class);
-	           // }
-	           // else{
+	            if(token != null){
+	            	i = new Intent(SplashScreen.this, MainScreenActivity.class);
+	            }
+	            else{
 	            	i = new Intent(SplashScreen.this,RogoAuthenticatorActivity.class);
-	           // }
+	            }
 				startActivity(i);
 				
 				// close the activity

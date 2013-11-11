@@ -33,7 +33,7 @@ public class User {
 	private ArrayList<String> interests;
 	private int score;
 	private int level;
-	private ArrayList<Friend> friends; //Friend class yet to be created.
+	private ArrayList<Friend> recentlyMet; //Friend class yet to be created.
 	
 	//--------------------------------------------------------------------------------------
 	//INITIALIZATION: Initilization of User object
@@ -149,8 +149,12 @@ public class User {
 		level += increment;
 	}
 	
-	public ArrayList<Friend> getFriends(){
-		return friends;
+	public ArrayList<Friend> getRecentlyMet(){
+		return recentlyMet;
+	}
+	
+	public void addRecentlyMet(Friend person) {
+		recentlyMet.add(person);
 	}
 	
 	// We might want to add a comparison function - Dax

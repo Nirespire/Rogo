@@ -16,4 +16,12 @@ public class Friend {
 		this.firstName = firstName;
 	}
 
+	private String firstName;
+	private String lastName;
+	
+	public Friend(User person) { //Construct friend object from User object
+		firstName = person.getFirstName();
+		lastName = person.getLastName();
+	}
+	
 }

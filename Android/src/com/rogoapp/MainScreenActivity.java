@@ -12,6 +12,7 @@ import org.json.JSONObject;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 //import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -60,7 +61,8 @@ public class MainScreenActivity extends SherlockActivity {
 		setContentView(R.layout.main_screen);
 
 		//Taylor ***
-		System.out.println(PreferenceManager.getDefaultSharedPreferences(this).getString("prefRadius", "NULL"));
+		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+		System.out.println(sharedPrefs.getString("radius", "RADIUS NOT FOUND"));
 
 		//Adding some functionality to tips button
 		textListener(this.findViewById(R.id.tips_edit_box));

@@ -9,15 +9,6 @@
     tools:context=".DebugActivity" >
 
     <Button
-        android:id="@+id/server_debug_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignRight="@+id/meeting_someone_debug_button"
-        android:layout_below="@+id/textView1"
-        android:layout_marginTop="16dp"
-        android:text="SERVER REQUEST" />
-
-    <Button
         android:id="@+id/location_debug_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -25,15 +16,6 @@
         android:layout_below="@+id/meeting_someone_debug_button"
         android:onClick="getLocation"
         android:text="Get Location" />
-
-    <Button
-        android:id="@+id/meeting_someone_debug_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/login_debug_button"
-        android:layout_centerHorizontal="true"
-        android:onClick="openMeetingSomeoneScreen"
-        android:text="Meeting Someone" />
 
     <Button
         android:id="@+id/login_debug_button"
@@ -78,5 +60,34 @@
         android:layout_centerHorizontal="true"
         android:text="Send Request" 
         android:onClick="openRequestPopup"/>
+
+    <Button
+        android:id="@+id/meeting_someone_debug_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/login_debug_button"
+        android:onClick="openMeetingSomeoneScreen"
+        android:text="Meet Screen" />
+
+    <Button
+        android:id="@+id/send_request_debug_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/location_debug_button"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/meeting_someone_debug_button"
+        android:layout_toRightOf="@+id/meeting_someone_debug_button"
+        android:onClick="openSendRequestScreen"
+        android:text="Send Request" />
+
+    <Button
+        android:id="@+id/server_debug_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView1"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="22dp"
+        android:text="SERVER REQUEST" />
 
 </RelativeLayout>

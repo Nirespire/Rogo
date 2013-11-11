@@ -21,7 +21,7 @@
         android1:layout_alignLeft="@+id/radioGroup1"
         android1:layout_alignParentTop="true"
         android1:layout_marginTop="19dp"
-        android1:text="User 4"
+        android1:text="User"
         android1:textAppearance="?android:attr/textAppearanceLarge"
         android1:textColor="@color/black" />
 

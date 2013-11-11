@@ -49,7 +49,7 @@ public class SplashScreen extends Activity {
                 }
 
                 Intent i;
-                if(token != null){
+                if(token != null && token != ""){
                     i = new Intent(SplashScreen.this, MainScreenActivity.class);
                 }
                 else{

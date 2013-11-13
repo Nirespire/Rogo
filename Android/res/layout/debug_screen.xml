@@ -35,15 +35,6 @@
         android:onClick="openRegistrationScreen"
         android:text="REGISTRATION SCREEN" />
 
-    <Button
-        android:id="@+id/cache_read"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/location_debug_button"
-        android:layout_centerHorizontal="true"
-        android:onClick="onCacheRead"
-        android:text="Cache Test" />
-
     <TextView
         android:id="@+id/textView1"
         android:layout_width="wrap_content"
@@ -51,15 +42,6 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:text="WELCOME TO DEBUG" />
-
-    <Button
-        android:id="@+id/meet_request_popup_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/cache_read"
-        android:layout_centerHorizontal="true"
-        android:text="Send Request" 
-        android:onClick="openRequestPopup"/>
 
     <Button
         android:id="@+id/meeting_someone_debug_button"

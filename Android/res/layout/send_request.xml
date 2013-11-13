@@ -12,7 +12,8 @@
         android1:layout_alignParentBottom="true"
         android1:layout_centerHorizontal="true"
         android1:layout_marginBottom="74dp"
-        android1:text="Send Request!" />
+        android1:text="Send Request!" 
+        android1:onClick="openRequestPopup"/>
 
     <EditText
         android1:id="@+id/entered_request_trait"

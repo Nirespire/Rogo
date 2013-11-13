@@ -212,56 +212,6 @@ public class DebugActivity extends Activity {
 
     };
 
-    //TODO
-    public void onCacheRead(View v) throws IOException{
-        String FILENAME = "Test";
-        String txt = "Store this";
-        String newVal = "";
-        final Context context = this;
-        File cacheDir = context.getCacheDir();
-        File file = new File(cacheDir,FILENAME);
-
-        Button name = (Button) this.findViewById(R.id.cache_read);
-
-        try {
-            FileOutputStream fos = new FileOutputStream(file);
-            fos.write(txt.getBytes());
-            fos.close();
-        } catch (FileNotFoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-
-        try {
-            FileInputStream fis = new FileInputStream(file);
-            int content;
-            while((content = fis.read()) != -1){
-                newVal += (char) content;
-            }
-            fis.close();
-            name.setText(newVal);
-
-        } catch (FileNotFoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-    }
-
-    public void openRequestPopup(View v){
-        AlertDialog alertDialog = new AlertDialog.Builder(this).create();
-        alertDialog.setTitle("Send Request");
-        alertDialog.setMessage("Send Request to User?");
-        alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-                // here you can add functions
-            }
-        });
-        alertDialog.show();
-    }
-
 
 
 }

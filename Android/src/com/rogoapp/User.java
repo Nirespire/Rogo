@@ -25,6 +25,7 @@ public class User {
 	//--------------------------------------------------------------------------------------
 	//PROPERTIES: All class properties are set to private
 	
+	private String username;
 	private String firstName;
 	private String lastName;
 	private Date birthday;
@@ -32,21 +33,23 @@ public class User {
 	private ArrayList<String> interests;
 	private int score;
 	private int level;
-	private ArrayList<Friend> friends; //Friend class yet to be created.
+	private ArrayList<Friend> recentlyMet; //Friend class yet to be created.
 	
 	//--------------------------------------------------------------------------------------
 	//INITIALIZATION: Initilization of User object
 	
 	public User(){
-		firstName = "default";
-		lastName = "default";
+		username = "defaultUser";
+		firstName = "defaultFirst";
+		lastName = "defaultLast";
 		birthday = new Date(0, 0, 1); //default date is Jan 1 1900
-		email = "default";
+		email = "defaultEmail";
 		score = 0;	//starting score is 0
 		level = 1;	//starting level is 1
 	}
 	
-	public User(String firstName, String lastName, int year, int month, int day, String email){
+	public User(String username, String firstName, String lastName, int year, int month, int day, String email){
+		this.username = username;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		birthday = new Date(year, month, day);
@@ -55,7 +58,8 @@ public class User {
 		level = 1;	//starting level is 1
 	}
 	
-	public User(String firstName, String lastName, Date birthday, String email){
+	public User(String username, String firstName, String lastName, Date birthday, String email){
+		this.username = username;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.birthday = birthday;
@@ -66,6 +70,14 @@ public class User {
 	
 	//--------------------------------------------------------------------------------------
 	//GET AND SET METHODS: Methods for accessing and changing class properties
+	
+	public String getUsername(){
+		return username;
+	}
+	
+	public void setUsername(String username){
+		this.username = username;
+	}
 	
 	public String getFirstName(){
 		return firstName;
@@ -137,8 +149,12 @@ public class User {
 		level += increment;
 	}
 	
-	public ArrayList<Friend> getFriends(){
-		return friends;
+	public ArrayList<Friend> getRecentlyMet(){
+		return recentlyMet;
+	}
+	
+	public void addRecentlyMet(Friend person) {
+		recentlyMet.add(person);
 	}
 	
 	// We might want to add a comparison function - Dax

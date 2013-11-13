@@ -154,7 +154,7 @@
                   android:layout_height="wrap_content"
                   android:layout_marginLeft="10dip"
                   android:layout_marginRight="15dip"
-                  android:layout_marginTop="300dip"
+                  android:layout_marginTop="250dip"
                   android:onClick="onBypass"
                   android:text="Bypass Login" />
  

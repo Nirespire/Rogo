@@ -48,13 +48,13 @@ public class CacheClient {
 		}
 	}
 	
-	public void addFile(String filename, String content){
+	public void addToFile(String filename, String content){
 		File cacheDir = context.getCacheDir();
 		File file = new File(cacheDir, filename);
 
 		FileOutputStream fos;
 		try {
-			fos = new FileOutputStream(file, true);
+			fos = new FileOutputStream(file, true); // true means go to end of file
 			fos.write(content.getBytes());
 			fos.close();
 		} catch (FileNotFoundException e) {
@@ -65,7 +65,62 @@ public class CacheClient {
 			Log.d(ERROR_2, "Writing to " + filename);
 		}
 	}
+	
+	public boolean deleteLineFromFile(String filename, String lineToDelete){
+		File cacheDir = context.getCacheDir();
+		File file = new File(cacheDir, filename);
 
+		StringBuilder contentString = new StringBuilder();
+
+		FileInputStream fis;
+		try {
+			fis = new FileInputStream(file);
+			int content1;
+			while((content1 = fis.read()) != -1){
+				contentString.append((char)content1);
+			}
+			fis.close();
+
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+			Log.d(ERROR_1, "Searching for " + filename);
+			return false;
+		} catch (IOException e) {
+			e.printStackTrace();
+			Log.d(ERROR_3, "Reading from " + filename);
+			return false;
+		}
+		
+		String[] contentLines = contentString.toString().split("\n");
+		int lineNumberToDelete = -1;
+		for (int i=0; i<contentLines.length; i++) {
+			if (contentLines[i].equals(lineToDelete)) {
+				lineNumberToDelete = i;
+				break;
+			}
+		}
+		
+		if (lineNumberToDelete == -1) return false; // wasn't in there
+		
+		FileOutputStream fos;
+		try {
+			fos = new FileOutputStream(file, true);
+			for (int i = 0; i < contentLines.length; i++) if (i != lineNumberToDelete) {
+				fos.write(contentLines[i].getBytes());
+				fos.write("\n".getBytes());
+			}
+			fos.close();
+			return true;
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+			Log.d(ERROR_1, "Searching for " + filename);
+		} catch (IOException e) {
+			e.printStackTrace();
+			Log.d(ERROR_2, "Writing to " + filename);
+		}
+		
+		return false;
+	}
 	
 	public String loadFile(String filename){
 		File cacheDir = context.getCacheDir();

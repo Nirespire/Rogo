@@ -83,20 +83,25 @@ public class DebugActivity extends Activity {
     }
 
     public void addListenerOnButton3() {
-
         registerButton = (Button) findViewById(R.id.meeting_someone_debug_button);
-
         registerButton.setOnClickListener(new OnClickListener() {
-
             @Override
             public void onClick(View arg0) {
                 openMeetingSomeoneScreen(arg0);
             }
-
         });
-
     }
 
+    public void addListenerOnSendRequestButton(){
+    	registerButton = (Button) findViewById(R.id.send_meet_request_button);
+    	registerButton.setOnClickListener(new OnClickListener() {
+    		@Override
+    		public void onClick(View arg0){
+    			openSendRequestScreen(arg0);
+    		}
+    	});
+    }
+    
     public void addListenerOnButton4() {
 
         registerButton = (Button) findViewById(R.id.location_debug_button);
@@ -128,7 +133,6 @@ public class DebugActivity extends Activity {
     }
 
 
-
     public void openRegistrationScreen(View v){
         final Context context = this;
         Intent intent = new Intent(context, RegisterActivity.class);
@@ -153,6 +157,12 @@ public class DebugActivity extends Activity {
         final Context context = this;
         Intent intent = new Intent(context, MeetingSomeoneActivity.class);
         startActivity(intent);
+    }
+    
+    public void openSendRequestScreen(View v){
+    	final Context context = this;
+    	Intent intent = new Intent(context, SendRequestActivity.class);
+    	startActivity(intent);
     }
 
     public String getLocation(View v){

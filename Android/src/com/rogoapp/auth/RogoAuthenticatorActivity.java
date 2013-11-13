@@ -25,6 +25,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class RogoAuthenticatorActivity extends AccountAuthenticatorActivity {
 	
@@ -175,21 +176,25 @@ public class RogoAuthenticatorActivity extends AccountAuthenticatorActivity {
 
 			// Now that we have done some simple "client side" validation it  
 			// is time to check with the server  
-			
+						
 			ServerClient server = new ServerClient();
 			List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
         	nameValuePairs.add(new BasicNameValuePair("email", username));
-        	nameValuePairs.add(new BasicNameValuePair("password", password));
+        	nameValuePairs.add(new BasicNameValuePair("password", AccountAuthenticator.hashPassword(password)));
         	
         	JSONObject json = server.genericPostRequest("login", nameValuePairs);
         	try {
-				if(!json.getString("status").equals("success")){
+        		String check = json.getString("data");
+				if(check.equals("Email or password is incorrect!")){
+					tvPassword.setText("");
+					tvPassword.setHighlightColor(Color.RED);
+					tvUsername.setHighlightColor(Color.RED);
+					Toast.makeText(context, check, Toast.LENGTH_LONG).show();
 					return;
 				}
 			} catch (JSONException e) {
 				e.printStackTrace();
-				System.out.println("Json did not return 'success'");
-				return;
+				System.out.println("Json did not return");
 			}
 			
 			// finished  
@@ -211,23 +216,18 @@ public class RogoAuthenticatorActivity extends AccountAuthenticatorActivity {
 
 			final Intent intent = new Intent();
 			
-			//clears the data saved for the back button by Android
-			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-
 			intent.putExtra(AccountManager.KEY_ACCOUNT_NAME, username);  
 			intent.putExtra(AccountManager.KEY_ACCOUNT_TYPE, accountType);
 			intent.putExtra(AccountManager.KEY_PASSWORD, password);
-			if(getToken()){
+			if(getToken())
 				intent.putExtra(AccountManager.KEY_AUTHTOKEN, accountType);
-
-			}
 
 			this.setAccountAuthenticatorResult(intent.getExtras());  
 			this.setResult(RESULT_OK, intent);  
 			
+			//after setting the account, close the login activity and open the MainScreenActivity
+			this.finish();
 			if(openMain){
-				//after setting the account, close the login activity and open the MainScreenActivity
-				this.finish();
 				final Intent start = new Intent(context, MainScreenActivity.class);
 				start.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				startActivity(start);

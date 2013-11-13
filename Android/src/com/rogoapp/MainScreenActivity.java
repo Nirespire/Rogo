@@ -23,6 +23,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -219,9 +220,13 @@ public class MainScreenActivity extends SherlockActivity {
 			}
 			tipsText.setText("");
 			if(cache.lines(USER_TIPS) <=5){
+				
+				InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+					imm.hideSoftInputFromWindow(tipsText.getWindowToken(), 0);
+				
 				toaster(R.string.self_improvement);
-				//this.toastCount++;
 			}
+			
 		}        
 		else{
 			Random rand = new Random(System.currentTimeMillis());

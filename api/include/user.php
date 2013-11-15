@@ -46,6 +46,11 @@ class User{
 	
 	private function ReadSession(){
 		if(isset($this->_req['session'])){
+			if(SERVER_DEV && $this->_req['session'] == 'dev'){
+				$this->_userData = array('uid' => 2, 'username' => 'Developer', 'email' => 'dev@rogoapp.com');
+				$this->_isLoggedIn = true;
+				return;
+			}
 			$session = $this->_req['session'];
 			if(strlen($session) != 64){ 		//64 characters for a SHA256 hash
 				return;

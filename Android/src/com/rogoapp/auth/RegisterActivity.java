@@ -13,6 +13,8 @@ import android.accounts.AccountAuthenticatorActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
@@ -42,6 +44,7 @@ public class RegisterActivity extends AccountAuthenticatorActivity{
         
         Button button = (Button) this.findViewById(R.id.link_to_login);
         button.setBackgroundColor(Color.TRANSPARENT);
+        
     }
 
     @Override
@@ -72,17 +75,21 @@ public class RegisterActivity extends AccountAuthenticatorActivity{
         		nameValuePairs.add(new BasicNameValuePair("email", email.getText().toString()));
         		nameValuePairs.add(new BasicNameValuePair("password", "a336f671080fbf4f2a230f313560ddf0d0c12dfcf1741e49e8722a234673037dc493caa8d291d8025f71089d63cea809cc8ae53e5b17054806837dbe4099c4ca"));
         		
+        		
                 ServerClient sc = new ServerClient();
                 JSONObject jObj = sc.genericPostRequest("register", nameValuePairs);
-                String uid = null;
+                
                 String status = null;
                 try{
-                	//uid = sc.getLastResponse().getString("uid");
+                	
                 	status = jObj.getString("status");
                 }catch(JSONException e){
                 	System.err.print(e);
                 }
-                System.out.println("status = " + status + ", uid = " + uid);
+                catch(NullPointerException e){
+                	System.err.print("IN REGISTERACTIVITY: " + e);
+                }
+                System.out.println("IN REGISTERACTIVITY: status = " + status);
             }
 
         });

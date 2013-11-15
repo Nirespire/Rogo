@@ -12,26 +12,32 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.protocol.HTTP;
 
 import android.os.AsyncTask;
 
-public class ServerClientAsync extends AsyncTask<HttpPost, Void, JSONObject> {
+public class ServerClientThread extends Thread {
 	private boolean finished = false;
 	private JSONObject finalJsonResult = null;
-    @Override
-    protected JSONObject doInBackground(HttpPost... params) {
+	HttpPost httppost;
+	
+    
+    public ServerClientThread(HttpPost httppost){
+    	this.httppost = httppost;
+    }
+	
+    public void run(){
     	this.finished = false;
-    	if(params.length < 1){ return null; }
+    	ServerClient sc = new ServerClient();
+    	sc.reset();
     	
-    	System.out.println("DEBUG: Begin Do in background");
+    	System.out.println("DEBUG: Begin ServerClientThread");
     	String response = "";
 		try {
 			HttpClient httpclient = new DefaultHttpClient();
-			System.out.println("DEBUG: " + params[0].getURI());
 			
-	
 	        // Execute HTTP Post Request
-	        HttpResponse httpresponse = httpclient.execute(params[0]);	//causes exception
+	        HttpResponse httpresponse = httpclient.execute(httppost);	
 	        
 	        BufferedReader rd = new BufferedReader(new InputStreamReader(httpresponse.getEntity().getContent()));
 	        StringBuilder sb = new StringBuilder();
@@ -39,15 +45,15 @@ public class ServerClientAsync extends AsyncTask<HttpPost, Void, JSONObject> {
 	        
 	        while ((line = rd.readLine()) != null) {
 	        	sb.append(line + "\n");
-	        	System.out.println("DEBUG: " + line);
+	        	System.out.println(line);
 	        }
 	        response = sb.toString();
-	        System.out.println("DEBUG: "+ response);
+	        System.out.println("DEBUG in ServerClientThread: "+ response);
 	        JSONObject JSONResponse = new JSONObject(response);
 	        
 	        this.finished = true;
 	        this.finalJsonResult = JSONResponse;
-	        return JSONResponse;
+	        sc.setLastResponse(this.finalJsonResult);
 	        
 	    } catch (ClientProtocolException e) {
 	        System.err.print(e);
@@ -56,23 +62,7 @@ public class ServerClientAsync extends AsyncTask<HttpPost, Void, JSONObject> {
 	    } catch (JSONException e){
 	    	System.err.print(e);
 	    }
-		return null;
+		
     }
-
-    protected void onPostExecute(JSONObject result) {
-    	this.finished = true;
-    	this.finalJsonResult = result;
-    }
-    public boolean isFinished(){
-    	return this.finished;
-    }
-    public JSONObject getResult(){
-    	return this.finalJsonResult;
-    }
-
-    @Override
-    protected void onPreExecute() {}
-
-    @Override
-    protected void onProgressUpdate(Void... values) {}
+	
 }

@@ -16,6 +16,7 @@ import android.location.Criteria;
 import android.location.Geocoder;
 import android.location.GpsStatus;
 import android.location.Location;
+import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.Menu;
@@ -27,19 +28,27 @@ import android.widget.Toast;
 import com.rogoapp.auth.RegisterActivity;
 import com.rogoapp.auth.RogoAuthenticatorActivity;
 
-public class DebugActivity extends Activity {
+public class DebugActivity extends Activity implements LocationListener {
 
     Button serverButton;
     Button registerButton;
     Button loginButton;
     Button meetingSomeoneButton;
     Button buddyList;
+    private LocationManager loc;
+    private GpsStatus mStatus;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.debug_screen);
+
+        Intent intent=new Intent("android.location.GPS_ENABLED_CHANGE");
+        intent.putExtra("enabled", true);
+        sendBroadcast(intent);
+
+        loc = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
     }
 
     @Override
@@ -164,7 +173,6 @@ public class DebugActivity extends Activity {
 
     public String getLocation(View v){
 
-        final Context context = this;
         String bestProvider;
         List<Address> user = null;
         double lat;
@@ -172,7 +180,7 @@ public class DebugActivity extends Activity {
         Geocoder geocoder;
         String out = "";
 
-        LocationManager loc = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+
 
         if ( !loc.isProviderEnabled( LocationManager.GPS_PROVIDER ) ) {
             buildAlertMessageNoGps();
@@ -181,9 +189,11 @@ public class DebugActivity extends Activity {
 
         Criteria criteria = new Criteria();
         criteria.setAccuracy(Criteria.ACCURACY_FINE);
-        
+
         bestProvider = loc.getBestProvider(criteria, true);
+        loc.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0,0,this);
         Location location = loc.getLastKnownLocation(bestProvider);
+
 
         if (location == null){
             Toast.makeText(this,"Location Not found",Toast.LENGTH_LONG).show();
@@ -205,8 +215,8 @@ public class DebugActivity extends Activity {
         }
         return out;
     }
-    
-    
+
+
     private void buildAlertMessageNoGps() {
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage("Your GPS seems to be disabled, do you want to enable it?")
@@ -232,6 +242,30 @@ public class DebugActivity extends Activity {
 
         nameValuePairs.add(new BasicNameValuePair("location_lat","0.000"));
         nameValuePairs.add(new BasicNameValuePair("location_lon","0.000"));
+
+    }
+
+    @Override
+    public void onLocationChanged(Location arg0) {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void onProviderDisabled(String arg0) {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void onProviderEnabled(String arg0) {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void onStatusChanged(String arg0, int arg1, Bundle arg2) {
+        // TODO Auto-generated method stub
 
     };
 

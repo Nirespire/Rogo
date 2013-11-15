@@ -12,6 +12,7 @@ import java.util.List;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import com.rogoapp.R;
 import com.rogoapp.ServerClient;
@@ -162,8 +163,7 @@ public class AccountAuthenticator extends AbstractAccountAuthenticator {
                 
         		final Intent intent = new Intent(mContext, RogoAuthenticatorActivity.class);
                 intent.putExtra(RogoAuthenticatorActivity.PARAM_USERNAME, account.name);
-                intent.putExtra(RogoAuthenticatorActivity.PARAM_AUTHTOKEN_TYPE,
-                    authTokenType);
+                intent.putExtra(RogoAuthenticatorActivity.PARAM_AUTHTOKEN_TYPE, authTokenType);
                 intent.putExtra(RogoAuthenticatorActivity.PARAM_CONFIRMCREDENTIALS, false);
                 final Bundle bundle = new Bundle();
                 bundle.putParcelable(AccountManager.KEY_INTENT, intent);
@@ -178,7 +178,7 @@ public class AccountAuthenticator extends AbstractAccountAuthenticator {
         	nameValuePairs.add(new BasicNameValuePair("password", password));
 			
     		try {
-				return server.genericPostRequest("login", nameValuePairs).getString("status") == "success";
+				return !server.genericPostRequest("login", nameValuePairs).getString("data").equals("Email or password is incorrect!");
 			} catch (JSONException e) {
 				e.printStackTrace();
 				return false;
@@ -194,7 +194,9 @@ public class AccountAuthenticator extends AbstractAccountAuthenticator {
         	nameValuePairs.add(new BasicNameValuePair("password", password));
 			
     		try {
-				return server.genericPostRequest("login", nameValuePairs).getString("session");
+				JSONObject json = (server.genericPostRequest("login", nameValuePairs));
+				String token = json.getString("session") + json.getString("secret");
+				return hashPassword(token);
 			} catch (JSONException e) {
 				e.printStackTrace();
 				return null;

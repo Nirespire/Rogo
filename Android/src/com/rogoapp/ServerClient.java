@@ -35,6 +35,7 @@ import java.util.List;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -47,11 +48,16 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.HTTP;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.ClientProtocolException;
+
 import java.util.*;
 import java.util.concurrent.ExecutionException;
 
 import org.json.JSONObject;
 import org.json.JSONException;
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -131,5 +137,17 @@ public class ServerClient{
 		
 	}
 
+	//returns true if there is a connected network or if a network is being connected
+		public static boolean isNetworkAvailable() {
+			//gives the application's context
+			Context context = RandomFunTime.showContext();
+			
+			//magical connectivity genie
+			ConnectivityManager connectivityManager 
+		          = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+		    NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+		    return activeNetworkInfo != null && activeNetworkInfo.isConnectedOrConnecting();
+		}
+	
 	
 }

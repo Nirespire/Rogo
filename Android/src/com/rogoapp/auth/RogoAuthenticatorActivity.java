@@ -16,10 +16,12 @@ import com.rogoapp.auth.EmailValidator;
 import android.accounts.Account;
 import android.accounts.AccountAuthenticatorActivity;
 import android.accounts.AccountManager;
+import android.accounts.AccountManagerFuture;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -208,7 +210,9 @@ public class RogoAuthenticatorActivity extends AccountAuthenticatorActivity {
 
 
 			// This is the magic that adds the account to the Android Account Manager  
-			final Account account = new Account(username, accountType);  
+			final Account account = new Account(username, accountType);
+			accMgr.addAccount(accountType, PARAM_AUTHTOKEN_TYPE, null, null, this, null, null);
+            Account[] accounts = accMgr.getAccounts();
 			accMgr.addAccountExplicitly(account, password, null);  
 
 			// Now we tell our caller, could be the Android Account Manager or even our own application  
@@ -277,4 +281,36 @@ public class RogoAuthenticatorActivity extends AccountAuthenticatorActivity {
 		}  
 		return hasErrors;
 	}
+	public String getAuthToken(Account account){
+		
+		AccountManager am = AccountManager.get(this);
+		final AccountManagerFuture<Bundle> future = am.getAuthToken(account, RogoAuthenticatorActivity.PARAM_AUTHTOKEN_TYPE, null, this, null, null);
+		
+		new Thread(new Runnable(){
+			@Override
+			public void run(){
+				try{
+					Bundle bundle = future.getResult();
+					
+					final String authToken = bundle.getString(AccountManager.KEY_AUTHTOKEN);
+					showMessage((authToken != null) ? "Success!" : "Failure to authenticate, please login");
+				}catch(Exception e){
+					e.printStackTrace();
+					showMessage(e.getMessage());
+				}
+			}
+		}).start();
+return "";
+	}
+	 private void showMessage(final String msg) {
+         if (TextUtils.isEmpty(msg))
+         return;
+
+     runOnUiThread(new Runnable() {
+         @Override
+         public void run() {
+             Toast.makeText(getBaseContext(), msg, Toast.LENGTH_SHORT).show();
+         }
+     });
+ }
 }

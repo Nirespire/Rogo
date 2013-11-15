@@ -26,15 +26,6 @@
         android:onClick="openLoginScreen"
         android:text="Login Screen" />
 
-    <Button
-        android:id="@+id/registration_debug_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/server_debug_button"
-        android:layout_centerHorizontal="true"
-        android:onClick="openRegistrationScreen"
-        android:text="REGISTRATION SCREEN" />
-
     <TextView
         android:id="@+id/textView1"
         android:layout_width="wrap_content"
@@ -64,12 +55,13 @@
         android:text="Send Request" />
 
     <Button
-        android:id="@+id/server_debug_button"
+        android:id="@+id/registration_debug_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/textView1"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="22dp"
-        android:text="SERVER REQUEST" />
+        android:layout_marginTop="52dp"
+        android:onClick="openRegistrationScreen"
+        android:text="Registration Screen" />
 
 </RelativeLayout>

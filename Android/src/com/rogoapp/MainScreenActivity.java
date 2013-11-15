@@ -51,6 +51,7 @@ public class MainScreenActivity extends SherlockActivity {
     List<String> tips = new ArrayList<String>();
     List<String> meetRandom;
 
+	private static Context mcontext;
     CacheClient cache = new CacheClient(this);
     ServerClient server = new ServerClient();
 
@@ -61,6 +62,7 @@ public class MainScreenActivity extends SherlockActivity {
 
         setTheme(R.style.Theme_Sherlock_Light);
         super.onCreate(savedInstanceState);
+        MainScreenActivity.mcontext = getApplicationContext();
         setContentView(R.layout.main_screen);
 
         //Taylor ***
@@ -402,7 +404,13 @@ public class MainScreenActivity extends SherlockActivity {
     	TextView settingsTextView = (TextView) findViewById(R.id.textUserSettings);
     	settingsTextView.setText(builder.toString());
     }
+    
+    
      */
+    
+    public static Context showContext() {
+        return MainScreenActivity.mcontext;
+    }
 
     /* DEBUG SECTION REMOVE BEFORE FINAL*/
     //-------------------------------------------------------------------

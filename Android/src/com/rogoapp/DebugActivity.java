@@ -7,13 +7,15 @@ import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Address;
 import android.location.Criteria;
 import android.location.Geocoder;
+import android.location.GpsStatus;
 import android.location.Location;
-import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.Menu;
@@ -32,7 +34,7 @@ public class DebugActivity extends Activity {
     Button loginButton;
     Button meetingSomeoneButton;
     Button buddyList;
-    
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,15 +90,15 @@ public class DebugActivity extends Activity {
     }
 
     public void addListenerOnSendRequestButton(){
-    	registerButton = (Button) findViewById(R.id.send_meet_request_button);
-    	registerButton.setOnClickListener(new OnClickListener() {
-    		@Override
-    		public void onClick(View arg0){
-    			openSendRequestScreen(arg0);
-    		}
-    	});
+        registerButton = (Button) findViewById(R.id.send_meet_request_button);
+        registerButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View arg0){
+                openSendRequestScreen(arg0);
+            }
+        });
     }
-    
+
     public void addListenerOnButton4() {
 
         registerButton = (Button) findViewById(R.id.location_debug_button);
@@ -153,11 +155,11 @@ public class DebugActivity extends Activity {
         Intent intent = new Intent(context, MeetingSomeoneActivity.class);
         startActivity(intent);
     }
-    
+
     public void openSendRequestScreen(View v){
-    	final Context context = this;
-    	Intent intent = new Intent(context, SendRequestActivity.class);
-    	startActivity(intent);
+        final Context context = this;
+        Intent intent = new Intent(context, SendRequestActivity.class);
+        startActivity(intent);
     }
 
     public String getLocation(View v){
@@ -172,16 +174,15 @@ public class DebugActivity extends Activity {
 
         LocationManager loc = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
 
+        if ( !loc.isProviderEnabled( LocationManager.GPS_PROVIDER ) ) {
+            buildAlertMessageNoGps();
+        }
+
+
         Criteria criteria = new Criteria();
-        
         criteria.setAccuracy(Criteria.ACCURACY_FINE);
-        criteria.setAltitudeRequired(false);
-        criteria.setBearingRequired(false);
-        criteria.setCostAllowed(true);
-        criteria.setPowerRequirement(Criteria.POWER_LOW);
         
-        bestProvider = loc.getBestProvider(criteria, false);
-        
+        bestProvider = loc.getBestProvider(criteria, true);
         Location location = loc.getLastKnownLocation(bestProvider);
 
         if (location == null){
@@ -203,6 +204,25 @@ public class DebugActivity extends Activity {
 
         }
         return out;
+    }
+    
+    
+    private void buildAlertMessageNoGps() {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Your GPS seems to be disabled, do you want to enable it?")
+        .setCancelable(false)
+        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            public void onClick(final DialogInterface dialog, final int id) {
+                startActivity(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+            }
+        })
+        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+            public void onClick(final DialogInterface dialog, final int id) {
+                dialog.cancel();
+            }
+        });
+        final AlertDialog alert = builder.create();
+        alert.show();
     }
 
     public void postLocation(String location){

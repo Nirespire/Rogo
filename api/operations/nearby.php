@@ -70,7 +70,7 @@ class RequestObject{
 				WHEN recentness < 86400 THEN CONCAT(FLOOR(recentness / 3600),\' hours\')
 				WHEN recentness < 90000 THEN CONCAT(\'1 day \',FLOOR((recentness - 86400)/60),\' minutes\')
 				WHEN recentness < 172800 THEN CONCAT(\'1 day \',FLOOR((recentness - 86400)/3600),\' hours\')
-				ELSE CONCAT(FLOOR(recentness / 86400),\' days\') END AS recentness, recentness AS rawrecent
+				ELSE CONCAT(FLOOR(recentness / 86400),\' days\') END AS recentness
 				 FROM (
 				SELECT  a.uid,  a.location_label, a.location_lat AS location_latitude, a.location_lon AS location_longitude, a.update_time AS updated, usera.radius AS uradius, a.radius,
 				(2 * (3959 * ATAN2(

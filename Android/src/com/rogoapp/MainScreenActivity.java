@@ -52,6 +52,8 @@ public class MainScreenActivity extends SherlockActivity {
     List<String> meetRandom;
 
     CacheClient cache = new CacheClient(this);
+    ServerClient server = new ServerClient();
+
 
 
     @Override
@@ -67,7 +69,8 @@ public class MainScreenActivity extends SherlockActivity {
 
         //Adding some functionality to tips button
         textListener(this.findViewById(R.id.tips_edit_box));
-        storeTips();
+        if(ServerClient.isNetworkAvailable())
+        	storeTips();
     }
 
 
@@ -298,7 +301,7 @@ public class MainScreenActivity extends SherlockActivity {
     }
 
     public boolean storeTips() {
-        ServerClient server = new ServerClient();
+        
         JSONObject json = server.genericPostRequest("tips", Collections.<NameValuePair>emptyList());
         if(json != null)
             parseJ(json, TIPS_FILE);

@@ -143,7 +143,7 @@ public class ServerClient{
 	}
 	
 	//returns true if there is a connected network or if a network is being connected
-		public boolean isNetworkAvailable() {
+		public static boolean isNetworkAvailable() {
 			//gives the application's context
 			Context context = RandomFunTime.showContext();
 			

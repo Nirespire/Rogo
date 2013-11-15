@@ -1,6 +1,6 @@
 package com.rogoapp;
 
-/* 					**ServerCleint class**
+/* 					**ServerClient class**
  * Class designed to handle all client/server communications
  * Processes are invoked and data requested with HTTP Post Requests
  * To make request, use method genericPostRequest(..)
@@ -48,17 +48,24 @@ import org.apache.http.protocol.HTTP;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.ClientProtocolException;
 import java.util.*;
+import java.util.concurrent.ExecutionException;
+
 import org.json.JSONObject;
 import org.json.JSONException;
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 
 public class ServerClient{
-	private boolean status;
-	private JSONObject lastResponse;
-	private ServerClientAsync requestAsync;
+	private static JSONObject lastResponse;
+	private static boolean isFinished;
+	private static String status;
+	
 	
 	public ServerClient(){
-		status = false;
 		lastResponse = null;
+		isFinished = false;
+		status = null;
 	}
 	
 	
@@ -74,66 +81,55 @@ public class ServerClient{
 		// Returns a JSON object
 	    HttpClient httpclient = new DefaultHttpClient();
 	    HttpPost httppost = new HttpPost("http://api.rogoapp.com/request/" + request);
-	   
 	    
 	    try {
-	        
+
 	        httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-	        this.requestAsync = new ServerClientAsync();
-	        this.requestAsync.execute(httppost);
 	        
-	        while(!this.requestAsync.isFinished()){} //This is horrible and will kill the UI thread. DON'T USE THIS
-			
-			JSONObject jObj = this.requestAsync.getResult();
-			
-			return jObj;
+	        // fetch data in background thread
+	        ServerClientThread scThread = new ServerClientThread(httppost);
+	        scThread.start();
+	        try {
+				scThread.join();
+			} catch (InterruptedException e) {
+				
+				System.err.println("IN SERVERCLIENT: "+ e);
+			}
+	        
+	        System.out.println("IN SERVERCLIENT: status = " + status);
+	        
+	        
+			return ServerClient.lastResponse;
 	    }
 	    catch (IOException e) {
 	    	System.err.print(e);
 	    }
+	    
 	    return null;
 	}  
-	
-	private boolean checkSuccess(){
-		//DO NOT USE THIS METHOD
-		//This method is a helper method for genericPostRequest(..)
-		String statusStr = null;
-		try{
-			statusStr = lastResponse.getString("status");
-		} catch (JSONException e){
-			
-		} 
-		if(statusStr.equals("success")){
-			status = true;
-			return true;
-		}
-		else{
-			status = false;
-			return false;
-		}
-	}
-	
-	
-	public boolean getStatus(){
-		return status;
-	}
 	
 	public JSONObject getLastResponse(){
 		return lastResponse;
 	}
 	
-	
-	
-	
-	public JSONObject register(String username, String email, String saltedPassword){
-		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
-		nameValuePairs.add(new BasicNameValuePair("username", username));
-		nameValuePairs.add(new BasicNameValuePair("email", email));
-		nameValuePairs.add(new BasicNameValuePair("password", saltedPassword));
-		JSONObject jObj = genericPostRequest("register.json", nameValuePairs);
-		
-		return jObj;
+	public void reset(){
+		ServerClient.isFinished = false;
+		ServerClient.status = null;
+		ServerClient.lastResponse = null;
 	}
 	
+	public void setLastResponse(JSONObject jObj){
+		ServerClient.lastResponse = jObj;
+		ServerClient.isFinished = true;
+		if(jObj != null){
+			try{
+				status = jObj.getString("status");
+			}catch(JSONException e){
+				System.out.println("IN SERVERCLIENT: in setLastResponse: " + e);
+			}
+		}
+		
+	}
+
 	
 }

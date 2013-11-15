@@ -1,10 +1,5 @@
 package com.rogoapp;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,14 +7,13 @@ import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Address;
 import android.location.Criteria;
 import android.location.Geocoder;
 import android.location.Location;
+import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.Menu;
@@ -38,6 +32,7 @@ public class DebugActivity extends Activity {
     Button loginButton;
     Button meetingSomeoneButton;
     Button buddyList;
+    
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -178,7 +173,15 @@ public class DebugActivity extends Activity {
         LocationManager loc = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
 
         Criteria criteria = new Criteria();
+        
+        criteria.setAccuracy(Criteria.ACCURACY_FINE);
+        criteria.setAltitudeRequired(false);
+        criteria.setBearingRequired(false);
+        criteria.setCostAllowed(true);
+        criteria.setPowerRequirement(Criteria.POWER_LOW);
+        
         bestProvider = loc.getBestProvider(criteria, false);
+        
         Location location = loc.getLastKnownLocation(bestProvider);
 
         if (location == null){

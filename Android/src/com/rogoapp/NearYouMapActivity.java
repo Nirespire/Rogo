@@ -30,8 +30,13 @@ public class NearYouMapActivity extends FragmentActivity implements
 
 	private static final int GPS_ERRORDIALOG_REQUEST = 9001;
 	private static final float DEFAULTZOOM = 15;
+	@SuppressWarnings("unused")
+	private static final int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9002;
 	GoogleMap mMap;
 	LocationClient mLocationClient;
+	
+	@SuppressWarnings("unused")
+	private static final String LOGTAG = "Maps";
 	
 	@SuppressWarnings("unused")
 	private static final double GVILLE_LAT = 29.666576,
@@ -46,12 +51,11 @@ public class NearYouMapActivity extends FragmentActivity implements
 	
 			if(initMap()) {
 				Toast.makeText(this, "Ready to map!", Toast.LENGTH_SHORT).show();
-				goToLocation(GVILLE_LAT, GVILLE_LNG);
+				goToLocation(GVILLE_LAT, GVILLE_LNG, DEFAULTZOOM);
 				
 				// code for the current location
-			//	mMap.setMyLocationEnabled(true);
-			//	mLocationClient = new LocationClient(this, this, this);
-			//	mLocationClient.connect();
+				mLocationClient = new LocationClient(this, this, this);
+				mLocationClient.connect();
 			//	goToCurrentLocation();
 			}
 		
@@ -99,7 +103,6 @@ public class NearYouMapActivity extends FragmentActivity implements
 	
 	private boolean initMap() {
 		if (mMap == null) {
-		//	mMap = mMapView.getMap();
 			SupportMapFragment mMapFrag = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
 			mMap = mMapFrag.getMap();
 		}
@@ -107,6 +110,13 @@ public class NearYouMapActivity extends FragmentActivity implements
 	}
 	
 	private void goToLocation(double lat, double lng) {
+		LatLng ll = new LatLng(lat, lng);
+		CameraUpdate update = CameraUpdateFactory.newLatLng(ll);
+		mMap.animateCamera(update);
+		
+	}
+	
+	private void goToLocation(double lat, double lng, float zoom) {
 		LatLng ll = new LatLng(lat, lng);
 		CameraUpdate update = CameraUpdateFactory.newLatLng(ll);
 		mMap.animateCamera(update);
@@ -141,11 +151,11 @@ public class NearYouMapActivity extends FragmentActivity implements
 	@Override
 	public void onConnected(Bundle arg0) {
 		Toast.makeText(this, "Connected to location service", Toast.LENGTH_SHORT).show();
-		LocationRequest request = LocationRequest.create();
+/*		LocationRequest request = LocationRequest.create();
 		request.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
 		request.setInterval(5000);
 		request.setFastestInterval(1000);
-		mLocationClient.requestLocationUpdates(request, this);
+		mLocationClient.requestLocationUpdates(request, this); */
 	}
 
 	@Override

@@ -209,7 +209,7 @@ public class DebugActivity extends Activity {
 			File cacheDir = context.getCacheDir();
 			File file = new File(cacheDir,FILENAME);
 			
-			Button name = (Button) this.findViewById(R.id.cache_read);
+		//	Button name = (Button) this.findViewById(R.id.cache_read);
 			
 			try {
 				FileOutputStream fos = new FileOutputStream(file);
@@ -230,7 +230,7 @@ public class DebugActivity extends Activity {
 					newVal += (char) content;
 				}
 				fis.close();
-				name.setText(newVal);
+	//			name.setText(newVal);
 				
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block

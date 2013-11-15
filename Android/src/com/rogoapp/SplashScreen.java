@@ -27,8 +27,13 @@ public class SplashScreen extends Activity {
                 /* Start main activity after splash screen over */
                 AccountManager am = AccountManager.get(getBaseContext());
                 android.accounts.Account[] accounts = am.getAccountsByType(RogoAuthenticatorActivity.PARAM_AUTHTOKEN_TYPE);
-
-                //				AccountAuthenticatorResponse response = new AccountAuthenticatorResponse(null);
+                RogoAuthenticatorActivity raa = new RogoAuthenticatorActivity();
+//                raa.getAuthToken(accounts[0]);
+//                am.getAuthToken(accounts[0], RogoAuthenticatorActivity.PARAM_AUTHTOKEN_TYPE, null, RogoAuthenticatorActivity.class, null, null);
+//                am.getAuthToken(account, authTokenType, options, notifyAuthFailure, callback, handler)
+//                am.getAuthToken(account, authTokenType, notifyAuthFailure, callback, handler);
+//                am.getAuthToken(account, authTokenType, options, activity, callback, handler)
+//                //				AccountAuthenticatorResponse response = new AccountAuthenticatorResponse(null);
                 //				AccountAuthenticator auth = new AccountAuthenticator(MyApplication.getAppContext());
                 //				
                 //				Bundle token = null;

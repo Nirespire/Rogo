@@ -63,6 +63,9 @@ public class SendRequestActivity extends Activity {
         EditText trait = (EditText) findViewById(R.id.request_trait);
         EditText location = (EditText) findViewById(R.id.request_location);
         
+        System.out.println(trait.toString());
+        System.out.println(location.toString());
+        
     	List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
     	//nameValuePairs.add(new BasicNameValuePair("TargetUserID", TargetUserID));
     	

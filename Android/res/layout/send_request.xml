@@ -15,16 +15,6 @@
         android1:text="Send Request!" 
         android1:onClick="onRequest"/>
 
-    <EditText
-        android1:id="@+id/request_trait"
-        android1:layout_width="wrap_content"
-        android1:layout_height="wrap_content"
-        android1:layout_alignLeft="@+id/editText1"
-        android1:layout_below="@+id/textView2"
-        android1:ems="10"
-        android1:hint="Enter a Unique Trait"
-        android1:inputType="textMultiLine" />
-
     <TextView
         android1:id="@+id/textView2"
         android1:layout_width="wrap_content"
@@ -64,5 +54,15 @@
         android1:text="User 4"
         android1:textAppearance="?android:attr/textAppearanceLarge"
         android1:textColor="@color/black" />
+
+    <EditText
+        android1:id="@+id/request_trait"
+        android1:layout_width="wrap_content"
+        android1:layout_height="wrap_content"
+        android1:layout_alignLeft="@+id/request_location"
+        android1:layout_below="@+id/textView2"
+        android1:ems="10"
+        android1:hint="Enter a Unique Trait"
+        android1:inputType="textMultiLine" />
 
 </RelativeLayout>

@@ -162,7 +162,9 @@ public class DebugActivity extends Activity implements LocationListener {
     public void openMeetingSomeoneScreen(View v){
         final Context context = this;
         Intent intent = new Intent(context, MeetingSomeoneActivity.class);
-        startActivity(intent);
+		intent.putExtra("id", "tempid");
+		intent.putExtra("name", "tempname");
+		context.startActivity(intent);
     }
 
     public void openSendRequestScreen(View v){

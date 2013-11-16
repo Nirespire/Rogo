@@ -1,45 +1,62 @@
 <?php
-require 'password.php';
+$this->_require 'password.php';
 
-class RequestObject{
+class $this->_requestObject{
 	private $_DATA = null;
 	private $_STATUS = 0;
 	
 	private $_sqlCon;
+	private $_user;
 	/** Constructor
 	 ** Currently takes optional PDO connection argument
+	 ** There really isn't much of a reason to modify this unless you really need something initialized before perform$this->_request()
 	 **/
 	public function __construct(){
-		for($i=0;$i<func_num_args();$i++){
+		for($i=0;$i<func_num_args();$i++){	//Loop through all of the arguments provided to the instruction ("$this->_requestObject($arg1,$arg2,...)").
 			$arg = func_get_arg($i);
-			if(is_object($arg)){
-				$class = get_class($arg);
-				if($class == 'PDO'){
-					$this->_sqlCon = $arg;
+			if(is_object($arg)){ 			//If this argument is of class-type object (basically anything not a primative data type). 
+				$class = get_class($arg); 	//Get the actual class of the argument
+				if($class == 'PDO'){		//Hey look! It's our SQL object
+					$this->_sqlCon = $arg; 	//We should save this. 
+				}
+				elseif($class == 'User'){	//If it's our User class
+					$this->_user = $arg;
 				}
 			}
 		} 
+		if($this->_reqUEST_DATA_ARRAY == 0){ 		//Determine whether we want $this->_request data from $_$this->_reqUEST or $_POST
+			$this->_$this->_req = $_$this->_reqUEST;
+		}
+		else{
+			$this->_$this->_req = $_POST;
+		}
+		
+		if($this->_user == null){
+			$this->_user = new User();
+		}
+		// Uncomment this initialize line if we need user information from session, otherwise, leave this commented out.
+		// That is, if we need to make sure the user is logged in and/or need to get UID/email/username/whatnot for the $this->_requesting user.
+		//$this->_user->initialize();
 	}
-	public function performRequest(){
-		$REQ = $_REQUEST; 
+	public function perform$this->_request(){
 		$data = '';
 		
-		/** BEGIN: Test to ensure that required request args are present **/
-		$missingEmail = !isset($REQ['email']);
-		$missingPass = !isset($REQ['password']);
+		/** BEGIN: Test to ensure that $this->_required $this->_request args are present **/
+		$missingEmail = !isset($$this->_req['email']);
+		$missingPass = !isset($$this->_req['password']);
 		
 		$margs = array();
 		if($missingEmail){ array_push($margs,'email'); }
 		if($missingPass){ array_push($margs,'password'); }
 		
 		if(count($margs) > 0){
-			$this->setResult(STATUS_ERROR,'Request is missing the following ' . ((count($margs)==1)?'field':'fields') . ': ' . implode(', ',$margs));
+			$this->setResult(STATUS_ERROR,'$this->_request is missing the following ' . ((count($margs)==1)?'field':'fields') . ': ' . implode(', ',$margs));
 			return;
 		}
-		/** END: Required args test **/
+		/** END: $this->_required args test **/
 		
-		$email = substr($REQ['email'],0,INPUT_EMAIL_LENGTH);
-		$password = substr($REQ['password'],0,INPUT_PASSWORD_LENGTH);
+		$email = substr($$this->_req['email'],0,INPUT_EMAIL_LENGTH);
+		$password = substr($$this->_req['password'],0,INPUT_PASSWORD_LENGTH);
 		
 		/** BEGIN: Query database for login authentication **/
 		$loginQuery = 'SELECT uid, email, password, username, last_attempt, attempt_count, disabled FROM users WHERE email=:email LIMIT 1;';
@@ -137,38 +154,18 @@ class RequestObject{
 					logError($_SERVER['SCRIPT_NAME'],__LINE__,"Could not log user's log-in into users table! Query: \"$updateSQL\"",$e->getMessage(),time(),false);
 				}
 				
-				$this->giveCredentials($uidValue, $loginResult['username'],$currentTime);
+				$data = $this->_user->giveCredentials($uidValue,$username,$nowDatetime); 
+				if($data === false){
+					$this->setResult(STATUS_FAILURE,'Your log in information appears valid, but we were unable to complete your $this->_request due to a server error!');
+				}
+				else{
+					$this->setResult(STATUS_SUCCESS,$data);
+				}
 				return;
 			}
 		}
 		//This code should be unreachable
 		$this->setResult(STATUS_FAIL,'Something has gone horribly wrong! Panic!');
-	}
-	private function giveCredentials($uid,$username,$currentTime){
-		$bytes = openssl_random_pseudo_bytes(AUTH_SECRET_BYTES);
-		$secret   = bin2hex($bytes);
-		
-		$bytes = openssl_random_pseudo_bytes(AUTH_SESSION_BYTES);
-		$session = hash('sha256',$bytes);
-		
-		try{
-			$credInsert = 'INSERT INTO sessions (uid, secret, session, last_use) VALUES (:uid,:secret,:session,:time)';
-			$credStatement = $this->_sqlCon->prepare($credInsert);
-			$credStatement->execute(array(':uid'=>$uid,':secret'=>$secret,':session'=>$session,':time'=>$currentTime));
-		}
-		catch(PDOException $e){
-			logError($_SERVER['SCRIPT_NAME'],__LINE__,"Count not save user session! Query: \"$credInsert\"",$e->getMessage(),time(),false);
-			$this->setResult(STATUS_FAILURE,'Your log in information appears valid, but we were unable to complete your request due to a server error!');
-			return;
-		}
-		
-		$data = array(
-			'uid'=>$uid,
-			'username' => $username,
-			'session' => $session,
-			'secret' => $secret
-		);
-		$this->setResult(STATUS_SUCCESS,$data);
 	}
 	private function setResult($status,$data){
 		$this->_STATUS = $status;

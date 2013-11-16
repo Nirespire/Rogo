@@ -182,3 +182,45 @@ Request:
     	"data": "Updated!",
     	"session": "changed"
     }
+
+#### Getting Nearby Users
+
+**Request location:** `nearby.json`
+
+**Functionality:** Gets a list of nearby, available users who both are within the requesting user's radius, and who have a radius value that also includes the requesting user. That is, both the requesting user, and all users who are returned, must have contact radius values that are large enough to include both parties. 
+
+**Login session required**: Yes. 
+
+**Required Parameters:**  
+None
+
+**Optional Parameters:**  
+* `count`: An integer of the maximum number of nearby users to be returned. Default is `10`.
+
+**Example:**  
+Request: `nearby.txt?count=2&session=[session]`
+
+    {
+    	"status": "success",
+    	"data": [
+    		{
+    			"uid": "5",
+    			"location_label": "The dungeon",
+    			"location_latitude": "29.6504",
+    			"location_longitude": "-82.3429",
+    			"distance": "0.11374666933902636",
+    			"updated": "2013-11-13 18:38:44",
+    			"recentness": "2 days"
+    		},
+    		{
+    			"uid": "4",
+    			"location_label": "Table in back corner of Starbucks",
+    			"location_latitude": "29.6501",
+    			"location_longitude": "-82.3487",
+    			"distance": "0.28019242840206504",
+    			"updated": "2013-11-12 18:38:44",
+    			"recentness": "3 days"
+    		}
+    	],
+    	"session": "changed"
+    }

@@ -64,4 +64,13 @@
         android:onClick="openRegistrationScreen"
         android:text="Registration Screen" />
 
+    <Button
+        android:id="@+id/check_requests_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/location_debug_button"
+        android:layout_centerHorizontal="true"
+        android:text="Check for Requests" 
+        android:onClick="checkRequests"/>
+
 </RelativeLayout>

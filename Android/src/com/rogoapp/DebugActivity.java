@@ -270,6 +270,11 @@ public class DebugActivity extends Activity implements LocationListener {
         // TODO Auto-generated method stub
 
     };
+    
+    public void checkRequests(View v){
+        ServerClient sc = new ServerClient();
+        //TODO need info for how to query requests
+    }
 
 
 

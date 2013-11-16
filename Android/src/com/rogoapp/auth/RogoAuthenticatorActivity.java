@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -13,11 +12,9 @@ import com.rogoapp.MainScreenActivity;
 import com.rogoapp.R;
 import com.rogoapp.ServerClient;
 import com.rogoapp.auth.EmailValidator;
-
 import android.accounts.Account;
 import android.accounts.AccountAuthenticatorActivity;
 import android.accounts.AccountManager;
-import android.accounts.AccountManagerFuture;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -31,7 +28,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class RogoAuthenticatorActivity extends AccountAuthenticatorActivity {
-	
+
 	public static final String PARAM_AUTHTOKEN_TYPE = "com.rogoapp";  
 	public static final String PARAM_CREATE = "create";
 	public static final String PARAM_USERNAME = "username";
@@ -49,67 +46,69 @@ public class RogoAuthenticatorActivity extends AccountAuthenticatorActivity {
 
 	public static boolean createToken;
 	public boolean openMain;
-	
+
 	private EditText tvUsername;  
 	private EditText tvPassword;
 
 	private TextView txtUsername;
 	private TextView txtPassword;
+	
+	private Button register;
 
 	private String username;  
 	private String password;
 
-	
+
 	final Context context = this;
+	private AccountManager am = AccountManager.get(this);
 
 	@Override  
 	protected void onCreate(Bundle icicle) {  
-		
+
 		// recreates from saved state -- icicle is the same as savedInstanceState  
 		super.onCreate(icicle);  
-				
+
 		//creates a view from the login.xml file
 		this.setContentView(R.layout.login);
-		
+
 		//set variables and aesthetic changes
 		tvUsername = (EditText) this.findViewById(R.id.auth_txt_username);  
 		tvPassword = (EditText) this.findViewById(R.id.auth_txt_pswd);
-		
-		//TODO
-		tvUsername.setText("zyxer22@aol.com");
-		tvPassword.setText("asdfghjkl");
 
 		txtUsername = (TextView) this.findViewById(R.id.txt_username);
 		txtPassword = (TextView) this.findViewById(R.id.txt_pswd);
 
-
 		username = tvUsername.getText().toString();  
 		password = tvPassword.getText().toString();  
-		Button button = (Button) this.findViewById(R.id.link_to_register);
-		button.setBackgroundColor(Color.WHITE);
-		
-		
+		register = (Button) this.findViewById(R.id.link_to_register);
+		register.setBackgroundColor(Color.WHITE);
+
+
 		openMain = getIntent().getBooleanExtra(OPEN_MAIN, false);
-//		AccountManager am = AccountManager.get(this);
-//		Account[] accounts =am.getAccountsByType(PARAM_AUTHTOKEN_TYPE);
-//		if(accounts.length != 0){
-//			String pass = am.getPassword(accounts[0]);
-//			String token = am.peekAuthToken(accounts[0], RogoAuthenticatorActivity.PARAM_AUTHTOKEN_TYPE);
-//			if(token == null || token == "")
-//				am.setAuthToken(accounts[0], PARAM_AUTHTOKEN_TYPE, "Hello token!");
-//		}
-//		if(accounts.length >= 1){
-//			String pass = am.getPassword(accounts[1]);
-//			String token = am.peekAuthToken(accounts[1], RogoAuthenticatorActivity.PARAM_AUTHTOKEN_TYPE);
-//			if(token == null || token == "")
-//				am.setAuthToken(accounts[1], PARAM_AUTHTOKEN_TYPE, "Hello token!");
-//		}
+				Account[] accounts =am.getAccountsByType(PARAM_AUTHTOKEN_TYPE);
+				if(accounts.length != 0){
+					String username = accounts[0].name;
+					tvUsername.setText(username);
+					tvUsername.setFocusable(false);
+					register.setText("Not " + username + "?");
+					
+		//			String pass = am.getPassword(accounts[0]);
+		//			String token = am.peekAuthToken(accounts[0], RogoAuthenticatorActivity.PARAM_AUTHTOKEN_TYPE);
+		//			if(token == null || token == "")
+		//				am.setAuthToken(accounts[0], PARAM_AUTHTOKEN_TYPE, "Hello token!");
+				}
+		//		if(accounts.length >= 1){
+		//			String pass = am.getPassword(accounts[1]);
+		//			String token = am.peekAuthToken(accounts[1], RogoAuthenticatorActivity.PARAM_AUTHTOKEN_TYPE);
+		//			if(token == null || token == "")
+		//				am.setAuthToken(accounts[1], PARAM_AUTHTOKEN_TYPE, "Hello token!");
+		//		}
 	}
 
-	
+
 	@Override
 	protected void onNewIntent(Intent intent){
-		
+
 		//when this intent is returned to, any data entered into it previously is reset
 		super.onNewIntent(intent);
 		if(intent.getBooleanExtra("reset", false)){
@@ -121,9 +120,9 @@ public class RogoAuthenticatorActivity extends AccountAuthenticatorActivity {
 			}
 		}
 	}
-	
+
 	public void setVar(){
-		
+
 		//sets all the local variables for the login features
 		tvUsername = (EditText) this.findViewById(R.id.auth_txt_username);  
 		tvPassword = (EditText) this.findViewById(R.id.auth_txt_pswd);
@@ -144,20 +143,27 @@ public class RogoAuthenticatorActivity extends AccountAuthenticatorActivity {
 		this.finish();  
 
 	}  
-	
+
 	public void openRegisterScreen(View v){
 		
-		//opens the registration form
-		Intent intent = new Intent(context, RegisterActivity.class);		
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NO_HISTORY);
-		startActivity(intent);
+		if(!register.getText().equals("Register")){
+			//opens the registration form
+			Intent intent = new Intent(context, RegisterActivity.class);		
+			intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NO_HISTORY);
+			startActivity(intent);
+		}
+		else{
+			tvUsername.setText("");
+			tvUsername.setFocusableInTouchMode(true);
+		}
+			
 	}
 	public void onRememberMe(View V){
-		
+
 		//When the user has chosen to be remembered, sets the Login to store an auth-token
 		//and changes the Login button appropriately to reflect their choice
 		Button login = (Button) this.findViewById(R.id.btnLogin);
-		
+
 		if(getToken()){
 			this.setToken(false);
 		}
@@ -168,46 +174,45 @@ public class RogoAuthenticatorActivity extends AccountAuthenticatorActivity {
 		}
 		else login.setText("Login"); 
 	}
-	
+
 	public void onBypass(View v){
 		//TODO Delete this after implementing stored auth tokens
 		this.finish();
 		final Intent intent = new Intent(context, MainScreenActivity.class);
 		startActivity(intent);
 	}
-	
+
 	public void logout(Account account){
-		
+
 		//clears the stored password and invalidates the current auth-token if one exists
-        final AccountManager am = AccountManager.get(context);
-        String authToken = am.peekAuthToken(account, PARAM_AUTHTOKEN_TYPE);
-        
+		String authToken = am.peekAuthToken(account, PARAM_AUTHTOKEN_TYPE);
+
 		am.clearPassword(account);
 		am.invalidateAuthToken(account.type, authToken);
 	}
-	
+
 	public void onSaveClick(View v) {  
-		
+
 		//checks for any errors within the form
 		//if errors are found, the login exits
 		if(hasErrors())
 			return;
-		
+
 		else{
 
 			// Now that we have done some simple "client side" validation it  
 			// is time to check with the server  
-						
+
 			ServerClient server = new ServerClient();
 			List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
-        	nameValuePairs.add(new BasicNameValuePair("email", username));
-        	nameValuePairs.add(new BasicNameValuePair("password", AccountAuthenticator.hashPassword(password)));
-        	
-        	JSONObject json = server.genericPostRequest("login", nameValuePairs);
-        	
-        	String toHash = "";
-        	try {
-        		String check = json.getString("data");
+			nameValuePairs.add(new BasicNameValuePair("email", username));
+			nameValuePairs.add(new BasicNameValuePair("password", AccountAuthenticator.hashPassword(password)));
+
+			JSONObject json = server.genericPostRequest("login", nameValuePairs);
+
+			String toHash = "";
+			try {
+				String check = json.getString("data");
 				if(check.equals("Email or password is incorrect!")){
 					tvPassword.setText("");
 					tvPassword.setHighlightColor(Color.RED);
@@ -216,59 +221,58 @@ public class RogoAuthenticatorActivity extends AccountAuthenticatorActivity {
 					return;
 				}
 				else{
-	        		JSONObject data = json.getJSONObject("data");
-	        		String session = data.getString("session");
-	        		String secret = data.getString("secret");
-	        		
-	        		toHash = session + secret;
+					JSONObject data = json.getJSONObject("data");
+					String session = data.getString("session");
+					String secret = data.getString("secret");
+
+					toHash = session + secret;
 				}
 			} catch (JSONException e) {
 				e.printStackTrace();
 				System.out.println("Json did not return");
 			}
-			
+
 			// finished  
-			
+
 			String accountType = this.getIntent().getStringExtra(PARAM_AUTHTOKEN_TYPE);  
 			if (accountType == null) {  
 				accountType = AccountAuthenticator.ACCOUNT_TYPE;  
 			}  
-			
-			AccountManager accMgr = AccountManager.get(this);
-			Account[] accounts = accMgr.getAccountsByType(PARAM_AUTHTOKEN_TYPE);
+
+			Account[] accounts = am.getAccountsByType(PARAM_AUTHTOKEN_TYPE);
 
 
 
 			if(accounts.length != 0 && !accounts[0].name.equalsIgnoreCase(username)){
-				showMessage("We can only authenticate one user to this phone.\nPlease log out of previous account before continuing.");
+				showMessage("Only one user is allowed on this phone.\nPlease log out before continuing.");
 				return;
 			}
 			else if(accounts.length == 1 && accounts[0].name.equalsIgnoreCase(username)){
 				username = accounts[0].name;
 			}
-			
+
 			// This is the magic that adds the account to the Android Account Manager  
 			final Account account = new Account(username, accountType);
-			accMgr.addAccountExplicitly(account, password, null);  
+			am.addAccountExplicitly(account, password, null);  
 
 			// Now we tell our caller, could be the Android Account Manager or even our own application  
 			// that the process was successful  
 
 			final Intent intent = new Intent();
-			
+
 			intent.putExtra(AccountManager.KEY_ACCOUNT_NAME, username);  
 			intent.putExtra(AccountManager.KEY_ACCOUNT_TYPE, accountType);
 			intent.putExtra(AccountManager.KEY_PASSWORD, password);
 			if(getToken()){
 				intent.putExtra(AccountManager.KEY_AUTHTOKEN, AccountAuthenticator.hashPassword(toHash));
 				String putToken = AccountAuthenticator.hashPassword(toHash);
-				accMgr.setAuthToken(accounts[0], PARAM_AUTHTOKEN_TYPE, putToken);
+				am.setAuthToken(accounts[0], PARAM_AUTHTOKEN_TYPE, putToken);
 			}
 			this.setAccountAuthenticatorResult(intent.getExtras());  
 			this.setResult(RESULT_OK, intent);
-			
-				
-			
+
+
+
 			//after setting the account, close the login activity and open the MainScreenActivity
 			this.finish();
 			if(openMain){
@@ -279,9 +283,9 @@ public class RogoAuthenticatorActivity extends AccountAuthenticatorActivity {
 
 		}
 	}
-	
+
 	private Boolean hasErrors(){
-		
+
 		this.username = tvUsername.getText().toString();  
 		this.password = tvPassword.getText().toString(); 
 		EmailValidator validate = new EmailValidator();
@@ -290,7 +294,7 @@ public class RogoAuthenticatorActivity extends AccountAuthenticatorActivity {
 		boolean badUsername = false;
 		boolean badPass = false;
 
-		
+
 
 		if(validate.validate(username) && !badUsername){
 			txtUsername.setBackgroundColor(Color.WHITE);
@@ -322,15 +326,15 @@ public class RogoAuthenticatorActivity extends AccountAuthenticatorActivity {
 		return hasErrors;
 	}
 
-	 private void showMessage(final String msg) {
-         if (TextUtils.isEmpty(msg))
-         return;
+	private void showMessage(final String msg) {
+		if (TextUtils.isEmpty(msg))
+			return;
 
-     runOnUiThread(new Runnable() {
-         @Override
-         public void run() {
-             Toast.makeText(getBaseContext(), msg, Toast.LENGTH_SHORT).show();
-         }
-     });
- }
+		runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				Toast.makeText(getBaseContext(), msg, Toast.LENGTH_SHORT).show();
+			}
+		});
+	}
 }

@@ -30,7 +30,7 @@ public class NearYouMapActivity extends FragmentActivity implements
 
 
 	private static final int GPS_ERRORDIALOG_REQUEST = 9001;
-	private static final float DEFAULTZOOM = 15;
+	private static final float DEFAULTZOOM = 17;
 	@SuppressWarnings("unused")
 	private static final int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9002;
 	GoogleMap mMap;
@@ -53,7 +53,7 @@ public class NearYouMapActivity extends FragmentActivity implements
 			if(initMap()) {
 				Toast.makeText(this, "Ready to map!", Toast.LENGTH_SHORT).show();
 				goToLocation(GVILLE_LAT, GVILLE_LNG, DEFAULTZOOM);
-				
+				mMap.setMyLocationEnabled(true);
 				// code for the current location
 				mLocationClient = new LocationClient(this, this, this);
 				mLocationClient.connect();
@@ -119,8 +119,9 @@ public class NearYouMapActivity extends FragmentActivity implements
 	
 	private void goToLocation(double lat, double lng, float zoom) {
 		LatLng ll = new LatLng(lat, lng);
-		CameraUpdate update = CameraUpdateFactory.newLatLng(ll);
+		CameraUpdate update = CameraUpdateFactory.newLatLngZoom(ll, zoom);
 		mMap.animateCamera(update);
+//mMap.animateCamera(CameraUpdateFactory.zoomTo(zoom));
 		
 	}
 	
@@ -132,9 +133,10 @@ public class NearYouMapActivity extends FragmentActivity implements
 				Toast.makeText(this, "Current location is not available", Toast.LENGTH_SHORT).show();
 			}
 			else {
-				LatLng ll = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
+				Toast.makeText(this, "Current location is available", Toast.LENGTH_SHORT).show();
+			/*	LatLng ll = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
 				CameraUpdate update = CameraUpdateFactory.newLatLngZoom(ll, DEFAULTZOOM);
-				mMap.animateCamera(update);
+				mMap.animateCamera(update); */
 			}
 		} 
 	

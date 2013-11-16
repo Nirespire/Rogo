@@ -34,7 +34,7 @@ class RequestObject{
 		}
 		// Uncomment this initialize line if we need user information from session, otherwise, leave this commented out.
 		// That is, if we need to make sure the user is logged in and/or need to get UID/email/username/whatnot for the requesting user.
-		// $this->_user->initialize();
+		$this->_user->initialize();
 	}
 	
 	/** This is where the request actually occurs an is processed.
@@ -42,44 +42,73 @@ class RequestObject{
 	 ** Do your processing and whatnot in here, then use $this->setResult() to set the output data. **/
 	public function performRequest(){
 		
-	
-		$data = 'data';
-		
-		/*
 		//Here's a quick way to check if the user is logged in. Make sure to uncomment the initialize line in the constructor if we wish to use this 
 		if(!$this->_user->IsLoggedIn()){
 			$this->setResult(STATUS_NLI,'You must be logged in!');
 			return;
 		}
 		$uid = $this->_user->getUID();
-		*/
 		
-		
-		/*
-		// Here's a nice sample SQL query based on the tips request:
 		$requestedCount = 10; 							//Just a nice default value
 		if(isset($this->_req['count'])){ 				//Check if the "count" parameter was included in the request ("template.json?count=5").
-			$requestedCount = $this->_req['count']; 	//Gets the value of the count parameter
-		}												//You can include an else statement if you want to return an error if a require parameter is omitted
+			if(ctype_digit($this->_req['count']) && $this->_req['count'] > 0){
+				$requestedCount = $this->_req['count']; 	//Gets the value of the count parameter
+			}
+			else{
+				$this->setResult(STATUS_ERROR,'Invalid count requested!');
+				return;
+			}
+		}
+		
 		
 		try{
-			$query = 'SELECT tid AS tip_id, tip FROM tips WHERE tid=:sometid LIMIT :count'; //Just your SQL query. Notice the tokens prefixed with a colon, ":sometid" and ":count"
-			$tipsStatement = $this->_sqlCon->prepare($query); 					//Now we prepare the query. Just go with it, otherwise look it up. I don't feel like explaining it
-			$tipsStatement->execute(array(':sometid'=>5,':count'=>1));			//Now, using the array, we assign values to those tokens in the query that were prefixed with a colon.
-																				//This prevents against SQL injection and stuff.
-			$result = $tipsStatement->fetchAll(PDO::FETCH_ASSOC);				//Get an associated array (key-value) of all of the resulting rows
-																				//If you're going to do processing/looping, you should probably do a loop using fetch() instead.
-																				//Just look up PHP PDO.
-																				
+			$distanceQuery = '
+				SELECT uid, location_label, location_latitude, location_longitude, distance, updated, 
+				CASE WHEN recentness < 60 THEN CONCAT(recentness,\' seconds\')
+				WHEN recentness < 3600 THEN CONCAT(FLOOR(recentness / 60),\' minutes\')
+				WHEN recentness < 7200 THEN CONCAT(\'1 hour \',FLOOR((recentness - 3600) / 60),\' minutes\')
+				WHEN recentness < 86400 THEN CONCAT(FLOOR(recentness / 3600),\' hours\')
+				WHEN recentness < 90000 THEN CONCAT(\'1 day \',FLOOR((recentness - 86400)/60),\' minutes\')
+				WHEN recentness < 172800 THEN CONCAT(\'1 day \',FLOOR((recentness - 86400)/3600),\' hours\')
+				ELSE CONCAT(FLOOR(recentness / 86400),\' days\') END AS recentness
+				 FROM (
+				SELECT  a.uid,  a.location_label, a.location_lat AS location_latitude, a.location_lon AS location_longitude, a.update_time AS updated, usera.radius AS uradius, a.radius,
+				(2 * (3959 * ATAN2(
+						  SQRT(
+							POWER(SIN((RADIANS(usera.location_lat - a.location_lat ) ) / 2 ), 2 ) +
+							COS(RADIANS(a.location_lat)) *
+							COS(RADIANS(usera.location_lat)) *
+							POWER(SIN((RADIANS(usera.location_lon - a.location_lon ) ) / 2 ), 2 )
+						  ),
+						  SQRT(1-(
+							POWER(SIN((RADIANS(usera.location_lat - a.location_lat ) ) / 2 ), 2 ) +
+							COS(RADIANS(a.location_lat)) *
+							COS(RADIANS(usera.location_lat)) *
+							POWER(SIN((RADIANS(usera.location_lon - a.location_lon ) ) / 2 ), 2 )
+						  ))
+						)
+					  ))
+				AS distance,
+				TIMESTAMPDIFF(SECOND,a.update_time,NOW()) AS recentness
+				FROM  availability AS a, (SELECT * FROM availability WHERE uid=:uid) AS usera
+				WHERE a.uid <> usera.uid
+				HAVING distance < usera.radius AND distance < a.radius
+				ORDER BY distance
+				LIMIT 0 , :count) AS nearby
+			';
+			$nearbyStatement = $this->_sqlCon->prepare($distanceQuery); 					//Now we prepare the query. Just go with it, otherwise look it up. I don't feel like explaining it
+			//$nearbyStatement->execute(array(':uid'=>$uid));			//Now, using the array, we assign values to those tokens in the query that were prefixed with a colon.
+			$nearbyStatement->bindParam(':uid',$uid,PDO::PARAM_INT);
+			$nearbyStatement->bindValue(':count',intval($requestedCount),PDO::PARAM_INT);
+			$nearbyStatement->execute();
+			
+			$result = $nearbyStatement->fetchAll(PDO::FETCH_ASSOC);				//Get an associated array (key-value) of all of the resulting rows
 			$this->setResult(STATUS_SUCCESS,$result);							//Yeah, return the result! 	
 		}
 		catch(PDOException $e){
-			logError($_SERVER['SCRIPT_NAME'],__LINE__,'Unable to fetch tips from database',$e->getMessage(),time()); 		//Let's log the exception
-			$this->setResult(STATUS_FAILURE,'Something went wrong while trying to fetch tips for you! Please try again!');	//Tell the user everything died
+			logError($_SERVER['SCRIPT_NAME'],__LINE__,'Unable to fetch nearby users from database',$e->getMessage(),time()); 		//Let's log the exception
+			$this->setResult(STATUS_FAILURE,'Something went wrong while trying to fetch nearby users for you! Please try again!');	//Tell the user everything died
 		}
-		*/
-		
-		$this->setResult(STATUS_SUCCESS,$data);
 	}
 	
 	/** Sets the resultant status and data.

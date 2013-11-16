@@ -6,10 +6,9 @@
  *  **Created by Joey Siracusa for Speaksoft**
  *  
  *  TODO:
- *  -Finish creating get/set methods
- *  -Discuss scoring functionality with group (possibly for later sprint)
- *  -Discuss creation of Friend class with group (possibly for later sprint)
- *  -Discuss how User will be implemented in RogoMainActivity (possibly for later sprint)
+ *  
+ *  -Discuss creation of Friend class with group 
+ *  -Discuss how User will be implemented in RogoMainActivity 
  *  
  */
 
@@ -17,8 +16,6 @@ package com.rogoapp;
 
 import java.util.Date;
 import java.util.ArrayList;
-
-
 
 
 public class User {
@@ -31,12 +28,11 @@ public class User {
 	private Date birthday;
 	private String email;
 	private ArrayList<String> interests;
-	private int score;
-	private int level;
+	private int points;
 	private ArrayList<Friend> recentlyMet; //Friend class yet to be created.
 	
 	//--------------------------------------------------------------------------------------
-	//INITIALIZATION: Initilization of User object
+	//INITIALIZATION: Initialization of User object
 	
 	public User(){
 		username = "defaultUser";
@@ -44,8 +40,7 @@ public class User {
 		lastName = "defaultLast";
 		birthday = new Date(0, 0, 1); //default date is Jan 1 1900
 		email = "defaultEmail";
-		score = 0;	//starting score is 0
-		level = 1;	//starting level is 1
+		points = 0;
 	}
 	
 	public User(String username, String firstName, String lastName, int year, int month, int day, String email){
@@ -54,8 +49,7 @@ public class User {
 		this.lastName = lastName;
 		birthday = new Date(year, month, day);
 		this.email = email;
-		score = 0;	//starting score is 0
-		level = 1;	//starting level is 1
+		points = 0;
 	}
 	
 	public User(String username, String firstName, String lastName, Date birthday, String email){
@@ -64,8 +58,15 @@ public class User {
 		this.lastName = lastName;
 		this.birthday = birthday;
 		this.email = email;
-		score = 0;	//starting score is 0
-		level = 1;	//starting level is 1
+		points = 0;	//starting points is 0
+	}
+	
+	public User(String firstName, String lastName, Date birthday, String email, int points){
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.birthday = birthday;
+		this.email = email;
+		this.points = points;	
 	}
 	
 	//--------------------------------------------------------------------------------------
@@ -125,28 +126,16 @@ public class User {
 		return interests;
 	}
 	
-	public int getScore(){
-		return score;
+	public int getPoints(){
+		return points;
 	}
 	
-	public void setScore(int score){
-		this.score = score;
+	public void setPoints(int points){
+		this.points = points;
 	}
 	
-	public void incrementScore(int increment){
-		score += increment;
-	}
-	
-	public int getLevel(){
-		return level;
-	}
-	
-	public void setLevel(int level){
-		this.level = level;
-	}
-	
-	public void incrementLevel(int increment){
-		level += increment;
+	public void addPoints(int add){
+		this.points = this.points + add;
 	}
 	
 	public ArrayList<Friend> getRecentlyMet(){

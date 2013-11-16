@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -16,10 +17,12 @@ import com.rogoapp.auth.EmailValidator;
 import android.accounts.Account;
 import android.accounts.AccountAuthenticatorActivity;
 import android.accounts.AccountManager;
+import android.accounts.AccountManagerFuture;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -71,6 +74,10 @@ public class RogoAuthenticatorActivity extends AccountAuthenticatorActivity {
 		//set variables and aesthetic changes
 		tvUsername = (EditText) this.findViewById(R.id.auth_txt_username);  
 		tvPassword = (EditText) this.findViewById(R.id.auth_txt_pswd);
+		
+		//TODO
+		tvUsername.setText("zyxer22@aol.com");
+		tvPassword.setText("asdfghjkl");
 
 		txtUsername = (TextView) this.findViewById(R.id.txt_username);
 		txtPassword = (TextView) this.findViewById(R.id.txt_pswd);
@@ -83,6 +90,20 @@ public class RogoAuthenticatorActivity extends AccountAuthenticatorActivity {
 		
 		
 		openMain = getIntent().getBooleanExtra(OPEN_MAIN, false);
+//		AccountManager am = AccountManager.get(this);
+//		Account[] accounts =am.getAccountsByType(PARAM_AUTHTOKEN_TYPE);
+//		if(accounts.length != 0){
+//			String pass = am.getPassword(accounts[0]);
+//			String token = am.peekAuthToken(accounts[0], RogoAuthenticatorActivity.PARAM_AUTHTOKEN_TYPE);
+//			if(token == null || token == "")
+//				am.setAuthToken(accounts[0], PARAM_AUTHTOKEN_TYPE, "Hello token!");
+//		}
+//		if(accounts.length >= 1){
+//			String pass = am.getPassword(accounts[1]);
+//			String token = am.peekAuthToken(accounts[1], RogoAuthenticatorActivity.PARAM_AUTHTOKEN_TYPE);
+//			if(token == null || token == "")
+//				am.setAuthToken(accounts[1], PARAM_AUTHTOKEN_TYPE, "Hello token!");
+//		}
 	}
 
 	
@@ -183,6 +204,8 @@ public class RogoAuthenticatorActivity extends AccountAuthenticatorActivity {
         	nameValuePairs.add(new BasicNameValuePair("password", AccountAuthenticator.hashPassword(password)));
         	
         	JSONObject json = server.genericPostRequest("login", nameValuePairs);
+        	
+        	String toHash = "";
         	try {
         		String check = json.getString("data");
 				if(check.equals("Email or password is incorrect!")){
@@ -191,6 +214,13 @@ public class RogoAuthenticatorActivity extends AccountAuthenticatorActivity {
 					tvUsername.setHighlightColor(Color.RED);
 					Toast.makeText(context, check, Toast.LENGTH_LONG).show();
 					return;
+				}
+				else{
+	        		JSONObject data = json.getJSONObject("data");
+	        		String session = data.getString("session");
+	        		String secret = data.getString("secret");
+	        		
+	        		toHash = session + secret;
 				}
 			} catch (JSONException e) {
 				e.printStackTrace();
@@ -204,11 +234,21 @@ public class RogoAuthenticatorActivity extends AccountAuthenticatorActivity {
 				accountType = AccountAuthenticator.ACCOUNT_TYPE;  
 			}  
 			
-			AccountManager accMgr = AccountManager.get(this);  
+			AccountManager accMgr = AccountManager.get(this);
+			Account[] accounts = accMgr.getAccountsByType(PARAM_AUTHTOKEN_TYPE);
 
 
+
+			if(accounts.length != 0 && !accounts[0].name.equalsIgnoreCase(username)){
+				showMessage("We can only authenticate one user to this phone.\nPlease log out of previous account before continuing.");
+				return;
+			}
+			else if(accounts.length == 1 && accounts[0].name.equalsIgnoreCase(username)){
+				username = accounts[0].name;
+			}
+			
 			// This is the magic that adds the account to the Android Account Manager  
-			final Account account = new Account(username, accountType);  
+			final Account account = new Account(username, accountType);
 			accMgr.addAccountExplicitly(account, password, null);  
 
 			// Now we tell our caller, could be the Android Account Manager or even our own application  
@@ -219,11 +259,15 @@ public class RogoAuthenticatorActivity extends AccountAuthenticatorActivity {
 			intent.putExtra(AccountManager.KEY_ACCOUNT_NAME, username);  
 			intent.putExtra(AccountManager.KEY_ACCOUNT_TYPE, accountType);
 			intent.putExtra(AccountManager.KEY_PASSWORD, password);
-			if(getToken())
-				intent.putExtra(AccountManager.KEY_AUTHTOKEN, accountType);
-
+			if(getToken()){
+				intent.putExtra(AccountManager.KEY_AUTHTOKEN, AccountAuthenticator.hashPassword(toHash));
+				String putToken = AccountAuthenticator.hashPassword(toHash);
+				accMgr.setAuthToken(accounts[0], PARAM_AUTHTOKEN_TYPE, putToken);
+			}
 			this.setAccountAuthenticatorResult(intent.getExtras());  
-			this.setResult(RESULT_OK, intent);  
+			this.setResult(RESULT_OK, intent);
+			
+				
 			
 			//after setting the account, close the login activity and open the MainScreenActivity
 			this.finish();
@@ -277,4 +321,16 @@ public class RogoAuthenticatorActivity extends AccountAuthenticatorActivity {
 		}  
 		return hasErrors;
 	}
+
+	 private void showMessage(final String msg) {
+         if (TextUtils.isEmpty(msg))
+         return;
+
+     runOnUiThread(new Runnable() {
+         @Override
+         public void run() {
+             Toast.makeText(getBaseContext(), msg, Toast.LENGTH_SHORT).show();
+         }
+     });
+ }
 }

@@ -13,6 +13,8 @@ import android.accounts.AccountAuthenticatorActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
@@ -44,6 +46,7 @@ public class RegisterActivity extends AccountAuthenticatorActivity{
         
         Button button = (Button) this.findViewById(R.id.link_to_login);
         button.setBackgroundColor(Color.TRANSPARENT);
+        
     }
 
     @Override
@@ -53,6 +56,7 @@ public class RegisterActivity extends AccountAuthenticatorActivity{
         return true;
     }
     
+
 
     public void onRegister(View v) {
         EditText username = (EditText) findViewById(R.id.reg_username);

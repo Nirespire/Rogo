@@ -11,4 +11,6 @@ define('DB_COLLATE', '');
 
 define('LOG_PATH_ERRORS','./errors.log');
 
+define('SERVER_DEV',true); //TURN THIS OFF ON LIVE SERVER
+
 ?>

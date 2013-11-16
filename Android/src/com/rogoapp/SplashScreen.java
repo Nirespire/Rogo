@@ -28,7 +28,7 @@ public class SplashScreen extends Activity {
                 AccountManager am = AccountManager.get(getBaseContext());
                 android.accounts.Account[] accounts = am.getAccountsByType(RogoAuthenticatorActivity.PARAM_AUTHTOKEN_TYPE);
 
-                //				AccountAuthenticatorResponse response = new AccountAuthenticatorResponse(null);
+
                 //				AccountAuthenticator auth = new AccountAuthenticator(MyApplication.getAppContext());
                 //				
                 //				Bundle token = null;
@@ -38,14 +38,11 @@ public class SplashScreen extends Activity {
                 //					token = null;
                 //					e.printStackTrace();
                 //				}
+                
                 String token = "";
-                try{
-                    if(accounts != null)
-                        token = am.peekAuthToken(accounts[0], RogoAuthenticatorActivity.PARAM_AUTHTOKEN_TYPE);
-                }catch(Exception e){
-                    e.printStackTrace();
-                }
 
+                if(accounts.length != 0)
+                        token = am.peekAuthToken(accounts[0], RogoAuthenticatorActivity.PARAM_AUTHTOKEN_TYPE);
                 Intent i;
                 if(token != null && token != ""){
                     i = new Intent(SplashScreen.this, MainScreenActivity.class);

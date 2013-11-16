@@ -26,24 +26,6 @@
         android:onClick="openLoginScreen"
         android:text="Login Screen" />
 
-    <Button
-        android:id="@+id/registration_debug_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/server_debug_button"
-        android:layout_centerHorizontal="true"
-        android:onClick="openRegistrationScreen"
-        android:text="REGISTRATION SCREEN" />
-
-    <Button
-        android:id="@+id/cache_read"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/location_debug_button"
-        android:layout_centerHorizontal="true"
-        android:onClick="onCacheRead"
-        android:text="Cache Test" />
-
     <TextView
         android:id="@+id/textView1"
         android:layout_width="wrap_content"
@@ -51,15 +33,6 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:text="WELCOME TO DEBUG" />
-
-    <Button
-        android:id="@+id/meet_request_popup_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/cache_read"
-        android:layout_centerHorizontal="true"
-        android:text="Send Request" 
-        android:onClick="openRequestPopup"/>
 
     <Button
         android:id="@+id/meeting_someone_debug_button"
@@ -82,12 +55,22 @@
         android:text="Send Request" />
 
     <Button
-        android:id="@+id/server_debug_button"
+        android:id="@+id/registration_debug_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/textView1"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="22dp"
-        android:text="SERVER REQUEST" />
+        android:layout_marginTop="52dp"
+        android:onClick="openRegistrationScreen"
+        android:text="Registration Screen" />
+
+    <Button
+        android:id="@+id/check_requests_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/location_debug_button"
+        android:layout_centerHorizontal="true"
+        android:text="Check for Requests" 
+        android:onClick="checkRequests"/>
 
 </RelativeLayout>

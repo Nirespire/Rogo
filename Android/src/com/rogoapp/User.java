@@ -25,6 +25,7 @@ public class User {
 	//--------------------------------------------------------------------------------------
 	//PROPERTIES: All class properties are set to private
 	
+	private String username;
 	private String firstName;
 	private String lastName;
 	private Date birthday;
@@ -38,6 +39,7 @@ public class User {
 	//INITIALIZATION: Initilization of User object
 	
 	public User(){
+		username = "default";
 		firstName = "default";
 		lastName = "default";
 		birthday = new Date(0, 0, 1); //default date is Jan 1 1900
@@ -82,7 +84,9 @@ public class User {
 	public void setLastName(String lastName){
 		this.lastName = lastName;
 	}
-	
+	public String getUsername() {
+		return username;
+	}
 	public Date getBirthday(){
 		return birthday;
 	}
@@ -137,9 +141,9 @@ public class User {
 		level += increment;
 	}
 	
-	public ArrayList<Friend> getFriends(){
-		return friends;
-	}
+//	public static ArrayList<Friend> getFriends(){
+	//	return friends;
+//	}
 	
 	// We might want to add a comparison function - Dax
 	

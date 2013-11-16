@@ -61,6 +61,17 @@
         android:layout_centerHorizontal="true"
         android:onClick="onCacheRead"
         android:text="Cache Test" />
+    
+     <Button
+        android:id="@+id/recently_met"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/cache_read"
+        android:layout_centerHorizontal="true"
+        android:onClick="openRecentlyMetScreen"
+        android:text="Recently Met List" />
+    
+    
 
     <TextView
         android:id="@+id/textView1"

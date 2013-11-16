@@ -89,8 +89,7 @@
     <string name="remember_me">Remember me</string>
     <string name="register_quest">Don\'t have a Rogo account? </string>
     <string name="SettingsText">Settings</string>
-    <string name="buddy_list">Buddy List </string>
-    <string name="add_friend">Add Buddy </string>
+    <string name="recently_met">Recently Met</string>
     <string name="title_activity_send_request">SendRequestActivity</string>
 
 </resources>

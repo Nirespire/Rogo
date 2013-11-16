@@ -178,6 +178,8 @@ public class DebugActivity extends Activity implements LocationListener {
         Geocoder geocoder;
         String out = "";
         String provider = "";
+        
+        Location location = null;
 
 
 
@@ -185,19 +187,13 @@ public class DebugActivity extends Activity implements LocationListener {
             buildAlertMessageNoGps();
             loc.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0,0,this);
             provider = "Network";
+            location = loc.getLastKnownLocation(loc.NETWORK_PROVIDER);
         }
         else{
             loc.requestLocationUpdates(LocationManager.GPS_PROVIDER,0,0,this);
             provider = "GPS";
+            location = loc.getLastKnownLocation(loc.GPS_PROVIDER);
         }
-
-
-        Criteria criteria = new Criteria();
-        criteria.setAccuracy(Criteria.ACCURACY_FINE);
-
-        bestProvider = loc.getBestProvider(criteria, true);
-
-        Location location = loc.getLastKnownLocation(bestProvider);
 
 
         if (location == null){

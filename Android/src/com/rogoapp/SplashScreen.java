@@ -43,8 +43,6 @@ public class SplashScreen extends Activity {
 
                 if(accounts.length != 0)
                         token = am.peekAuthToken(accounts[0], RogoAuthenticatorActivity.PARAM_AUTHTOKEN_TYPE);
-                am.invalidateAuthToken(RogoAuthenticatorActivity.PARAM_AUTHTOKEN_TYPE, token);
-
                 Intent i;
                 if(token != null && token != ""){
                     i = new Intent(SplashScreen.this, MainScreenActivity.class);

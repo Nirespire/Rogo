@@ -249,7 +249,6 @@ public class RogoAuthenticatorActivity extends AccountAuthenticatorActivity {
 			
 			// This is the magic that adds the account to the Android Account Manager  
 			final Account account = new Account(username, accountType);
-//			accMgr.addAccount(accountType, PARAM_AUTHTOKEN_TYPE, null, null, this, null, null);
 			accMgr.addAccountExplicitly(account, password, null);  
 
 			// Now we tell our caller, could be the Android Account Manager or even our own application  

@@ -122,13 +122,13 @@ public class DebugActivity extends Activity implements LocationListener {
 
     public void addListenerOnBuddyListButton() {
 
-        //registerButton = (Button) findViewById(R.id.buddy_list_button);
+        registerButton = (Button) findViewById(R.id.recently_met);
 
         registerButton.setOnClickListener(new OnClickListener() {
 
             @Override
             public void onClick(View arg0) {
-                //openBuddyListScreen(arg0);
+                openRecentlyMetScreen(arg0);
             }
 
         });
@@ -147,13 +147,13 @@ public class DebugActivity extends Activity implements LocationListener {
         startActivity(intent);
     }
 
-    /*
-	 public void openBuddyListScreen(View v){
+    
+	 public void openRecentlyMetScreen(View v){
 	        final Context context = this;
 	        Intent intent = new Intent(context, BuddyListActivity.class);
 	        startActivity(intent);
 	}
-     */
+     
 
     public void openMeetingSomeoneScreen(View v){
         final Context context = this;

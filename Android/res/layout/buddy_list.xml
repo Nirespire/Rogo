@@ -24,20 +24,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:text="@string/buddy_list"
+        android:text="@string/recently_met"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textColor="@color/black" />
-
-    <Button
-        android:id="@+id/add_friend"
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignRight="@+id/buddylist"
-        android:layout_below="@+id/buddylist"
-        android:layout_marginTop="20dp"
-        android:text="@string/add_friend" />
-<!--       onClick=""     Want a list of recently met to appear - Peter --> 
-		
+        android:textColor="@color/black" />		
 
 </RelativeLayout>

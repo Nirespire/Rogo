@@ -6,9 +6,10 @@
  *  **Created by Joey Siracusa for Speaksoft**
  *  
  *  TODO:
- *  
- *  -Discuss creation of Friend class with group 
- *  -Discuss how User will be implemented in RogoMainActivity 
+ *  -Finish creating get/set methods
+ *  -Discuss scoring functionality with group (possibly for later sprint)
+ *  -Discuss creation of Friend class with group (possibly for later sprint)
+ *  -Discuss how User will be implemented in RogoMainActivity (possibly for later sprint)
  *  
  */
 
@@ -16,6 +17,8 @@ package com.rogoapp;
 
 import java.util.Date;
 import java.util.ArrayList;
+
+
 
 
 public class User {
@@ -28,57 +31,43 @@ public class User {
 	private Date birthday;
 	private String email;
 	private ArrayList<String> interests;
-	private int points;
-	private ArrayList<Friend> recentlyMet; //Friend class yet to be created.
+	private int score;
+	private int level;
+	private ArrayList<Friend> friends; //Friend class yet to be created.
 	
 	//--------------------------------------------------------------------------------------
-	//INITIALIZATION: Initialization of User object
+	//INITIALIZATION: Initilization of User object
 	
 	public User(){
-		username = "defaultUser";
-		firstName = "defaultFirst";
-		lastName = "defaultLast";
+		username = "default";
+		firstName = "default";
+		lastName = "default";
 		birthday = new Date(0, 0, 1); //default date is Jan 1 1900
-		email = "defaultEmail";
-		points = 0;
+		email = "default";
+		score = 0;	//starting score is 0
+		level = 1;	//starting level is 1
 	}
 	
-	public User(String username, String firstName, String lastName, int year, int month, int day, String email){
-		this.username = username;
+	public User(String firstName, String lastName, int year, int month, int day, String email){
 		this.firstName = firstName;
 		this.lastName = lastName;
 		birthday = new Date(year, month, day);
 		this.email = email;
-		points = 0;
+		score = 0;	//starting score is 0
+		level = 1;	//starting level is 1
 	}
 	
-	public User(String username, String firstName, String lastName, Date birthday, String email){
-		this.username = username;
+	public User(String firstName, String lastName, Date birthday, String email){
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.birthday = birthday;
 		this.email = email;
-		points = 0;	//starting points is 0
-	}
-	
-	public User(String firstName, String lastName, Date birthday, String email, int points){
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.birthday = birthday;
-		this.email = email;
-		this.points = points;	
+		score = 0;	//starting score is 0
+		level = 1;	//starting level is 1
 	}
 	
 	//--------------------------------------------------------------------------------------
 	//GET AND SET METHODS: Methods for accessing and changing class properties
-	
-	public String getUsername(){
-		return username;
-	}
-	
-	public void setUsername(String username){
-		this.username = username;
-	}
 	
 	public String getFirstName(){
 		return firstName;
@@ -95,7 +84,9 @@ public class User {
 	public void setLastName(String lastName){
 		this.lastName = lastName;
 	}
-	
+	public String getUsername() {
+		return username;
+	}
 	public Date getBirthday(){
 		return birthday;
 	}
@@ -126,25 +117,33 @@ public class User {
 		return interests;
 	}
 	
-	public int getPoints(){
-		return points;
+	public int getScore(){
+		return score;
 	}
 	
-	public void setPoints(int points){
-		this.points = points;
+	public void setScore(int score){
+		this.score = score;
 	}
 	
-	public void addPoints(int add){
-		this.points = this.points + add;
+	public void incrementScore(int increment){
+		score += increment;
 	}
 	
-	public ArrayList<Friend> getRecentlyMet(){
-		return recentlyMet;
+	public int getLevel(){
+		return level;
 	}
 	
-	public void addRecentlyMet(Friend person) {
-		recentlyMet.add(person);
+	public void setLevel(int level){
+		this.level = level;
 	}
+	
+	public void incrementLevel(int increment){
+		level += increment;
+	}
+	
+//	public static ArrayList<Friend> getFriends(){
+	//	return friends;
+//	}
 	
 	// We might want to add a comparison function - Dax
 	

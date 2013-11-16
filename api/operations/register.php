@@ -6,28 +6,45 @@ class RequestObject{
 	private $_STATUS = 0;
 
 	private $_sqlCon;
+	private $_user;
 	/** Constructor
 	 ** Currently takes optional PDO connection argument
+	 ** There really isn't much of a reason to modify this unless you really need something initialized before performRequest()
 	 **/
 	public function __construct(){
-		for($i=0;$i<func_num_args();$i++){
+		for($i=0;$i<func_num_args();$i++){	//Loop through all of the arguments provided to the instruction ("RequestObject($arg1,$arg2,...)").
 			$arg = func_get_arg($i);
-			if(is_object($arg)){
-				$class = get_class($arg);
-				if($class == 'PDO'){
-					$this->_sqlCon = $arg;
+			if(is_object($arg)){ 			//If this argument is of class-type object (basically anything not a primative data type). 
+				$class = get_class($arg); 	//Get the actual class of the argument
+				if($class == 'PDO'){		//Hey look! It's our SQL object
+					$this->_sqlCon = $arg; 	//We should save this. 
+				}
+				elseif($class == 'User'){	//If it's our User class
+					$this->_user = $arg;
 				}
 			}
 		} 
+		if(REQUEST_DATA_ARRAY == 0){ 		//Determine whether we want request data from $_REQUEST or $_POST
+			$this->_req = $_REQUEST;
+		}
+		else{
+			$this->_req = $_POST;
+		}
+		
+		if($this->_user == null){
+			$this->_user = new User();
+		}
+		// Uncomment this initialize line if we need user information from session, otherwise, leave this commented out.
+		// That is, if we need to make sure the user is logged in and/or need to get UID/email/username/whatnot for the requesting user.
+		//$this->_user->initialize();
 	}
 	public function performRequest(){
-		$REQ = $_REQUEST; 
 		$data = '';
 		
 		/** BEGIN: Test to ensure that required request args are present **/
-		$missingUser = !isset($REQ['username']);
-		$missingEmail = !isset($REQ['email']);
-		$missingPass = !isset($REQ['password']);
+		$missingUser = !isset($this->_req['username']);
+		$missingEmail = !isset($this->_req['email']);
+		$missingPass = !isset($this->_req['password']);
 		
 		$margs = array();
 		if($missingUser){ array_push($margs,'username'); }
@@ -41,12 +58,12 @@ class RequestObject{
 		/** END: Required args test **/
 		
 		/** BEGIN: Filter, clean and validate input **/
-		/*$email = substr($REQ['email'],0,INPUT_EMAIL_LENGTH);
-		$username = substr($REQ['username'],0,INPUT_USERNAME_LENGTH);
-		$password = substr($REQ['password'],0,INPUT_PASSWORD_LENGTH);*/
-        $email = $REQ['email'];
-        $username = $REQ['username'];
-        $password = $REQ['password'];
+		/*$email = substr($this->_req['email'],0,INPUT_EMAIL_LENGTH);
+		$username = substr($this->_req['username'],0,INPUT_USERNAME_LENGTH);
+		$password = substr($this->_req['password'],0,INPUT_PASSWORD_LENGTH);*/
+        $email = $this->_req['email'];
+        $username = $this->_req['username'];
+        $password = $this->_req['password'];
         
 		//Make sure the email is valid
 		if(!$this->validLength($email, INPUT_EMAIL_LENGTH, INPUT_EMAIL_MIN_LENGTH) || ($email = cleanInput($email,INPUT_EMAIL_MIN_LENGTH,INPUT_EMAIL_LENGTH)) == false || !validEmail($email)){
@@ -115,7 +132,14 @@ class RequestObject{
 			if($uidValue > 0 && $uidValue != false){
 				// $emailer = new Emailer();
 				// $sent = $emailer->sendAccountConfirmationEmail($uidValue,$activationKey);
-				$this->giveCredentials($uidValue,$username,$nowDatetime); 
+				$data = $this->_user->giveCredentials($uidValue,$username,$nowDatetime); 
+				if($data === false){
+					$this->setResult(STATUS_FAILURE,'Your log in information appears valid, but we were unable to complete your request due to a server error!');
+				}
+				else{
+					$this->setResult(STATUS_SUCCESS,$data);
+				}
+				
 				// if(!$sent){
 					// array_push($return["errors"],'Your account was created successfully, but we couldn\'t send your confirmation email! Please send a message to support about it.');
 					// logError($_SERVER['SCRIPT_NAME'],__LINE__,'Unable to send user\'s confirmation email!',null,time(),false);
@@ -157,32 +181,6 @@ class RequestObject{
 			}
 		}
 		return true;
-	}
-	private function giveCredentials($uid,$username,$currentTime){
-		$bytes = openssl_random_pseudo_bytes(AUTH_SECRET_BYTES);
-		$secret   = bin2hex($bytes);
-		
-		$bytes = openssl_random_pseudo_bytes(AUTH_SESSION_BYTES);
-		$session = hash('sha256',$bytes);
-		
-		try{
-			$credInsert = 'INSERT INTO sessions (uid, secret, session, last_use) VALUES (:uid,:secret,:session,:time)';
-			$credStatement = $this->_sqlCon->prepare($credInsert);
-			$credStatement->execute(array(':uid'=>$uid,':secret'=>$secret,':session'=>$session,':time'=>$currentTime));
-		}
-		catch(PDOException $e){
-			logError($_SERVER['SCRIPT_NAME'],__LINE__,"Count not save user session! Query: \"$credInsert\"",$e->getMessage(),time(),false);
-			$this->setResult(STATUS_FAILURE,'Your log in information appears valid, but we were unable to complete your request due to a server error!');
-			return;
-		}
-		
-		$data = array(
-			'uid'=>$uid,
-			'username' => $username,
-			'session' => $session,
-			'secret' => $secret
-		);
-		$this->setResult(STATUS_SUCCESS,$data);
 	}
     private function validLength($input,$max,$min = 0){
         $len = strlen($input);

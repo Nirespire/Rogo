@@ -8,14 +8,19 @@ import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.rogoapp.auth.AccountAuthenticator;
+
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.EditText;
 
 public class SendRequestActivity extends Activity {
 
@@ -24,9 +29,6 @@ public class SendRequestActivity extends Activity {
     String trait;
     String location;
 
-
-
-    //TODO on create, text fields related to user that has been selected must be updated
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,7 +41,60 @@ public class SendRequestActivity extends Activity {
         getMenuInflater().inflate(R.menu.send_request, menu);
         return true;
     }
-
+    
+    public void onRequest(View v){
+    	//Intent intent = getIntent();
+    	//TODO:  FOR THIS TO WORK, VALUES MUST BE PASSED IN FROM OPENING ACTIVITY USING THE FOLLOWING CODE AS A GUIDELINE:
+    	/*
+    	Intent i=new Intent(context,SendMessage.class); //Create the Intent
+		i.putExtra("id", user.getUserAccountId()+"");	//Use "putExtra" to include bonus info into new activity
+		i.putExtra("name", user.getUserFullName());
+		context.startActivity(i);						//Start Activity
+    	 */
+    	//String TargetUserID = intent.getStringExtra("TargetUserID"); // or should we be using username?
+    	//TODO:  How do we know our current user's username?
+    	//String RequestingUserID = intent.getStringExtra("RequestingUserID");
+    	
+    	//temp
+    	String userID = "1234";
+    	String targetID = "5678";
+    	//end temp
+    	
+        EditText trait = (EditText) findViewById(R.id.request_trait);
+        EditText location = (EditText) findViewById(R.id.request_location);
+        
+    	List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
+    	//nameValuePairs.add(new BasicNameValuePair("TargetUserID", TargetUserID));
+    	
+    	//temp
+    	nameValuePairs.add(new BasicNameValuePair("RequestingUser", userID));
+    	nameValuePairs.add(new BasicNameValuePair("TargetUser", targetID));
+    	//end temp
+    	
+		nameValuePairs.add(new BasicNameValuePair("trait", trait.getText().toString()));
+		//TODO:  Should be coordinates.  Maybe generate by map searching the input string?
+		nameValuePairs.add(new BasicNameValuePair("location", location.getText().toString()));
+		
+        ServerClient sc = new ServerClient();
+        JSONObject jObj = sc.genericPostRequest("meetup_request", nameValuePairs);
+        String status = null;
+        try{
+        	status = jObj.getString("status");
+        }catch(JSONException e){
+        	System.err.print(e);
+        }
+        //TODO:  Remove this!
+        System.out.println("status = " + status);
+        
+        final Context context = this;
+        if(status.equals("success")){
+            final Intent start = new Intent(context, MainScreenActivity.class);
+            start.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(start);
+        }
+        
+    }
+/*
     @SuppressWarnings("deprecation")
     public void openRequestPopup(View v){
         AlertDialog alertDialog = new AlertDialog.Builder(this).create();
@@ -52,7 +107,6 @@ public class SendRequestActivity extends Activity {
                 nameValuePairs.add(new BasicNameValuePair("user_id1", ""));
                 nameValuePairs.add(new BasicNameValuePair("user1_trait", ""));
                 nameValuePairs.add(new BasicNameValuePair("location", ""));
-
 
                 ServerClient sc = new ServerClient();
 
@@ -72,7 +126,7 @@ public class SendRequestActivity extends Activity {
         });
         alertDialog.show();
     }
-
+*/
 
 
 }

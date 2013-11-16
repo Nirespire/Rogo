@@ -15,6 +15,7 @@ import com.actionbarsherlock.view.MenuItem.OnMenuItemClickListener;
 public class NearYouActivity extends SherlockActivity {
 
     Button goToMapButton;
+    ServerClient sc;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -30,9 +31,13 @@ public class NearYouActivity extends SherlockActivity {
             }
         });
 
+        sc = new ServerClient();
+
+        //TODO request people near you and populate ListView (id = myList)
+
 
     }
-    
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
@@ -61,6 +66,6 @@ public class NearYouActivity extends SherlockActivity {
     };
 
 
-    
+
 }
 

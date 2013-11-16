@@ -44,10 +44,6 @@ public class DebugActivity extends Activity implements LocationListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.debug_screen);
 
-        Intent intent=new Intent("android.location.GPS_ENABLED_CHANGE");
-        intent.putExtra("enabled", true);
-        sendBroadcast(intent);
-
         loc = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
     }
 
@@ -181,11 +177,18 @@ public class DebugActivity extends Activity implements LocationListener {
         double lng;
         Geocoder geocoder;
         String out = "";
+        String provider = "";
 
 
 
         if ( !loc.isProviderEnabled( LocationManager.GPS_PROVIDER ) ) {
             buildAlertMessageNoGps();
+            loc.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0,0,this);
+            provider = "Network";
+        }
+        else{
+            loc.requestLocationUpdates(LocationManager.GPS_PROVIDER,0,0,this);
+            provider = "GPS";
         }
 
 
@@ -193,7 +196,7 @@ public class DebugActivity extends Activity implements LocationListener {
         criteria.setAccuracy(Criteria.ACCURACY_FINE);
 
         bestProvider = loc.getBestProvider(criteria, true);
-        loc.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0,0,this);
+
         Location location = loc.getLastKnownLocation(bestProvider);
 
 
@@ -206,8 +209,8 @@ public class DebugActivity extends Activity implements LocationListener {
                 user = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
                 lat=(double)user.get(0).getLatitude();
                 lng=(double)user.get(0).getLongitude();
-                Toast.makeText(this," DDD lat: " +lat+",  longitude: "+lng, Toast.LENGTH_LONG).show();
-                System.out.println(" DDD lat: " +lat+",  longitude: "+lng);
+                Toast.makeText(this,provider + " lat: " +lat+",  longitude: "+lng, Toast.LENGTH_LONG).show();
+                System.out.println(provider + " lat: " +lat+",  longitude: "+lng);
                 out = lat+ "," + lng;
 
             }catch (Exception e) {

@@ -1,48 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:android1="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/gradient" >
 
-        <TextView
-        	android1:id="@+id/user2"
-        	android1:layout_width="wrap_content"
-        	android1:layout_height="wrap_content"
-        	android1:layout_alignParentTop="true"
-        	android1:layout_marginTop="19dp"
-        	android1:text="Username: default"
-        	android1:textAppearance="?android:attr/textAppearanceLarge"
-        	android1:textColor="@color/black" />
+    <TextView
+        android1:id="@+id/user2"
+        android1:layout_width="wrap_content"
+        android1:layout_height="wrap_content"
+        android1:layout_alignParentTop="true"
+        android1:layout_marginTop="19dp"
+        android1:text="Username: default"
+        android1:textAppearance="?android:attr/textAppearanceLarge"
+        android1:textColor="@color/black" />
 
-        <TextView
-            android1:id="@+id/points"
-            android1:layout_width="wrap_content"
-            android1:layout_height="wrap_content"
-            android1:layout_alignParentLeft="true"
-            android1:layout_below="@+id/user2"
-            android1:text="Points: 0"
-            android1:textAppearance="?android:attr/textAppearanceLarge"
-            android1:textColor="@color/black" />
+    <TextView
+        android1:id="@+id/points"
+        android1:layout_width="wrap_content"
+        android1:layout_height="wrap_content"
+        android1:layout_alignParentLeft="true"
+        android1:layout_below="@+id/user2"
+        android1:text="Points: 0"
+        android1:textAppearance="?android:attr/textAppearanceLarge"
+        android1:textColor="@color/black" />
 
-        <TextView
-            android1:id="@+id/email"
-            android1:layout_width="wrap_content"
-            android1:layout_height="wrap_content"
-            android1:layout_alignParentLeft="true"
-            android1:layout_below="@+id/points"
-            android1:text="Email: default"
-            android1:textAppearance="?android:attr/textAppearanceLarge"
-            android1:textColor="@color/black" />
+    <TextView
+        android1:id="@+id/email"
+        android1:layout_width="wrap_content"
+        android1:layout_height="wrap_content"
+        android1:layout_alignParentLeft="true"
+        android1:layout_below="@+id/points"
+        android1:text="Email: default"
+        android1:textAppearance="?android:attr/textAppearanceLarge"
+        android1:textColor="@color/black" />
 
-        <TextView
-            android1:id="@+id/interests"
-            android1:layout_width="wrap_content"
-            android1:layout_height="wrap_content"
-            android1:layout_alignParentLeft="true"
-            android1:layout_below="@+id/email"
-            android1:text="Interests: Null"
-            android1:textAppearance="?android:attr/textAppearanceLarge"
-            android1:textColor="@color/black" />
+    <TextView
+        android1:id="@+id/interests"
+        android1:layout_width="wrap_content"
+        android1:layout_height="wrap_content"
+        android1:layout_alignParentLeft="true"
+        android1:layout_below="@+id/email"
+        android1:text="Interests: Null"
+        android1:textAppearance="?android:attr/textAppearanceLarge"
+        android1:textColor="@color/black" />
 
-  </RelativeLayout>
+</android.support.v7.widget.GridLayout>
+

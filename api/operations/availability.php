@@ -46,7 +46,7 @@ class RequestObject{
 		}
 		
 		//Check to make sure all of the required parameters are provided
-		$required = array('location_lat','location_lon','availability');
+		$required = array('location_lat','location_lon','availability','radius');
 		$missing = array();
 		if(!$this->checkRequiredArgs($required,$missing)){
 			$this->setResult(STATUS_ERROR,'The request is missing the following required parameters: ' . implode(', ',$missing));
@@ -60,12 +60,13 @@ class RequestObject{
 	
 		//Perform the insert
 		try{
-			$insertUpdateQuery = '	INSERT INTO availability VALUES (:uid, :status, :label, :lat, :lon, :now) 
-									ON DUPLICATE KEY UPDATE status=:status, location_label=:label, location_lat=:lat, location_lon=:lon, update_time=:now';
+			$insertUpdateQuery = '	INSERT INTO availability VALUES (:uid, :status, :radius, :label, :lat, :lon, :now) 
+									ON DUPLICATE KEY UPDATE status=:status, radius=:radius, location_label=:label, location_lat=:lat, location_lon=:lon, update_time=:now';
 			$iUStatement = $this->_sqlCon->prepare($insertUpdateQuery); 		//Now we prepare the query. Just go with it, otherwise look it up. I don't feel like explaining it
 			$iUStatement->execute(array(
 				':uid'=>$this->_user->getUID(),
 				':status'=>$data['availability'],
+				':radius'=>$data['radius'],
 				':label'=>$data['location'],
 				':lat'=>$data['location_lat'],
 				':lon'=>$data['location_lon'],
@@ -121,8 +122,15 @@ class RequestObject{
 		$available = ($this->_req['availability'] === 'available')?'available':'busy';
 		
 		
+		
+		if(!$this->isStringDouble($this->_req['radius'])){
+			$this->setResult(STATUS_ERROR,'The value for radius appears to be incorrect!');
+			return false;
+		}
+		$radius = $this->_req['radius'];
+		
 
-		return array('location_lat'=>$latitude, 'location_lon'=>$longitude, 'location' => $location, 'availability'=>$available);
+		return array('location_lat'=>$latitude, 'location_lon'=>$longitude, 'location' => $location, 'availability'=>$available, 'radius'=>$radius);
 	}
 	
 	private function validateCoordinates($lat,$lon){
@@ -131,6 +139,17 @@ class RequestObject{
 		
 		if(preg_match($latPat,$lat) === 1 && preg_match($lonPat,$lon) === 1){
 			return true;
+		}
+		return false;
+	}
+	
+	private function isStringDouble($test,$minValue = 0.001, $maxValue = 100){
+		$doublePat = '/^\-?\d{1,4}(\.\d{1,20})?$/';
+		
+		if(preg_match($doublePat,$test) === 1){
+			if($test > $minValue && $test < $maxValue){
+				return true;
+			}
 		}
 		return false;
 	}

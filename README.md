@@ -98,6 +98,8 @@ Request: `login.txt?email=idontknowhowtocomputer@gmail.com&password=google.com`
 
 **Functionality:** Returns a list of randomly selected tips (`tip`), along with their unique tip ids (`tip_id`). The tips however will not be randomly ordered, so it is suggested that the client select the tips at random when displaying them.
 
+**Login session required**: No.
+
 **Required parameters:** None.  
 
 **Optional parameters:**  
@@ -131,6 +133,8 @@ Request: `tips.txt?count=3`
 
 **Functionality:** Handles the recording of a meeting occurrence between a user and another person. 
 
+**Login session required**: Yes. 
+
 ***
 *MOST OF THIS IS VERY LIKELY TO CHANGE!*
 ***
@@ -142,7 +146,6 @@ Request: `tips.txt?count=3`
 * `answer`: The plain-text answer for the question that was asked. Maximum length: 255 characters. Example: `A grilled cheese sandwich`.
 * `is_user`: Either `1` or `0`. If 1, the person the user met is a registered Rogo user. If 0, the person is not a Rogo user.
 * `person_id`: If `is_user` is `1`, then this is the user id _number_; else, if `0`, this is simply the plain-text name of the person who was met. 
-* `session`: The current user's 64-character session identifier.
 
 **Optional parameters:**
 * `location`: A user-input string identifying the location the meeting took place. Example: `the dark alley behind Starbucks`.
@@ -153,3 +156,71 @@ Request: `meetsubmit.txt?location_lat=29.649118753795555&location_lon=-82.344167
     I have no idea what the output will be at the moment.
 	Please hold your breath until I have made a decision.
 	
+#### Updating Availability
+
+**Request location:** `availability.json`
+
+**Functionality:** Updates a user's current location, the user's desired radius of contact, and whether or not the user is available for meetup requests. 
+
+**Login session required**: Yes. 
+
+**Required parameters:**
+* `location_lat`: The GPS latitude of the location the meet up took place. Example: `29.643509`.
+* `location_lon`: The GPS longitude of the location the meet up took place. Example: `-82.360729`.
+* `availability`: Either `available` or `busy`. This will set whether the user shows up in nearby users. 
+* `radius`: A value representing the radius, in miles, that the user wishes to be made available to nearby users. Examples: `1.5` for 1.5 miles, or `0.0946969697` for 500 ft. 
+
+**Optional parameters:**
+* `location_label`: A string representing the name of the location, or a description o the location the user is at. Ex: `The tree in Edmonton`.
+
+**Examples:**  
+Request:  
+`availability.txt?location_lat=29.649118753795555&location_lon=-82.34416704064655&availability=available&location=In The Sky With Diamonds&radius=0.5&session=[session key]`
+
+    {
+    	"status": "success",
+    	"data": "Updated!",
+    	"session": "changed"
+    }
+
+#### Getting Nearby Users
+
+**Request location:** `nearby.json`
+
+**Functionality:** Gets a list of nearby, available users who both are within the requesting user's radius, and who have a radius value that also includes the requesting user. That is, both the requesting user, and all users who are returned, must have contact radius values that are large enough to include both parties. *This used the location, radius, and availability that has been set by the above availability update. Make sure to update availability with current location to ensure that the user's most current location is used*
+
+**Login session required**: Yes. 
+
+**Required Parameters:**  
+None
+
+**Optional Parameters:**  
+* `count`: An integer of the maximum number of nearby users to be returned. Default is `10`.
+
+**Example:**  
+Request: `nearby.txt?count=2&session=[session]`
+
+    {
+    	"status": "success",
+    	"data": [
+    		{
+    			"uid": "5",
+    			"location_label": "The dungeon",
+    			"location_latitude": "29.6504",
+    			"location_longitude": "-82.3429",
+    			"distance": "0.11374666933902636",
+    			"updated": "2013-11-13 18:38:44",
+    			"recentness": "2 days"
+    		},
+    		{
+    			"uid": "4",
+    			"location_label": "Table in back corner of Starbucks",
+    			"location_latitude": "29.6501",
+    			"location_longitude": "-82.3487",
+    			"distance": "0.28019242840206504",
+    			"updated": "2013-11-12 18:38:44",
+    			"recentness": "3 days"
+    		}
+    	],
+    	"session": "changed"
+    }

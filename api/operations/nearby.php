@@ -91,7 +91,7 @@ class RequestObject{
 				AS distance,
 				TIMESTAMPDIFF(SECOND,a.update_time,NOW()) AS recentness
 				FROM  availability AS a, (SELECT * FROM availability WHERE uid=:uid) AS usera
-				WHERE a.uid <> usera.uid
+				WHERE a.uid <> usera.uid AND a.status="available"
 				HAVING distance < usera.radius AND distance < a.radius
 				ORDER BY distance
 				LIMIT 0 , :count) AS nearby

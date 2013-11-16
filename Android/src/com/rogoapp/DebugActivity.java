@@ -44,10 +44,6 @@ public class DebugActivity extends Activity implements LocationListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.debug_screen);
 
-        Intent intent=new Intent("android.location.GPS_ENABLED_CHANGE");
-        intent.putExtra("enabled", true);
-        sendBroadcast(intent);
-
         loc = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
     }
 
@@ -126,13 +122,13 @@ public class DebugActivity extends Activity implements LocationListener {
 
     public void addListenerOnBuddyListButton() {
 
-        //registerButton = (Button) findViewById(R.id.buddy_list_button);
+        registerButton = (Button) findViewById(R.id.recently_met);
 
         registerButton.setOnClickListener(new OnClickListener() {
 
             @Override
             public void onClick(View arg0) {
-                //openBuddyListScreen(arg0);
+                openRecentlyMetScreen(arg0);
             }
 
         });
@@ -151,13 +147,13 @@ public class DebugActivity extends Activity implements LocationListener {
         startActivity(intent);
     }
 
-    /*
-	 public void openBuddyListScreen(View v){
+    
+	 public void openRecentlyMetScreen(View v){
 	        final Context context = this;
 	        Intent intent = new Intent(context, BuddyListActivity.class);
 	        startActivity(intent);
 	}
-     */
+     
 
     public void openMeetingSomeoneScreen(View v){
         final Context context = this;
@@ -181,20 +177,23 @@ public class DebugActivity extends Activity implements LocationListener {
         double lng;
         Geocoder geocoder;
         String out = "";
+        String provider = "";
+        
+        Location location = null;
 
 
 
         if ( !loc.isProviderEnabled( LocationManager.GPS_PROVIDER ) ) {
             buildAlertMessageNoGps();
+            loc.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0,0,this);
+            provider = "Network";
+            location = loc.getLastKnownLocation(loc.NETWORK_PROVIDER);
         }
-
-
-        Criteria criteria = new Criteria();
-        criteria.setAccuracy(Criteria.ACCURACY_FINE);
-
-        bestProvider = loc.getBestProvider(criteria, true);
-        loc.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0,0,this);
-        Location location = loc.getLastKnownLocation(bestProvider);
+        else{
+            loc.requestLocationUpdates(LocationManager.GPS_PROVIDER,0,0,this);
+            provider = "GPS";
+            location = loc.getLastKnownLocation(loc.GPS_PROVIDER);
+        }
 
 
         if (location == null){
@@ -206,8 +205,8 @@ public class DebugActivity extends Activity implements LocationListener {
                 user = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
                 lat=(double)user.get(0).getLatitude();
                 lng=(double)user.get(0).getLongitude();
-                Toast.makeText(this," DDD lat: " +lat+",  longitude: "+lng, Toast.LENGTH_LONG).show();
-                System.out.println(" DDD lat: " +lat+",  longitude: "+lng);
+                Toast.makeText(this,provider + " lat: " +lat+",  longitude: "+lng, Toast.LENGTH_LONG).show();
+                System.out.println(provider + " lat: " +lat+",  longitude: "+lng);
                 out = lat+ "," + lng;
 
             }catch (Exception e) {

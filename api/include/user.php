@@ -117,6 +117,34 @@ class User{
 		}
 	}
 	
+	public function giveCredentials($uid,$username,$currentTime){
+		$bytes = openssl_random_pseudo_bytes(AUTH_SECRET_BYTES);
+		$secret   = bin2hex($bytes);
+		
+		$bytes = openssl_random_pseudo_bytes(AUTH_SESSION_BYTES);
+		$session = hash('sha256',$bytes);
+		
+		try{
+			$credInsert = 'INSERT INTO sessions (uid, secret, session, last_use) VALUES (:uid,:secret,:session,:time)';
+			$credStatement = $this->_sqlCon->prepare($credInsert);
+			$credStatement->execute(array(':uid'=>$uid,':secret'=>$secret,':session'=>$session,':time'=>$currentTime));
+		}
+		catch(PDOException $e){
+			logError($_SERVER['SCRIPT_NAME'],__LINE__,"Count not save user session! Query: \"$credInsert\"",$e->getMessage(),time(),false);
+			return false;
+		}
+		
+		$data = array(
+			'uid'=>$uid,
+			'username' => $username,
+			'session' => $session,
+			'secret' => $secret
+		);
+		$this->_isLoggedIn = true;
+		return $data;
+		//$this->setResult(STATUS_SUCCESS,$data);
+	}
+	
 	/** Used by request.php to tell client if the session was updated or not **/
 	public function didSessionUpdate(){
 		return $this->_updatedSession;

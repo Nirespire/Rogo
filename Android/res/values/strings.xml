@@ -52,6 +52,13 @@
         <item>5 miles</item>
         <item>10 miles</item>
     </string-array>
+    
+    <string-array name="profile_page">
+        <item>Username</item>
+        <item>Points</item>
+        <item>Email</item>
+        <item>Interests</item>
+    </string-array>
 
     <string name="email_string">Email</string>
     <string name="password_string">Password</string>
@@ -90,7 +97,7 @@
     <string name="remember_me">Remember me</string>
     <string name="register_quest">Don\'t have a Rogo account? </string>
     <string name="SettingsText">Settings</string>
-    <string name="buddy_list">Buddy List </string>
+    <string name="recently_met">Recently Met</string>
     <string name="add_friend">Add Buddy </string>
     <string name="title_activity_send_request">SendRequestActivity</string>
 

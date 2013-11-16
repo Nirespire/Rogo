@@ -33,7 +33,7 @@ public class MeetingSomeoneActivity extends Activity {
 	public void weMet(View V){
 	    toaster();
 	    Intent intent = new Intent(getApplicationContext(), MainScreenActivity.class);
-	    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+	    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 	    startActivity(intent);
 	}
 	

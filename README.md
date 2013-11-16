@@ -187,7 +187,7 @@ Request:
 
 **Request location:** `nearby.json`
 
-**Functionality:** Gets a list of nearby, available users who both are within the requesting user's radius, and who have a radius value that also includes the requesting user. That is, both the requesting user, and all users who are returned, must have contact radius values that are large enough to include both parties. 
+**Functionality:** Gets a list of nearby, available users who both are within the requesting user's radius, and who have a radius value that also includes the requesting user. That is, both the requesting user, and all users who are returned, must have contact radius values that are large enough to include both parties. *This used the location, radius, and availability that has been set by the above availability update. Make sure to update availability with current location to ensure that the user's most current location is used*
 
 **Login session required**: Yes. 
 

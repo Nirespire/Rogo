@@ -1,7 +1,7 @@
 <?php
 require 'password.php';
 
-class $this->_requestObject{
+class RequestObject{
 	private $_DATA = null;
 	private $_STATUS = 0;
 	
@@ -24,11 +24,11 @@ class $this->_requestObject{
 				}
 			}
 		} 
-		if($this->_reqUEST_DATA_ARRAY == 0){ 		//Determine whether we want $this->_request data from $_$this->_reqUEST or $_POST
-			$this->_$this->_req = $_$this->_reqUEST;
+		if(REQUEST_DATA_ARRAY == 0){ 		//Determine whether we want $this->_request data from $_$this->_reqUEST or $_POST
+			$this->_req = $_REQUEST;
 		}
 		else{
-			$this->_$this->_req = $_POST;
+			$this->_req = $_POST;
 		}
 		
 		if($this->_user == null){
@@ -38,25 +38,25 @@ class $this->_requestObject{
 		// That is, if we need to make sure the user is logged in and/or need to get UID/email/username/whatnot for the $this->_requesting user.
 		//$this->_user->initialize();
 	}
-	public function perform$this->_request(){
+	public function performRequest(){
 		$data = '';
 		
 		/** BEGIN: Test to ensure that $this->_required $this->_request args are present **/
-		$missingEmail = !isset($$this->_req['email']);
-		$missingPass = !isset($$this->_req['password']);
+		$missingEmail = !isset($this->_req['email']);
+		$missingPass = !isset($this->_req['password']);
 		
 		$margs = array();
 		if($missingEmail){ array_push($margs,'email'); }
 		if($missingPass){ array_push($margs,'password'); }
 		
 		if(count($margs) > 0){
-			$this->setResult(STATUS_ERROR,'$this->_request is missing the following ' . ((count($margs)==1)?'field':'fields') . ': ' . implode(', ',$margs));
+			$this->setResult(STATUS_ERROR,'Request is missing the following ' . ((count($margs)==1)?'field':'fields') . ': ' . implode(', ',$margs));
 			return;
 		}
 		/** END: $this->_required args test **/
 		
-		$email = substr($$this->_req['email'],0,INPUT_EMAIL_LENGTH);
-		$password = substr($$this->_req['password'],0,INPUT_PASSWORD_LENGTH);
+		$email = substr($this->_req['email'],0,INPUT_EMAIL_LENGTH);
+		$password = substr($this->_req['password'],0,INPUT_PASSWORD_LENGTH);
 		
 		/** BEGIN: Query database for login authentication **/
 		$loginQuery = 'SELECT uid, email, password, username, last_attempt, attempt_count, disabled FROM users WHERE email=:email LIMIT 1;';

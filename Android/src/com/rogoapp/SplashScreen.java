@@ -1,13 +1,9 @@
 package com.rogoapp;
 
-import com.rogoapp.auth.AccountAuthenticator;
 import com.rogoapp.auth.RogoAuthenticatorActivity;
 
-import android.accounts.AccountAuthenticatorResponse;
 import android.accounts.AccountManager;
-import android.accounts.NetworkErrorException;
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;	// Wait for specified time before going to main screen

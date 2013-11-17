@@ -125,7 +125,7 @@ public class NearYouMapActivity extends FragmentActivity implements
 				try {
 					others = jObj.getJSONArray("data");
 					for(int i = 0; i < others.length(); i++){
-						//User currUser
+						//User currUser 
 					}
 				} catch (JSONException e) {
 					// TODO Auto-generated catch block

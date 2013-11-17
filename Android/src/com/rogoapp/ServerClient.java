@@ -25,10 +25,11 @@ import org.json.JSONException;
  */
 
 
+import com.rogoapp.auth.*;
 
 
 
-
+import android.content.Context;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -89,9 +90,9 @@ public class ServerClient{
 	    HttpPost httppost = new HttpPost("http://api.rogoapp.com/request/" + request);
 	    
 	    if(!(request.equals("register") || request.equals("login"))){
-	    	//String newSession = AccountAuthenticator.changeSession();
-	    	//nameValuePairs.add(new BasicNameValuePair("session", newSession);
-	    	
+	    	AccountAuthenticator aa = new AccountAuthenticator(Rogoapp.getAppContext());
+	    	String newSession = aa.changeSession();
+	    	nameValuePairs.add(new BasicNameValuePair("session", newSession));
 	    }
 	    
 	    

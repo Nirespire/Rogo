@@ -36,6 +36,7 @@ public class AccountAuthenticator extends AbstractAccountAuthenticator {
         public AccountAuthenticator(Context context) {
                 super(context);
                 mContext = context; //added for use when adding an account
+                this.cache = new CacheClient(context);
         }
 
         @Override

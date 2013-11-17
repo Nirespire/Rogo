@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     android:fillViewport="true" >
 
     <RelativeLayout
@@ -94,20 +94,21 @@
                 <Button
                     android:id="@+id/btnLogin"
                     android:layout_height="wrap_content"
+                    android:layout_width="fill_parent"
                     android:layout_marginRight="10dip"
                     android:layout_marginTop="10dip"
                     android:onClick="onSaveClick"
                     android:text="@string/auth_login" />
-
-                <Button
-                    android:id="@+id/on_Cancel_Click"
-                    android:layout_toRightOf="@+id/btnLogin"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="10dip"
-                    android:layout_marginTop="10dip"
-                    android:onClick="onCancelClick"
-                    android:text="@string/cancel_button" />
             </RelativeLayout>
+
+            <Button
+                android:id="@+id/on_Cancel_Click"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dip"
+                android:layout_marginTop="10dip"
+                android:onClick="onCancelClick"
+                android:text="@string/cancel_button" />
 
             <Button
                 android:id="@+id/link_to_register"

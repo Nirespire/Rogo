@@ -89,6 +89,9 @@ public class ServerClient{
 	    HttpClient httpclient = new DefaultHttpClient();
 	    HttpPost httppost = new HttpPost("http://api.rogoapp.com/request/" + request);
 	    
+	    context = MainScreenActivity.showContext();
+		
+	    
 	    if(!(request.equals("register") || request.equals("login"))){
 	    	AccountAuthenticator aa = new AccountAuthenticator(context);
 	    	String newSession = aa.changeSession();

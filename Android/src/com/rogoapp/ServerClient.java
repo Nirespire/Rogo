@@ -92,7 +92,13 @@ public class ServerClient{
 	    if(!(request.equals("register") || request.equals("login"))){
 	    	AccountAuthenticator aa = new AccountAuthenticator(context);
 	    	String newSession = aa.changeSession();
-	    	nameValuePairs.add(new BasicNameValuePair("session", newSession));
+	    	if(nameValuePairs == null || !nameValuePairs.isEmpty()){
+	    		nameValuePairs.add(new BasicNameValuePair("session", newSession));
+	    	}
+	    	else{
+	    		nameValuePairs = new ArrayList<NameValuePair>();
+	    		nameValuePairs.add(new BasicNameValuePair("session", newSession));
+	    	}
 	    }
 	    
 	    

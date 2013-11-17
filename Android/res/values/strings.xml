@@ -2,7 +2,6 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <string name="last_name">Last Name:</string>
-    <string name="first_name">First Name:</string>
     <string name="Speaksoft">Speaksoft</string>
     <string name="app_name">Rogo</string>
     <string name="action_settings">Settings</string>

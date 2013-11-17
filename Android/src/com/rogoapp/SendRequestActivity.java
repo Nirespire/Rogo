@@ -8,31 +8,40 @@ import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.rogoapp.auth.AccountAuthenticator;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
-public class SendRequestActivity extends Activity {
+public class SendRequestActivity extends Activity implements LocationListener {
 
     Button sendRequestButton;
     String userID;
     String trait;
     String location;
+    
+    String lat;
+    String lon;
+    
+    LocationManager loc;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.send_request);
+        postLocation();
     }
 
     @Override
@@ -67,19 +76,17 @@ public class SendRequestActivity extends Activity {
         System.out.println(location.getText().toString());
         
     	List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
-    	//nameValuePairs.add(new BasicNameValuePair("TargetUserID", TargetUserID));
     	
-    	//temp
     	nameValuePairs.add(new BasicNameValuePair("RequestingUser", userID));
     	nameValuePairs.add(new BasicNameValuePair("TargetUser", targetID));
-    	//end temp
+
     	
 		nameValuePairs.add(new BasicNameValuePair("trait", trait.getText().toString()));
-		//TODO:  Should be coordinates.  Maybe generate by map searching the input string?
+
 		nameValuePairs.add(new BasicNameValuePair("location", location.getText().toString()));
 		
         ServerClient sc = new ServerClient();
-        JSONObject jObj = sc.genericPostRequest("meetup_request", nameValuePairs);
+        JSONObject jObj = sc.genericPostRequest("meetsubmit", nameValuePairs);
         String status = null;
         try{
         	status = jObj.getString("status");
@@ -96,6 +103,104 @@ public class SendRequestActivity extends Activity {
             startActivity(start);
         }
         
+    }
+    
+    public String getLocation(){
+
+        List<Address> user = null;
+        double lat;
+        double lng;
+        Geocoder geocoder;
+        String out = "";
+        String provider = "";
+        
+        Location location = null;
+        
+        loc = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
+
+        if ( !loc.isProviderEnabled( LocationManager.GPS_PROVIDER ) ) {
+            buildAlertMessageNoGps();
+            loc.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0,0,this);
+            provider = "Network";
+            location = loc.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+        }
+        else{
+            loc.requestLocationUpdates(LocationManager.GPS_PROVIDER,0,0,this);
+            provider = "GPS";
+            location = loc.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        }
+
+
+        if (location == null){
+            Toast.makeText(this,"Current Location Not found",Toast.LENGTH_LONG).show();
+        }else{
+            geocoder = new Geocoder(this);
+            try {
+                user = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
+                lat=(double)user.get(0).getLatitude();
+                lng=(double)user.get(0).getLongitude();
+                Toast.makeText(this,provider + " lat: " +lat+",  longitude: "+lng, Toast.LENGTH_LONG).show();
+                System.out.println(provider + " lat: " +lat+",  longitude: "+lng);
+                out = lat+ "," + lng;
+
+            }catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        }
+        return out;
+    }
+    
+    private void buildAlertMessageNoGps() {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Your GPS seems to be disabled, do you want to enable it?")
+        .setCancelable(false)
+        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            public void onClick(final DialogInterface dialog, final int id) {
+                startActivity(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+            }
+        })
+        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+            public void onClick(final DialogInterface dialog, final int id) {
+                dialog.cancel();
+            }
+        });
+        final AlertDialog alert = builder.create();
+        alert.show();
+    }
+
+    public void postLocation(){
+    	location = getLocation();
+        String[] latLon = location.split(",");
+        ServerClient sc = new ServerClient();
+        List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
+        
+        if(latLon.length == 2){
+        	
+        	lat = latLon[0];
+        	lon = latLon[1];
+        	
+        	nameValuePairs.add(new BasicNameValuePair("location_lat",lat));
+        	nameValuePairs.add(new BasicNameValuePair("location_lon",lon));
+        	
+        	System.out.println("Latitude: " + latLon[1]);
+        	System.out.println("Longitude: " + latLon[2]);
+        }
+        else{
+        	nameValuePairs.add(new BasicNameValuePair("location_lat","-1"));
+        	nameValuePairs.add(new BasicNameValuePair("location_lon","-1"));
+        	
+        	System.out.println("Location not available");
+        }
+        
+        //TODO NEED TO PULL USER INFO
+        nameValuePairs.add(new BasicNameValuePair("availability","available"));
+        nameValuePairs.add(new BasicNameValuePair("radius","1")); //1 mile
+        
+        sc.genericPostRequest("availability", nameValuePairs);
+        
+
     }
 /*
     @SuppressWarnings("deprecation")
@@ -130,6 +235,30 @@ public class SendRequestActivity extends Activity {
         alertDialog.show();
     }
 */
+
+	@Override
+	public void onLocationChanged(Location location) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onProviderDisabled(String provider) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onProviderEnabled(String provider) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onStatusChanged(String provider, int status, Bundle extras) {
+		// TODO Auto-generated method stub
+		
+	}
 
 
 }

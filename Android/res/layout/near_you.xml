@@ -9,7 +9,7 @@
 
 
     <ListView
-        android:id="@+id/mylist"
+        android:id="@+id/nearby_users_list"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_centerInParent="true"
@@ -19,25 +19,26 @@
         android:background="@color/DeepSkyBlue"
         android:visibility="visible" />
 
-    <TextView
-        android:id="@+id/people_near_you"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/include1"
-        android:layout_centerHorizontal="true"
-        android:text="@string/people_near_you"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textColor="@color/black" />
-
     <Button
         android:id="@+id/near_you_map"
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignRight="@+id/mylist"
-        android:layout_below="@+id/mylist"
-        android:layout_marginTop="20dp"
-        android:text="@string/map" 
-        android:onClick="openNearYouMapScreen"/>
+        android:layout_alignRight="@+id/nearby_users_list"
+        android:layout_below="@+id/nearby_users_list"
+        android:layout_marginTop="14dp"
+        android:onClick="openNearYouMapScreen"
+        android:text="@string/map" />
+
+    <TextView
+        android:id="@+id/people_near_you"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="26dp"
+        android:text="@string/people_near_you"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="@color/black" />
 
 </RelativeLayout>

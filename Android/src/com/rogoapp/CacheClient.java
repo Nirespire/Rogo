@@ -26,6 +26,9 @@ public class CacheClient {
 	public static final String ERROR_2 = "ERROR_2: File cannot be written to.";
 	public static final String ERROR_3 = "ERROR_3: File data cannot be accessed.";
 	
+    public final static String SESSION_CACHE = "adfad234_343-45dsffsdg83-dafptjv";
+
+	
 	public CacheClient(Context context) { // from an Activity, pass "this"
 		this.context = context;
 	}

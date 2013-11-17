@@ -14,6 +14,7 @@ import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.rogoapp.CacheClient;
 import com.rogoapp.R;
 import com.rogoapp.ServerClient;
 
@@ -32,6 +33,7 @@ public class AccountAuthenticator extends AbstractAccountAuthenticator {
         final Context mContext;
         final static String ACCOUNT_TYPE = "com.rogoapp";
         private ServerClient server;
+        private CacheClient cache;
         public AccountAuthenticator(Context context) {
                 super(context);
                 mContext = context; //added for use when adding an account
@@ -195,8 +197,9 @@ public class AccountAuthenticator extends AbstractAccountAuthenticator {
 			
     		try {
 				JSONObject json = (server.genericPostRequest("login", nameValuePairs));
-				String token = json.getString("session") + json.getString("secret");
-				return hashPassword(token);
+				String token = /*json.getJSONObject("data").getString("session") + */json.getJSONObject("data").getString("secret");
+				cache.saveFile(CacheClient.SESSION_CACHE, json.getJSONObject("data").getString("session"));
+				return token;
 			} catch (JSONException e) {
 				e.printStackTrace();
 				return null;
@@ -223,6 +226,25 @@ public class AccountAuthenticator extends AbstractAccountAuthenticator {
             }
             
             return sb.toString();
+        }
+        
+        public String changeSession(){
+			
+        	String cSession = cache.loadFile(CacheClient.SESSION_CACHE);
+        	String token = "";
+        	
+        	AccountManager am = AccountManager.get(mContext);
+        	
+        	Account[] accounts = am.getAccountsByType(RogoAuthenticatorActivity.PARAM_AUTHTOKEN_TYPE);    	
+        	Account account = null;
+        	
+        	if(accounts.length != 0){
+        		account = accounts[0];
+        		token = am.peekAuthToken(account, RogoAuthenticatorActivity.PARAM_AUTHTOKEN_TYPE);
+        	}
+            
+        	cache.saveFile(CacheClient.SESSION_CACHE, hashPassword(cSession + token));
+        	return hashPassword(cSession);
         }
         
 }

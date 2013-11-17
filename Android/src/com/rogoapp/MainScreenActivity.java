@@ -18,6 +18,7 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -71,8 +72,7 @@ public class MainScreenActivity extends SherlockActivity {
 
         //Adding some functionality to tips button
         textListener(this.findViewById(R.id.tips_edit_box));
-        if(ServerClient.isNetworkAvailable())
-        	storeTips();
+        storeTips();
     }
 
 
@@ -104,51 +104,71 @@ public class MainScreenActivity extends SherlockActivity {
     };
 
     //adds toast
-    public void toaster(String bread){
-        LayoutInflater inflater = getLayoutInflater();
+    public void toaster(final String bread){
+    	if(TextUtils.isEmpty(bread)){
+    		toaster(R.string.burnt_toast);
+    		return;
+    	}
 
-        View layout = inflater.inflate(R.layout.custom_toast, (ViewGroup) findViewById(R.id.custom_toast_layout_id));
+    	runOnUiThread(new Runnable(){
+    		@Override
+    		public void run(){
+    			LayoutInflater inflater = getLayoutInflater();
 
-        ImageView image = (ImageView) layout.findViewById(R.id.image);
-        image.setImageResource(R.drawable.ic_launcher);
+    			View layout = inflater.inflate(R.layout.custom_toast, (ViewGroup) findViewById(R.id.custom_toast_layout_id));
 
-        TextView text = (TextView) layout.findViewById(R.id.text);
-        if(!(bread==null || bread=="")){
-            text.setText(bread);
-        }
-        else{
-            text.setText(R.string.burnt_toast);
-        }
+    			ImageView image = (ImageView) layout.findViewById(R.id.image);
+    			image.setImageResource(R.drawable.ic_launcher);
 
-        Toast toast = new Toast(getApplicationContext());
-        toast.setGravity(Gravity.BOTTOM, 0, 0);
-        toast.setDuration(Toast.LENGTH_SHORT);
-        toast.setView(layout);
-        toast.show();
+    			TextView text = (TextView) layout.findViewById(R.id.text);
+    			text.setText(bread);
+
+    			Toast toast = new Toast(getApplicationContext());
+    			toast.setGravity(Gravity.BOTTOM, 0, 0);
+    			toast.setDuration(Toast.LENGTH_SHORT);
+    			toast.setView(layout);
+    			toast.show();
+    		}
+    	});
     }
-    public void toaster(int bread){
-        LayoutInflater inflater = getLayoutInflater();
+    public void toaster(final int bread){
+    	if(bread == 0){
+    		toaster(R.string.burnt_toast);
+    		return;
+    	}
 
-        View layout = inflater.inflate(R.layout.custom_toast, (ViewGroup) findViewById(R.id.custom_toast_layout_id));
+    	runOnUiThread(new Runnable(){
+    		@Override
+    		public void run(){
+    			LayoutInflater inflater = getLayoutInflater();
 
-        ImageView image = (ImageView) layout.findViewById(R.id.image);
-        image.setImageResource(R.drawable.ic_launcher);
+    			View layout = inflater.inflate(R.layout.custom_toast, (ViewGroup) findViewById(R.id.custom_toast_layout_id));
 
-        TextView text = (TextView) layout.findViewById(R.id.text);
+    			ImageView image = (ImageView) layout.findViewById(R.id.image);
+    			image.setImageResource(R.drawable.ic_launcher);
 
-        if(!(bread == 0)){
-            text.setText(bread);
-        }
-        else{
-            text.setText(R.string.burnt_toast);
-        }
+    			TextView text = (TextView) layout.findViewById(R.id.text);
+    			text.setText(bread);
 
-        Toast toast = new Toast(getApplicationContext());
-        toast.setGravity(Gravity.BOTTOM, 0, 0);
-        toast.setDuration(Toast.LENGTH_SHORT);
-        toast.setView(layout);
-        toast.show();
+    			Toast toast = new Toast(getApplicationContext());
+    			toast.setGravity(Gravity.BOTTOM, 0, 0);
+    			toast.setDuration(Toast.LENGTH_SHORT);
+    			toast.setView(layout);
+    			toast.show();
+    		}
+    	});
     }
+    public void plainToast(final String bread){
+    	if (TextUtils.isEmpty(bread))
+			return;
+
+		runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				Toast.makeText(getBaseContext(), bread, Toast.LENGTH_SHORT).show();
+			}
+		});
+	}
 
 
     public void addListenerOnButton1() {
@@ -303,11 +323,13 @@ public class MainScreenActivity extends SherlockActivity {
     }
 
     public boolean storeTips() {
-        
-        JSONObject json = server.genericPostRequest("tips", Collections.<NameValuePair>emptyList());
-        if(json != null)
-            parseJ(json, TIPS_FILE);
-        return json != null;
+        if(ServerClient.isNetworkAvailable()){
+        	JSONObject json = server.genericPostRequest("tips", Collections.<NameValuePair>emptyList());
+        	if(json != null)
+        		parseJ(json, TIPS_FILE);
+        	return json != null;
+        }
+        return false;
     }
 
     public void reloadTipsArray(){

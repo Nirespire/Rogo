@@ -29,7 +29,6 @@ public class NearYouActivity extends SherlockActivity {
 	
     Button goToMapButton;
     ListView nearbyUsersList;
-    ServerClient sc;
     LocationManager loc;
     
     ArrayList<String> users;
@@ -53,7 +52,6 @@ public class NearYouActivity extends SherlockActivity {
         nearbyUsersList = (ListView) findViewById(R.id.nearby_users_list);
         
         users = new ArrayList<String>();
-        sc = new ServerClient();
         getNearbyUsers();
         
         if(!users.isEmpty()){
@@ -94,7 +92,7 @@ public class NearYouActivity extends SherlockActivity {
     
     public boolean getNearbyUsers() {
         if(ServerClient.isNetworkAvailable()){
-        	JSONObject json = sc.genericPostRequest("nearby", Collections.<NameValuePair>emptyList());
+        	JSONObject json = ServerClient.genericPostRequest("nearby", Collections.<NameValuePair>emptyList(), this.getApplicationContext());
         	if(json != null)
         		parseJ(json, NEARBY_FILE);
         	return json != null;

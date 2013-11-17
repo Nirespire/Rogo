@@ -98,8 +98,7 @@ public class NearYouMapActivity extends FragmentActivity implements
 				nameValuePairs.add(new BasicNameValuePair("availability", "available"));
 				nameValuePairs.add(new BasicNameValuePair("radius", ".0946"));
 				
-				ServerClient sc = new ServerClient();
-				JSONObject jObj = sc.genericPostRequest("availability", nameValuePairs);
+				JSONObject jObj = ServerClient.genericPostRequest("availability", nameValuePairs, this.getApplicationContext());
 				
 				try{
 					String status = jObj.getString("status");
@@ -117,8 +116,7 @@ public class NearYouMapActivity extends FragmentActivity implements
 				
 				//now that this user's availability is updated, we must get nearby users
 				nameValuePairs = new ArrayList<NameValuePair>(2);
-				sc = new ServerClient();
-				jObj = sc.genericPostRequest("nearby", nameValuePairs);
+				jObj = ServerClient.genericPostRequest("nearby", nameValuePairs, this.getApplicationContext());
 				//sort jObj into list of users
 				otherUsers = new ArrayList<User>();
 				JSONArray others = null;

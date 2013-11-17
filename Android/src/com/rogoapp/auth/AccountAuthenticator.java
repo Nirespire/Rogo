@@ -32,7 +32,6 @@ public class AccountAuthenticator extends AbstractAccountAuthenticator {
 
         final Context mContext;
         final static String ACCOUNT_TYPE = "com.rogoapp";
-        private ServerClient server;
         private CacheClient cache;
         public AccountAuthenticator(Context context) {
                 super(context);
@@ -180,7 +179,7 @@ public class AccountAuthenticator extends AbstractAccountAuthenticator {
         	nameValuePairs.add(new BasicNameValuePair("password", password));
 			
     		try {
-				return !server.genericPostRequest("login", nameValuePairs).getString("data").equals("Email or password is incorrect!");
+				return !ServerClient.genericPostRequest("login", nameValuePairs, mContext).getString("data").equals("Email or password is incorrect!");
 			} catch (JSONException e) {
 				e.printStackTrace();
 				return false;
@@ -196,7 +195,7 @@ public class AccountAuthenticator extends AbstractAccountAuthenticator {
         	nameValuePairs.add(new BasicNameValuePair("password", password));
 			
     		try {
-				JSONObject json = (server.genericPostRequest("login", nameValuePairs));
+				JSONObject json = (ServerClient.genericPostRequest("login", nameValuePairs, mContext));
 				String token = /*json.getJSONObject("data").getString("session") + */json.getJSONObject("data").getString("secret");
 				cache.saveFile(CacheClient.SESSION_CACHE, json.getJSONObject("data").getString("session"));
 				return token;

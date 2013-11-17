@@ -25,10 +25,11 @@ import org.json.JSONException;
  */
 
 
+import com.rogoapp.auth.*;
 
 
 
-
+import android.content.Context;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -75,7 +76,7 @@ public class ServerClient{
 	}
 	
 	
-	public JSONObject genericPostRequest(String request, List<NameValuePair> nameValuePairs) {
+	public static JSONObject genericPostRequest(String request, List<NameValuePair> nameValuePairs, Context context) {
 	    // Takes a request and a list of NameValuePairs for an http post request
 		// Other classes must make nameValuePairs list
 		// They will need org.apache.http.NameValuePair
@@ -87,6 +88,19 @@ public class ServerClient{
 		// Returns a JSON object
 	    HttpClient httpclient = new DefaultHttpClient();
 	    HttpPost httppost = new HttpPost("http://api.rogoapp.com/request/" + request);
+	    
+	    if(!(request.equals("register") || request.equals("login"))){
+	    	AccountAuthenticator aa = new AccountAuthenticator(context);
+	    	String newSession = aa.changeSession();
+	    	if(nameValuePairs == null || !nameValuePairs.isEmpty()){
+	    		nameValuePairs.add(new BasicNameValuePair("session", newSession));
+	    	}
+	    	else{
+	    		nameValuePairs = new ArrayList<NameValuePair>();
+	    		nameValuePairs.add(new BasicNameValuePair("session", newSession));
+	    	}
+	    }
+	    
 	    
 	    try {
 

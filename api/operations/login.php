@@ -145,7 +145,7 @@ class RequestObject{
 						logError($_SERVER['SCRIPT_NAME'],__LINE__,"Could not update a user's rehashed password! Query: \"$hashUpdate\"",$e->getMessage(),time(),false);
 					}
 				}
-				$updateSQL = "UPDATE users SET last_login=:currentTime,last_attempt=:currentTime,disabled='0',attempt_count='0' WHERE uid=:uid;";
+				$updateSQL = "UPDATE users SET last_attempt=:currentTime,disabled='0',attempt_count='0' WHERE uid=:uid;";
 				try{
 					$updateStatement = $this->_sqlCon->prepare($updateSQL);
 					$updateStatement->execute(array(':currentTime'=>$currentTime,':uid'=>$uidValue));
@@ -154,9 +154,9 @@ class RequestObject{
 					logError($_SERVER['SCRIPT_NAME'],__LINE__,"Could not log user's log-in into users table! Query: \"$updateSQL\"",$e->getMessage(),time(),false);
 				}
 				
-				$data = $this->_user->giveCredentials($uidValue,$username,$nowDatetime); 
+				$data = $this->_user->giveCredentials($uidValue,$username,$currentTime); 
 				if($data === false){
-					$this->setResult(STATUS_FAILURE,'Your log in information appears valid, but we were unable to complete your $this->_request due to a server error!');
+					$this->setResult(STATUS_FAILURE,'Your log in information appears valid, but we were unable to complete your request due to a server error!');
 				}
 				else{
 					$this->setResult(STATUS_SUCCESS,$data);

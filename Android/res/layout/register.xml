@@ -59,6 +59,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20dip"
                 android:layout_marginTop="5dip"
+                android:inputType="textEmailAddress"
+                android:hint="a@b.cd"
                 android:singleLine="true" />
 
             <TextView
@@ -73,6 +75,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dip"
                 android:ems="10"
+                android:hint="Minimum 6 characters"
                 android:inputType="textPassword"
                 android:singleLine="true" />
 

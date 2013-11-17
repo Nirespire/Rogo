@@ -46,7 +46,7 @@ class RequestObject{
 			return;
 		}
 	
-		$required = array('characteristic','location_label','person_id');
+		$required = array('characteristics','location_label','person_id');
 		$missing = array();
 		if(!$this->checkRequiredArgs($required,$missing)){
 			$this->setResult(STATUS_ERROR,'The request is missing the following required parameters: ' . implode(', ',$missing));
@@ -71,10 +71,10 @@ class RequestObject{
 				':char'=>$data['characteristic']
 			));
 			if($meetDataStatement->rowCount() == 0){
-				$this->setResult(STATUS_FAILURE,'Something went wrong while trying save your meeting request!');
+				$this->setResult(STATUS_FAILURE,'Something went wrong while trying save your meeting data!');
 				return;
 			}
-			/*$dataId = $this->_sqlCon->lastInsertId();
+			$dataId = $this->_sqlCon->lastInsertId();
 			
 			if($data['is_user']){
 				$userInsertStatement = $this->_sqlCon->prepare('INSERT INTO meetup_user (uid, other_uid) VALUES (:uid,:puid)');
@@ -93,37 +93,25 @@ class RequestObject{
 					$this->setResult(STATUS_FAILURE,'Something went wrong while trying save your meeting data!');
 					return;
 				}
-			}*/
+			}
 			$this->_sqlCon->commit();
 			
-			$this->setResult(STATUS_SUCCESS,'Meeting request sent!');
+			$this->setResult(STATUS_SUCCESS,'Shit worked!');
 		}
 		catch(PDOException $e){
 			$this->_sqlCon->rollBack();
-			logError($_SERVER['SCRIPT_NAME'],__LINE__,'Error while performing meeting request insertion!',$e->getMessage(),time());
-			$this->setResult(STATUS_FAILURE,'Something went wrong while trying save your meeting request!');
+			if($e->getCode() == 23000){ //a UNIQUE conflict
+				if($data['is_user']){ //Right now there is only a UNIQUE key set for the user table. Non user can have duplicates.
+					$this->setResult(STATUS_ERROR,'You can\'t meet the same user twice!');
+					return;
+				}
+			}
+			logError($_SERVER['SCRIPT_NAME'],__LINE__,'Error while performing meeting insertion!',$e->getMessage(),time());
+			$this->setResult(STATUS_FAILURE,'Something went wrong while trying save your meeting data!');
 			return;
 		}
 		
 		$this->setResult(STATUS_SUCCESS,$data);
-	}
-	
-	private function checkRequiredArgs($required,&$missing = null){
-		$status = true;
-		foreach($required as $arg){
-			if(!isset($this->_req[$arg])){
-				$status = false;
-				if($missing === null){
-					return $status;
-				}
-				else{
-					if(is_array($missing)){
-						array_push($missing,$arg);
-					}
-				}
-			}
-		}
-		return $status;
 	}
 	
 	private function validateAllOfTheInput(){
@@ -146,7 +134,7 @@ class RequestObject{
 			$this->setResult(STATUS_ERROR,'The submitted characteristic is too long!');
 			return false;
 		}
-		$characteristic = cleanInput($characteristic,1,MEET_REQUEST_CHARACTERISTIC_LENGTH);
+		$characteristic = cleanInput($answer,1,MEET_REQUEST_CHARACTERISTIC_LENGTH);
 		if($characteristic === false){
 			$this->setResult(STATUS_ERROR,'The submitted answer appears to be invalid!');
 			return false;
@@ -181,30 +169,7 @@ class RequestObject{
 			}
 			$location = $tempLoc;
 		}
-		return array('location_lat'=>$latitude, 'location_lon'=>$longitude, 'person_id'=>$person_id, 'location_label' => $location, 'characteristic' => $characteristic);
-	}
-	
-	private function isUserId($id){
-		try{
-			$idStatement = $this->_sqlCon->prepare('SELECT uid FROM users WHERE uid=:uid');
-			$idStatement->bindParam(':uid',$id,PDO::PARAM_INT);
-			$idStatement->execute();
-			return $idStatement->rowCount() == 1;
-		}
-		catch(PDOException $e){
-			logError($_SERVER['SCRIPT_NAME'],__LINE__,'Error while checking if User ID exists',$e->getMessage(),time());
-			return false;
-		}
-	}
-	
-	private function validateCoordinates($lat,$lon){
-		$latPat = '/^\-?\d{1,2}\.\d{5,20}$/';
-		$lonPat = '/^\-?\d{1,3}\.\d{5,20}$/';
-		
-		if(preg_match($latPat,$lat) === 1 && preg_match($lonPat,$lon) === 1){
-			return true;
-		}
-		return false;
+		return array('location_lat'=>$latitude, 'location_lon'=>$longitude, 'question'=>$questionID, 'answer'=>$answer, 'is_user'=>$is_user, 'person_id'=>$person_id, 'location' => $location);
 	}
 	
 	/** Sets the resultant status and data.

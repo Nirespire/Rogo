@@ -1,5 +1,5 @@
 <?php
-$this->_require 'password.php';
+require 'password.php';
 
 class $this->_requestObject{
 	private $_DATA = null;

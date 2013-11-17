@@ -224,3 +224,35 @@ Request: `nearby.txt?count=2&session=[session]`
     	],
     	"session": "changed"
     }
+	
+#### Sending a meetup request
+
+**Request location:** `meetrequest.json`  
+
+**Functionality:** This will send a request to meet up with another user at a specified location. 
+
+**Login session required**: Yes. 
+
+**Required Parameters:**  
+* `person_id`: The uid of the person whom the user is requesting to meet with. 
+* `characteristic`: A plain-text string for the user to describe his/her appearance in a way that will help the other user identify himself/hersef. Example: `Fedora with MLP t-shirt and black flame shorts`. 
+* `location_label`: A plain-text string for the location to meet up. Example: `The combination PizzaHut and Taco Bell`.
+
+**Optional Parameters:**
+* `location_lat`: The GPS latitude of the location the meet up took place. Example: `29.643509`.
+* `location_lon`: The GPS longitude of the location the meet up took place. Example: `-82.360729`.
+
+**Example:**  
+Request: `meetrequest.txt?characteristic=Awkward guy in dungeon&location_label=The Dungeon&person_id=3`  
+
+    {
+        "status": "success",
+        "data": {
+            "location_lat": null,
+            "location_lon": null,
+            "person_id": "3",
+            "location_label": "The Dungeon",
+            "characteristic": "Awkward guy in dungeon"
+        },
+        "session": "unchanged"
+    }

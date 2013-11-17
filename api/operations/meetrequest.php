@@ -46,7 +46,7 @@ class RequestObject{
 			return;
 		}
 	
-		$required = array('characteristics','location_label','person_id');
+		$required = array('characteristic','location_label','person_id');
 		$missing = array();
 		if(!$this->checkRequiredArgs($required,$missing)){
 			$this->setResult(STATUS_ERROR,'The request is missing the following required parameters: ' . implode(', ',$missing));
@@ -60,13 +60,21 @@ class RequestObject{
 		$currentTime = date("Y-m-d H:i:s");
 		try{
 			$this->_sqlCon->beginTransaction();
-			$meetDataStatement = $this->_sqlCon->prepare('INSERT INTO meetup_data (location, location_lat, location_lon,question,question_answer,date) VALUES (:location,:lat,:lon,:question,:ans,:date)');
-			$meetDataStatement->execute(array(':location'=>$data['location'], ':lat'=>$data['location_lat'], ':lon'=>$data['location_lon'], ':question'=>$data['question'], ':ans'=>$data['answer'],':date'=>$currentTime));
+			$meetDataStatement = $this->_sqlCon->prepare('INSERT INTO meetup_requests (originid,targetid,characteristic,location_label,location_lat,location_lon,request_time) VALUES (:uid,:personid,:char,:location,:lat,;lon,:now)');
+			$meetDataStatement->execute(array(
+				':location'=>$data['location_label'],
+				':lat'=>$data['location_lat'],
+				':lon'=>$data['location_lon'],
+				':now'=>$currentTime,
+				':uid'=>$this->_user->getUID(),
+				':personid'=>$data['person_id'],
+				':char'=>$data['characteristic']
+			));
 			if($meetDataStatement->rowCount() == 0){
-				$this->setResult(STATUS_FAILURE,'Something went wrong while trying save your meeting data!');
+				$this->setResult(STATUS_FAILURE,'Something went wrong while trying save your meeting request!');
 				return;
 			}
-			$dataId = $this->_sqlCon->lastInsertId();
+			/*$dataId = $this->_sqlCon->lastInsertId();
 			
 			if($data['is_user']){
 				$userInsertStatement = $this->_sqlCon->prepare('INSERT INTO meetup_user (uid, other_uid) VALUES (:uid,:puid)');
@@ -85,32 +93,44 @@ class RequestObject{
 					$this->setResult(STATUS_FAILURE,'Something went wrong while trying save your meeting data!');
 					return;
 				}
-			}
+			}*/
 			$this->_sqlCon->commit();
 			
-			$this->setResult(STATUS_SUCCESS,'Shit worked!');
+			$this->setResult(STATUS_SUCCESS,'Meeting request sent!');
 		}
 		catch(PDOException $e){
 			$this->_sqlCon->rollBack();
-			if($e->getCode() == 23000){ //a UNIQUE conflict
-				if($data['is_user']){ //Right now there is only a UNIQUE key set for the user table. Non user can have duplicates.
-					$this->setResult(STATUS_ERROR,'You can\'t meet the same user twice!');
-					return;
-				}
-			}
-			logError($_SERVER['SCRIPT_NAME'],__LINE__,'Error while performing meeting insertion!',$e->getMessage(),time());
-			$this->setResult(STATUS_FAILURE,'Something went wrong while trying save your meeting data!');
+			logError($_SERVER['SCRIPT_NAME'],__LINE__,'Error while performing meeting request insertion!',$e->getMessage(),time());
+			$this->setResult(STATUS_FAILURE,'Something went wrong while trying save your meeting request!');
 			return;
 		}
 		
 		$this->setResult(STATUS_SUCCESS,$data);
 	}
 	
+	private function checkRequiredArgs($required,&$missing = null){
+		$status = true;
+		foreach($required as $arg){
+			if(!isset($this->_req[$arg])){
+				$status = false;
+				if($missing === null){
+					return $status;
+				}
+				else{
+					if(is_array($missing)){
+						array_push($missing,$arg);
+					}
+				}
+			}
+		}
+		return $status;
+	}
+	
 	private function validateAllOfTheInput(){
 		/** Time to start validating the input. Always a fun task. **/
 		/** First validate the coordinates that were given. **/
-		$latitude = null; 
-		$longitude = null;
+		$latitude = 0; 
+		$longitude = 0;
 		if(isset($this->_req['location_lat']) && isset($this->_req['location_lon'])){
 			$latitude = $this->_req['location_lat'];
 			$longitude = $this->_req['location_lon'];
@@ -126,7 +146,7 @@ class RequestObject{
 			$this->setResult(STATUS_ERROR,'The submitted characteristic is too long!');
 			return false;
 		}
-		$characteristic = cleanInput($answer,1,MEET_REQUEST_CHARACTERISTIC_LENGTH);
+		$characteristic = cleanInput($characteristic,1,MEET_REQUEST_CHARACTERISTIC_LENGTH);
 		if($characteristic === false){
 			$this->setResult(STATUS_ERROR,'The submitted answer appears to be invalid!');
 			return false;
@@ -161,7 +181,30 @@ class RequestObject{
 			}
 			$location = $tempLoc;
 		}
-		return array('location_lat'=>$latitude, 'location_lon'=>$longitude, 'question'=>$questionID, 'answer'=>$answer, 'is_user'=>$is_user, 'person_id'=>$person_id, 'location' => $location);
+		return array('location_lat'=>$latitude, 'location_lon'=>$longitude, 'person_id'=>$person_id, 'location_label' => $location, 'characteristic' => $characteristic);
+	}
+	
+	private function isUserId($id){
+		try{
+			$idStatement = $this->_sqlCon->prepare('SELECT uid FROM users WHERE uid=:uid');
+			$idStatement->bindParam(':uid',$id,PDO::PARAM_INT);
+			$idStatement->execute();
+			return $idStatement->rowCount() == 1;
+		}
+		catch(PDOException $e){
+			logError($_SERVER['SCRIPT_NAME'],__LINE__,'Error while checking if User ID exists',$e->getMessage(),time());
+			return false;
+		}
+	}
+	
+	private function validateCoordinates($lat,$lon){
+		$latPat = '/^\-?\d{1,2}\.\d{5,20}$/';
+		$lonPat = '/^\-?\d{1,3}\.\d{5,20}$/';
+		
+		if(preg_match($latPat,$lat) === 1 && preg_match($lonPat,$lon) === 1){
+			return true;
+		}
+		return false;
 	}
 	
 	/** Sets the resultant status and data.

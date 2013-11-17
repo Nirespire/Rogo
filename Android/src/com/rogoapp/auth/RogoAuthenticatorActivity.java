@@ -40,6 +40,8 @@ public class RogoAuthenticatorActivity extends AccountAuthenticatorActivity {
 
 	public static boolean createToken;
 	public boolean openMain;
+	
+	private CheckBox rememberMe;
 
 	private EditText tvUsername;  
 	private EditText tvPassword;
@@ -48,6 +50,7 @@ public class RogoAuthenticatorActivity extends AccountAuthenticatorActivity {
 	private TextView txtPassword;
 	
 	private Button register;
+	private Button login;
 
 	private String username;  
 	private String password;
@@ -73,6 +76,9 @@ public class RogoAuthenticatorActivity extends AccountAuthenticatorActivity {
 		this.remove = false;
 		
 		//set variables and aesthetic changes
+		rememberMe = (CheckBox)this.findViewById(R.id.remember_me_check);
+
+		
 		tvUsername = (EditText) this.findViewById(R.id.auth_txt_username);  
 		tvPassword = (EditText) this.findViewById(R.id.auth_txt_pswd);
 
@@ -80,10 +86,13 @@ public class RogoAuthenticatorActivity extends AccountAuthenticatorActivity {
 		txtPassword = (TextView) this.findViewById(R.id.txt_pswd);
 
 		username = tvUsername.getText().toString();  
-		password = tvPassword.getText().toString();  
+		password = tvPassword.getText().toString();
+		
+		login = (Button) this.findViewById(R.id.btnLogin);
 		register = (Button) this.findViewById(R.id.link_to_register);
 		register.setBackgroundColor(Color.WHITE);
-
+		if(createToken)
+			login.setText("Remember Login");
 
 		openMain = getIntent().getBooleanExtra(OPEN_MAIN, false);
 				Account[] accounts = am.getAccountsByType(PARAM_AUTHTOKEN_TYPE);
@@ -116,7 +125,6 @@ public class RogoAuthenticatorActivity extends AccountAuthenticatorActivity {
 			tvUsername.setText("");
 			tvPassword.setText("");
 			if(createToken){
-				CheckBox rememberMe = (CheckBox)this.findViewById(R.id.remember_me_check);
 				rememberMe.performClick();
 			}
 		}
@@ -168,8 +176,6 @@ public class RogoAuthenticatorActivity extends AccountAuthenticatorActivity {
 
 		//When the user has chosen to be remembered, sets the Login to store an auth-token
 		//and changes the Login button appropriately to reflect their choice
-		Button login = (Button) this.findViewById(R.id.btnLogin);
-
 		if(getToken()){
 			this.setToken(false);
 		}

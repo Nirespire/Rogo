@@ -20,6 +20,7 @@ import android.text.TextUtils;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -38,7 +39,7 @@ public class RegisterActivity extends AccountAuthenticatorActivity{
 
 
 	private boolean remove;
-	private boolean token;
+	private static boolean token;
 
 	AccountManager am;
 	private CacheClient cache;
@@ -47,7 +48,7 @@ public class RegisterActivity extends AccountAuthenticatorActivity{
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.register);
-
+		
 		register = (Button) this.findViewById(R.id.btnRegister);
 		login = (Button) this.findViewById(R.id.link_to_login);
 		login.setBackgroundColor(Color.TRANSPARENT);
@@ -55,7 +56,9 @@ public class RegisterActivity extends AccountAuthenticatorActivity{
 		username = (EditText) this.findViewById(R.id.reg_username);
 		email = (EditText) this.findViewById(R.id.reg_email);
 		password = (EditText) this.findViewById(R.id.reg_password);
-
+		if(token)
+			register.setText("Register and Store Login");
+		
 		am = AccountManager.get(this);
 		cache = new CacheClient(this);
 
@@ -231,7 +234,7 @@ public boolean getToken() {
 }
 
 public void setToken(boolean token) {
-	this.token = token;
+	RegisterActivity.token = token;
 }
 
 }

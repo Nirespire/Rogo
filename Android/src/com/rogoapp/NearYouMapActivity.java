@@ -1,5 +1,4 @@
 
-
 package com.rogoapp;
 
 
@@ -17,15 +16,17 @@ import com.google.android.gms.common.GooglePlayServicesClient;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.location.LocationClient;
 import com.google.android.gms.location.LocationListener;
-import com.google.android.gms.location.LocationRequest;
+//import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.rogoapp.auth.AccountAuthenticator;
 
-import android.app.Activity;
+//import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -77,17 +78,7 @@ public class NearYouMapActivity extends FragmentActivity implements
 				mLocationClient.connect();
 			//	goToCurrentLocation();
 				
-				// post request, have it be marked on map, other users
-				// getString and name of data field
-				// here are some sample locations of "users"
-				// create a serverclient objecy here
-				// and create generic 
-				// look at the register button
-				// use nearby.php
-				// Joey and Jamie could help if necessary
-				
 				/***************************************************/
-				// Mess around with this and tailor it
 				
 				//first update avaliability
 				//force location to be florida gym
@@ -97,7 +88,7 @@ public class NearYouMapActivity extends FragmentActivity implements
 				nameValuePairs.add(new BasicNameValuePair("location_lat", String.valueOf(userLat)));
 				nameValuePairs.add(new BasicNameValuePair("location_lon", String.valueOf(userLong)));
 				nameValuePairs.add(new BasicNameValuePair("availability", "available"));
-				nameValuePairs.add(new BasicNameValuePair("radius", ".0946"));
+				nameValuePairs.add(new BasicNameValuePair("radius", "1"));
 				
 				JSONObject jObj = ServerClient.genericPostRequest("availability", nameValuePairs, this.getApplicationContext());
 				
@@ -124,15 +115,48 @@ public class NearYouMapActivity extends FragmentActivity implements
 				try {
 					others = jObj.getJSONArray("data");
 					for(int i = 0; i < others.length(); i++){
-						//User currUser 
+						JSONObject oneUser = others.getJSONObject(i);
+						
+						String label = oneUser.getString("location_label");
+		/**/			System.out.println(label);
+			
+						String latString = oneUser.getString("location_latitude");
+						double lat = Double.parseDouble(latString);
+		/**/			System.out.println(lat);
+						
+						String lonString = oneUser.getString("location_longitude");
+						double lon = Double.parseDouble(lonString);
+		/**/			System.out.println(lon);
+						
+						String distanceString = oneUser.getString("distance");
+						double distance = Double.parseDouble(distanceString);
+		/**/			System.out.println(distance);
+						
+						String updated = oneUser.getString("updated");
+		/**/			System.out.println(updated);
+						
+						String recentness = oneUser.getString("recentness");
+		/**/			System.out.println(recentness);
+						
+						User currUser = new User(lat, lon, label, distance, updated, recentness);
+						otherUsers.add(currUser);
+					
+						/* now, otherUsers should be full of all nearby users
+						 * put these users on the map!
+						 */
+						
+						for (int k = 0; k < otherUsers.size(); k++) {
+							Marker marker = mMap.addMarker(new MarkerOptions()
+							.position(new LatLng(otherUsers.get(k).getLat(), otherUsers.get(k).getLon()))
+							.title(otherUsers.get(k).getLabel())
+								);
+						}	
+					
 					}
 				} catch (JSONException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
-				}
-				
-				
-		        
+				}        
 
 		        /**************************************************/
 			}

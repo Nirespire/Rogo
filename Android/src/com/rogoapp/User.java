@@ -28,6 +28,16 @@ public class User {
 	private String username;
 	private String firstName;
 	private String lastName;
+	private int uid;
+	
+	//for user in maps
+	private double lat;
+	private double lon;
+	private String loc_label;
+	private double distanceFromCurrUser;
+	private String lastLocationUpdate;
+	private String recentness;
+	
 	private Date birthday;
 	private String email;
 	private ArrayList<String> interests;
@@ -46,6 +56,22 @@ public class User {
 		email = "default";
 		score = 0;	//starting score is 0
 		level = 1;	//starting level is 1
+	}
+	
+	public User(double lat, double lon, String loc_label, double distanceFromCurrUser, String lastLocationUpdate, String recentness) {
+		username = "default";
+		firstName = "default";
+		lastName = "default";
+		birthday = new Date(0, 0, 1); //default date is Jan 1 1900
+		email = "default";
+		score = 0;	//starting score is 0
+		level = 1;	//starting level is 1
+		this.lat = lat;
+		this.lon = lon;
+		this.loc_label = loc_label;
+		this.distanceFromCurrUser = distanceFromCurrUser;
+		this.lastLocationUpdate = lastLocationUpdate;
+		this.recentness = recentness;
 	}
 	
 	public User(String firstName, String lastName, int year, int month, int day, String email){
@@ -140,6 +166,34 @@ public class User {
 	public void incrementLevel(int increment){
 		level += increment;
 	}
+	
+	/***** Methods for putting users on the map*********/
+	
+	public double getLat() {
+		return lat;
+	}
+	
+	public double getLon() {
+		return lon;
+	}
+	
+	public String getLabel() {
+		return loc_label;
+	}
+	
+	public double getDistance() {
+		return distanceFromCurrUser;
+	}
+	
+	public String getLastLocUpdate() {
+		return lastLocationUpdate;
+	}
+	
+	public String getRecentness() {
+		return recentness;
+	}
+	
+	/*********************************************/
 	
 //	public static ArrayList<Friend> getFriends(){
 	//	return friends;

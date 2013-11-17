@@ -1,11 +1,17 @@
 package com.rogoapp;
 
+import java.util.ArrayList;
+
+import org.apache.http.NameValuePair;
+
 import android.content.Context;
 import android.content.Intent;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.ListView;
 
 import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.Menu;
@@ -15,7 +21,9 @@ import com.actionbarsherlock.view.MenuItem.OnMenuItemClickListener;
 public class NearYouActivity extends SherlockActivity {
 
     Button goToMapButton;
+    ListView nearbyUsersList;
     ServerClient sc;
+    LocationManager loc;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -30,11 +38,11 @@ public class NearYouActivity extends SherlockActivity {
 
             }
         });
+        
+        nearbyUsersList = (ListView) findViewById(R.id.nearby_users_list);
 
         sc = new ServerClient();
-
-        //TODO request people near you and populate ListView (id = myList)
-
+        sc.genericPostRequest("nearby", new ArrayList<NameValuePair>(2));
 
     }
 

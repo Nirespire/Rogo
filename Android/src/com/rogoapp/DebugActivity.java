@@ -12,9 +12,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Address;
-import android.location.Criteria;
 import android.location.Geocoder;
-import android.location.GpsStatus;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -36,7 +34,6 @@ public class DebugActivity extends Activity implements LocationListener {
     Button meetingSomeoneButton;
     Button buddyList;
     private LocationManager loc;
-    private GpsStatus mStatus;
 
 
     @Override
@@ -171,7 +168,6 @@ public class DebugActivity extends Activity implements LocationListener {
 
     public String getLocation(View v){
 
-        String bestProvider;
         List<Address> user = null;
         double lat;
         double lng;
@@ -187,12 +183,12 @@ public class DebugActivity extends Activity implements LocationListener {
             buildAlertMessageNoGps();
             loc.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0,0,this);
             provider = "Network";
-            location = loc.getLastKnownLocation(loc.NETWORK_PROVIDER);
+            location = loc.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
         }
         else{
             loc.requestLocationUpdates(LocationManager.GPS_PROVIDER,0,0,this);
             provider = "GPS";
-            location = loc.getLastKnownLocation(loc.GPS_PROVIDER);
+            location = loc.getLastKnownLocation(LocationManager.GPS_PROVIDER);
         }
 
 
@@ -240,9 +236,29 @@ public class DebugActivity extends Activity implements LocationListener {
         String[] latLon = location.split(",");
         ServerClient sc = new ServerClient();
         List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
+        
+        if(latLon.length == 2){
+        	
+        	nameValuePairs.add(new BasicNameValuePair("location_lat",latLon[0]));
+        	nameValuePairs.add(new BasicNameValuePair("location_lon",latLon[1]));
+        	
+        	System.out.println("Latitude: " + latLon[1]);
+        	System.out.println("Longitude: " + latLon[2]);
+        }
+        else{
+        	nameValuePairs.add(new BasicNameValuePair("location_lat","-1"));
+        	nameValuePairs.add(new BasicNameValuePair("location_lon","-1"));
+        	
+        	System.out.println("Location not available");
+        }
+        
+        //TODO NEED TO PULL USER INFO
+        nameValuePairs.add(new BasicNameValuePair("availability","available"));
+        nameValuePairs.add(new BasicNameValuePair("radius","1")); //1 mile
+        
+        sc.genericPostRequest("availability", nameValuePairs);
+        
 
-        nameValuePairs.add(new BasicNameValuePair("location_lat","0.000"));
-        nameValuePairs.add(new BasicNameValuePair("location_lon","0.000"));
 
     }
 

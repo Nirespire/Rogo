@@ -234,7 +234,6 @@ public class DebugActivity extends Activity implements LocationListener {
 
     public void postLocation(String location){
         String[] latLon = location.split(",");
-        ServerClient sc = new ServerClient();
         List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
         
         if(latLon.length == 2){
@@ -256,7 +255,7 @@ public class DebugActivity extends Activity implements LocationListener {
         nameValuePairs.add(new BasicNameValuePair("availability","available"));
         nameValuePairs.add(new BasicNameValuePair("radius","1")); //1 mile
         
-        sc.genericPostRequest("availability", nameValuePairs);
+        ServerClient.genericPostRequest("availability", nameValuePairs, this.getApplicationContext());
         
 
 

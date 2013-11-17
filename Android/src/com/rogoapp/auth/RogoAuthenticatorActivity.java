@@ -213,12 +213,11 @@ public class RogoAuthenticatorActivity extends AccountAuthenticatorActivity {
 
 			this.password = AccountAuthenticator.hashPassword(password);
 			
-			ServerClient server = new ServerClient();
 			List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
 			nameValuePairs.add(new BasicNameValuePair("email", username));
 			nameValuePairs.add(new BasicNameValuePair("password", password));
 
-			JSONObject json = server.genericPostRequest("login", nameValuePairs);
+			JSONObject json = ServerClient.genericPostRequest("login", nameValuePairs, context);
 
 			String toHash = "";
 			try {

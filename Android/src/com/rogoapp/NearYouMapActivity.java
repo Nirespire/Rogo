@@ -1,6 +1,16 @@
 
+
 package com.rogoapp;
 
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient;
@@ -13,9 +23,12 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.rogoapp.auth.AccountAuthenticator;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
+import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -35,6 +48,11 @@ public class NearYouMapActivity extends FragmentActivity implements
 	private static final int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9002;
 	GoogleMap mMap;
 	LocationClient mLocationClient;
+	
+	private double userLat;
+	private double userLong;
+	
+	private List<User> otherUsers;
 	
 	@SuppressWarnings("unused")
 	private static final String LOGTAG = "Maps";
@@ -58,6 +76,65 @@ public class NearYouMapActivity extends FragmentActivity implements
 				mLocationClient = new LocationClient(this, this, this);
 				mLocationClient.connect();
 			//	goToCurrentLocation();
+				
+				// post request, have it be marked on map, other users
+				// getString and name of data field
+				// here are some sample locations of "users"
+				// create a serverclient objecy here
+				// and create generic 
+				// look at the register button
+				// use nearby.php
+				// Joey and Jamie could help if necessary
+				
+				/***************************************************/
+				// Mess around with this and tailor it
+				
+				//first update avaliability
+				//force location to be florida gym
+				userLat = 29.649674; //florida gym
+				userLong = -82.347224; //florida gym
+				List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
+				nameValuePairs.add(new BasicNameValuePair("location_lat", String.valueOf(userLat)));
+				nameValuePairs.add(new BasicNameValuePair("location_lon", String.valueOf(userLong)));
+				nameValuePairs.add(new BasicNameValuePair("availability", "available"));
+				nameValuePairs.add(new BasicNameValuePair("radius", ".0946"));
+				
+				JSONObject jObj = ServerClient.genericPostRequest("availability", nameValuePairs, this.getApplicationContext());
+				
+				try{
+					String status = jObj.getString("status");
+					if(status.equals("success")){
+						System.out.println("updated succesfully");
+					}
+					else{
+						System.out.println("not updated!");
+					}
+				}catch(JSONException e){
+					System.err.println("IN MAP: " + e);
+				}catch(NullPointerException e){
+					System.err.println("IN MAP: " + e);
+				}
+				
+				//now that this user's availability is updated, we must get nearby users
+				nameValuePairs = new ArrayList<NameValuePair>(2);
+				jObj = ServerClient.genericPostRequest("nearby", nameValuePairs, this.getApplicationContext());
+				//sort jObj into list of users
+				otherUsers = new ArrayList<User>();
+				JSONArray others = null;
+				try {
+					others = jObj.getJSONArray("data");
+					for(int i = 0; i < others.length(); i++){
+						//User currUser 
+					}
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+				
+		        
+
+		        /**************************************************/
 			}
 		
 		

@@ -88,10 +88,11 @@ public class ServerClient{
 		// Returns a JSON object
 	    HttpClient httpclient = new DefaultHttpClient();
 	    HttpPost httppost = new HttpPost("http://api.rogoapp.com/request/" + request);
-	    
+	    AccountAuthenticator aa = new AccountAuthenticator(context);
 	    if(!(request.equals("register") || request.equals("login"))){
-	    	AccountAuthenticator aa = new AccountAuthenticator(context);
-	    	String newSession = aa.changeSession();
+	    	
+	    	String newSession = aa.getCurrentSession();
+	    
 	    	if(nameValuePairs == null || !nameValuePairs.isEmpty()){
 	    		nameValuePairs.add(new BasicNameValuePair("session", newSession));
 	    	}
@@ -118,6 +119,7 @@ public class ServerClient{
 	        
 	        System.out.println("IN SERVERCLIENT: status = " + status);
 	        
+	        updateSessionIfNecessary(aa);
 	        
 			return ServerClient.lastResponse;
 	    }
@@ -127,6 +129,21 @@ public class ServerClient{
 	    
 	    return null;
 	}  
+	
+	private static void updateSessionIfNecessary(AccountAuthenticator auth){
+		try {
+			if(lastResponse != null && lastResponse.has("session")){
+				String updated = lastResponse.getString("session");
+				if("changed".equals(updated)){
+					auth.changeSession();
+				}
+			}
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
 	
 	public JSONObject getLastResponse(){
 		return lastResponse;

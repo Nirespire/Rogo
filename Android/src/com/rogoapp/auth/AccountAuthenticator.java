@@ -228,9 +228,35 @@ public class AccountAuthenticator extends AbstractAccountAuthenticator {
             return sb.toString();
         }
         
+        public static String hashSession(String session){
+            MessageDigest md = null;
+            try{
+                md = MessageDigest.getInstance("SHA-256");
+            }
+            catch(Exception e){
+                e.printStackTrace();
+            }
+            
+            md.update(session.getBytes());
+             
+            byte byteData[] = md.digest();
+            
+            StringBuffer sb = new StringBuffer();
+            for (int i = 0; i < byteData.length; i++) {
+             sb.append(Integer.toString((byteData[i] & 0xff) + 0x100, 16).substring(1));
+            }
+            
+            return sb.toString();
+        }
+        
+        public String getCurrentSession(){ //Added by Marcus
+        	String cSession = cache.loadFile(CacheClient.SESSION_CACHE);
+        	return cSession;
+        }
+        
         public String changeSession(){
 			
-        	String cSession = cache.loadFile(CacheClient.SESSION_CACHE);
+        	String cSession = getCurrentSession();
         	String token = "";
         	
         	AccountManager am = AccountManager.get(mContext);
@@ -243,8 +269,10 @@ public class AccountAuthenticator extends AbstractAccountAuthenticator {
         		token = am.peekAuthToken(account, RogoAuthenticatorActivity.PARAM_AUTHTOKEN_TYPE);
         	}
             
-        	cache.saveFile(CacheClient.SESSION_CACHE, hashPassword(cSession + token));
-        	return hashPassword(cSession);
+        	String newSession = hashSession(cSession + token);
+
+        	cache.saveFile(CacheClient.SESSION_CACHE, newSession);
+        	return newSession;
         }
         
 }

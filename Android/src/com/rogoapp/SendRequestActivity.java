@@ -66,7 +66,7 @@ public class SendRequestActivity extends Activity implements LocationListener {
     	
     	//temp
     	String userID = "1234";
-    	String targetID = "5678";
+    	String targetID = "4";
     	//end temp
     	
         EditText trait = (EditText) findViewById(R.id.request_trait);
@@ -77,15 +77,15 @@ public class SendRequestActivity extends Activity implements LocationListener {
         
     	List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
     	
-    	nameValuePairs.add(new BasicNameValuePair("RequestingUser", userID));
-    	nameValuePairs.add(new BasicNameValuePair("TargetUser", targetID));
+    	//nameValuePairs.add(new BasicNameValuePair("RequestingUser", userID));
+    	nameValuePairs.add(new BasicNameValuePair("person_id", targetID));
 
     	
-		nameValuePairs.add(new BasicNameValuePair("trait", trait.getText().toString()));
+		nameValuePairs.add(new BasicNameValuePair("characteristic", trait.getText().toString()));
 
-		nameValuePairs.add(new BasicNameValuePair("location", location.getText().toString()));
+		nameValuePairs.add(new BasicNameValuePair("location_label", location.getText().toString()));
 		
-        JSONObject jObj = ServerClient.genericPostRequest("meetsubmit", nameValuePairs, this.getApplicationContext());
+        JSONObject jObj = ServerClient.genericPostRequest("meetrequest", nameValuePairs, this.getApplicationContext());
         String status = null;
         try{
         	status = jObj.getString("status");
@@ -186,8 +186,8 @@ public class SendRequestActivity extends Activity implements LocationListener {
         	System.out.println("Longitude: " + latLon[2]);
         }
         else{
-        	nameValuePairs.add(new BasicNameValuePair("location_lat","-1"));
-        	nameValuePairs.add(new BasicNameValuePair("location_lon","-1"));
+        	nameValuePairs.add(new BasicNameValuePair("location_lat","0.000000")); //Maybe I'm a bad person, but
+        	nameValuePairs.add(new BasicNameValuePair("location_lon","0.000000")); //But the server requires a minimum of 5 decimal places
         	
         	System.out.println("Location not available");
         }

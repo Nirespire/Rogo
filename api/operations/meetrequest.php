@@ -60,7 +60,7 @@ class RequestObject{
 		$currentTime = date("Y-m-d H:i:s");
 		try{
 			$this->_sqlCon->beginTransaction();
-			$meetDataStatement = $this->_sqlCon->prepare('INSERT INTO meetup_requests (originid,targetid,characteristic,location_label,location_lat,location_lon,request_time) VALUES (:uid,:personid,:char,:location,:lat,:lon,:now)');
+			$meetDataStatement = $this->_sqlCon->prepare('INSERT INTO meetup_requests (originid,targetid,characteristic,location_label,location_lat,location_lon,request_time) VALUES (:uid,:personid,:char,:location,:lat,;lon,:now)');
 			$meetDataStatement->execute(array(
 				':location'=>$data['location_label'],
 				':lat'=>$data['location_lat'],
@@ -117,8 +117,8 @@ class RequestObject{
 	private function validateAllOfTheInput(){
 		/** Time to start validating the input. Always a fun task. **/
 		/** First validate the coordinates that were given. **/
-		$latitude = null; 
-		$longitude = null;
+		$latitude = 0; 
+		$longitude = 0;
 		if(isset($this->_req['location_lat']) && isset($this->_req['location_lon'])){
 			$latitude = $this->_req['location_lat'];
 			$longitude = $this->_req['location_lon'];

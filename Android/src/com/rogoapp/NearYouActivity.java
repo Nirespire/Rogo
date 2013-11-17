@@ -1,12 +1,8 @@
 package com.rogoapp;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
 import org.apache.http.NameValuePair;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import android.content.Context;
 import android.content.Intent;
@@ -14,7 +10,6 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 
@@ -25,16 +20,10 @@ import com.actionbarsherlock.view.MenuItem.OnMenuItemClickListener;
 
 public class NearYouActivity extends SherlockActivity {
 
-	static final String NEARBY_FILE = "nearby";
-	
     Button goToMapButton;
     ListView nearbyUsersList;
     ServerClient sc;
     LocationManager loc;
-    
-    ArrayList<String> users;
-    
-    CacheClient cache = new CacheClient(this);
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -51,16 +40,9 @@ public class NearYouActivity extends SherlockActivity {
         });
         
         nearbyUsersList = (ListView) findViewById(R.id.nearby_users_list);
-        
-        users = new ArrayList<String>();
+
         sc = new ServerClient();
-        getNearbyUsers();
-        
-        if(!users.isEmpty()){
-        	ArrayAdapter<String> arrayAdapter =      
-        	         new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, users);
-        	         nearbyUsersList.setAdapter(arrayAdapter); 
-        }
+        sc.genericPostRequest("nearby", new ArrayList<NameValuePair>(2));
 
     }
 
@@ -90,45 +72,6 @@ public class NearYouActivity extends SherlockActivity {
             return false;
         }
     };
-    
-    
-    public boolean getNearbyUsers() {
-        if(ServerClient.isNetworkAvailable()){
-        	JSONObject json = sc.genericPostRequest("nearby", Collections.<NameValuePair>emptyList());
-        	if(json != null)
-        		parseJ(json, NEARBY_FILE);
-        	return json != null;
-        }
-        return false;
-    }
-    
-    public void parseJ(JSONObject jObject, String filename){
-        JSONArray jArray = new JSONArray();
-        StringBuffer out;
-        try {
-            jArray = jObject.getJSONArray("data");
-        } catch (JSONException e1) {
-            e1.printStackTrace();
-        }
-        
-        for (int i=0; i < jArray.length(); i++)
-        {
-            out = new StringBuffer();
-        	try {
-                JSONObject oneObject = jArray.getJSONObject(i);
-                // Pulling items from the array
-                out.append("User: " +  oneObject.getString("uid") + 
-                		" Distance: " + oneObject.getString("distance"));
-               
-                
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            
-            users.add(out.toString());
-        }
-
-    }
 
 
 

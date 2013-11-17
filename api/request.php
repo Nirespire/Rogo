@@ -12,7 +12,8 @@ class RequestHandler{
 		'tips' => 'tips.php',
 		'meetsubmit' => 'meetsubmit.php',
 		'passwordch' => 'changepw.php',
-		'availability' => 'availability.php'
+		'availability' => 'availability.php',
+		'meetrequest' => 'meetrequest.php'
 	);
 	private static $REQUEST_STATUS = array(
 		STATUS_SUCCESS => 'success',

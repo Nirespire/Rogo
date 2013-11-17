@@ -93,6 +93,7 @@
 
                 <Button
                     android:id="@+id/btnLogin"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="10dip"
                     android:layout_marginTop="10dip"
@@ -101,12 +102,14 @@
 
                 <Button
                     android:id="@+id/on_Cancel_Click"
-                    android:layout_toRightOf="@+id/btnLogin"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="10dip"
                     android:layout_marginTop="10dip"
+                    android:layout_toRightOf="@+id/btnLogin"
                     android:onClick="onCancelClick"
                     android:text="@string/cancel_button" />
+
             </RelativeLayout>
 
             <Button

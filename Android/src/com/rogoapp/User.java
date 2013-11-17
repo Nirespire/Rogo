@@ -28,6 +28,16 @@ public class User {
 	private String username;
 	private String firstName;
 	private String lastName;
+	private int uid;
+	
+	//for user in maps
+	private int lat;
+	private int lon;
+	private String loc_label;
+	private int distanceFromCurrUser;
+	private String lastLocationUpdate;
+	private String recentness;
+	
 	private Date birthday;
 	private String email;
 	private ArrayList<String> interests;

@@ -88,6 +88,13 @@ public class ServerClient{
 	    HttpClient httpclient = new DefaultHttpClient();
 	    HttpPost httppost = new HttpPost("http://api.rogoapp.com/request/" + request);
 	    
+	    if(!(request.equals("register") || request.equals("login"))){
+	    	//String newSession = AccountAuthenticator.changeSession();
+	    	//nameValuePairs.add(new BasicNameValuePair("session", newSession);
+	    	
+	    }
+	    
+	    
 	    try {
 
 	        httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));

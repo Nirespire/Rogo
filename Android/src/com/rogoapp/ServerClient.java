@@ -111,6 +111,7 @@ public class ServerClient{
 	        httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 	        
 	        // fetch data in background thread
+	        System.out.println("Request type = " + request);
 	        ServerClientThread scThread = new ServerClientThread(httppost);
 	        scThread.start();
 	        try {

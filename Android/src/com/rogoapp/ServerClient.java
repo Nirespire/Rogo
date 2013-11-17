@@ -88,7 +88,10 @@ public class ServerClient{
 		// Returns a JSON object
 	    HttpClient httpclient = new DefaultHttpClient();
 	    HttpPost httppost = new HttpPost("http://api.rogoapp.com/request/" + request);
+
+		context = MainScreenActivity.showContext();
 	    AccountAuthenticator aa = new AccountAuthenticator(context);
+
 	    if(!(request.equals("register") || request.equals("login"))){
 	    	
 	    	String newSession = aa.getCurrentSession();

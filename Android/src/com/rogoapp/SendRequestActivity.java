@@ -142,7 +142,6 @@ public class SendRequestActivity extends Activity implements LocationListener {
             location = loc.getLastKnownLocation(LocationManager.GPS_PROVIDER);
         }
 
-
         if (location == null){
             Toast.makeText(this,"Current Location Not found",Toast.LENGTH_LONG).show();
         }else{
@@ -151,6 +150,9 @@ public class SendRequestActivity extends Activity implements LocationListener {
                 user = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
                 lat=(double)user.get(0).getLatitude();
                 lng=(double)user.get(0).getLongitude();
+                
+                System.out.println("DEBUG:  "+lng+"  "+lat);
+                
                 Toast.makeText(this,provider + " lat: " +lat+",  longitude: "+lng, Toast.LENGTH_LONG).show();
                 System.out.println(provider + " lat: " +lat+",  longitude: "+lng);
                 out = lat+ "," + lng;

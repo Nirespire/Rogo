@@ -13,7 +13,8 @@ class RequestHandler{
 		'meetsubmit' => 'meetsubmit.php',
 		'passwordch' => 'changepw.php',
 		'availability' => 'availability.php',
-		'meetrequest' => 'meetrequest.php'
+		'meetrequest' => 'meetrequest.php',
+		'status'=>'status.php'
 	);
 	private static $REQUEST_STATUS = array(
 		STATUS_SUCCESS => 'success',
@@ -122,7 +123,7 @@ class RequestHandler{
 			$this->unexpectedError();
 		}
 		$pretty = $this->writeContentType();
-		$outputArray = array('status'=>RequestHandler::$REQUEST_STATUS[$status],'data'=>$data,'session'=>$this->IsSessionUpdated());
+		$outputArray = array('status'=>RequestHandler::$REQUEST_STATUS[$status],'data'=>$data,'session'=>$this->IsSessionUpdated($status));
 		
         if($pretty){
             if(PHP_VERSION_ID < 50400){
@@ -137,9 +138,12 @@ class RequestHandler{
             echo json_encode($outputArray);
         }
 	}
-	private function IsSessionUpdated(){
+	private function IsSessionUpdated($status){
 		if($this->_user->isLoggedIn()){
 			return ($this->_user->didSessionUpdate())?'changed':'unchanged';
+		}
+		if($status == 1){
+			return 'unchanged';
 		}
 		return 'nli'; //Not logged in
 	}

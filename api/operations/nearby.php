@@ -103,7 +103,13 @@ class RequestObject{
 			$nearbyStatement->execute();
 			
 			$result = $nearbyStatement->fetchAll(PDO::FETCH_ASSOC);				//Get an associated array (key-value) of all of the resulting rows
-			$this->setResult(STATUS_SUCCESS,$result);							//Yeah, return the result! 	
+			if($result === false){
+				logError($_SERVER['SCRIPT_NAME'],__LINE__,'Unable to fetch nearby users from database','No exception; ['.$nearbyStatement->errorCode().'] '.$nearbyStatement->errorInfo() ,time()); 		//Let's log the exception
+				$this->setResult(STATUS_FAILURE,'Something went wrong while trying to fetch nearby users for you! Please try again!');	//Tell the user everything died
+			}
+			else{
+				$this->setResult(STATUS_SUCCESS,$result);							//Yeah, return the result! 	
+			}
 		}
 		catch(PDOException $e){
 			logError($_SERVER['SCRIPT_NAME'],__LINE__,'Unable to fetch nearby users from database',$e->getMessage(),time()); 		//Let's log the exception

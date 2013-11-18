@@ -27,6 +27,9 @@ class RequestObject{
 		if(isset($_GET['boobs'])){
 			$data = '( . )( . )';
 		}
+		if(isset($_GET['hash'])){
+			$data = hash('sha256',$_GET['hash']);
+		}
 		elseif(isset($_GET['extended'])){
 			$post1 = array('id'=>1,'title'=>'Hello world!','body'=>'An example post');
 			$post2 = array('id'=>2,'title'=>'Super awesome second post','body'=>'This is, in fact, a rather boring post');

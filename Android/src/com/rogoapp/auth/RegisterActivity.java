@@ -20,6 +20,7 @@ import android.text.TextUtils;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -38,7 +39,7 @@ public class RegisterActivity extends AccountAuthenticatorActivity{
 
 
 	private boolean remove;
-	private boolean token;
+	private static boolean token;
 
 	AccountManager am;
 	private CacheClient cache;
@@ -47,7 +48,7 @@ public class RegisterActivity extends AccountAuthenticatorActivity{
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.register);
-
+		
 		register = (Button) this.findViewById(R.id.btnRegister);
 		login = (Button) this.findViewById(R.id.link_to_login);
 		login.setBackgroundColor(Color.TRANSPARENT);
@@ -55,7 +56,9 @@ public class RegisterActivity extends AccountAuthenticatorActivity{
 		username = (EditText) this.findViewById(R.id.reg_username);
 		email = (EditText) this.findViewById(R.id.reg_email);
 		password = (EditText) this.findViewById(R.id.reg_password);
-
+		if(token)
+			register.setText("Register and Store Login");
+		
 		am = AccountManager.get(this);
 		cache = new CacheClient(this);
 
@@ -90,8 +93,7 @@ public class RegisterActivity extends AccountAuthenticatorActivity{
 
 		nameValuePairs.add(new BasicNameValuePair("password", AccountAuthenticator.hashPassword(pass)));
 
-		ServerClient sc = new ServerClient();
-		JSONObject jObj = sc.genericPostRequest("register", nameValuePairs);
+		JSONObject jObj = ServerClient.genericPostRequest("register", nameValuePairs, this.getApplicationContext());
 		String uid = null;
 		String status = null;
 		String session = "";
@@ -99,8 +101,9 @@ public class RegisterActivity extends AccountAuthenticatorActivity{
 		try{
 			//uid = sc.getLastResponse().getString("uid");
 			status = jObj.getString("status");
-			if(status == "error")
+			if("error".equals(status) || "failure".equals(status)){
 				status = jObj.getString("data");
+			}
 			showMessage(status);
 			session = jObj.getJSONObject("data").getString("session");
 			secret = jObj.getJSONObject("data").getString("secret");
@@ -117,7 +120,7 @@ public class RegisterActivity extends AccountAuthenticatorActivity{
 
 		clear();
 
-		if(status.equals("success")){
+		if("success".equals(status)){
 			
 			Account account = this.login(mEmail, pass);
 			if(account == null)
@@ -158,7 +161,7 @@ public class RegisterActivity extends AccountAuthenticatorActivity{
 
 			showMessage("Invalid Email Address");
 		}  
-		else if (password.length() <= 6) {  
+		else if (password.length() < 6) {  //Yeah, no, less than 6 characters should not be "<= 6".
 			hasErrors = true;
 
 			showMessage("Password must be at least 6 characters");
@@ -231,7 +234,7 @@ public boolean getToken() {
 }
 
 public void setToken(boolean token) {
-	this.token = token;
+	RegisterActivity.token = token;
 }
 
 }

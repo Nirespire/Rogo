@@ -196,8 +196,8 @@ public class SendRequestActivity extends Activity implements LocationListener {
         	nameValuePairs.add(new BasicNameValuePair("location_lat",lat));
         	nameValuePairs.add(new BasicNameValuePair("location_lon",lon));
         	
-        	System.out.println("Latitude: " + latLon[1]);
-        	System.out.println("Longitude: " + latLon[2]);
+        	System.out.println("Latitude: " + latLon[0]);
+        	System.out.println("Longitude: " + latLon[1]);
         }
         else{
         	nameValuePairs.add(new BasicNameValuePair("location_lat","0.000000")); //Maybe I'm a bad person, but

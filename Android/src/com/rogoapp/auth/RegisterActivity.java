@@ -37,7 +37,6 @@ public class RegisterActivity extends AccountAuthenticatorActivity{
 	private EditText password;
 
 
-	private boolean remove;
 	private static boolean token;
 
 	AccountManager am;
@@ -60,8 +59,6 @@ public class RegisterActivity extends AccountAuthenticatorActivity{
 		
 		am = AccountManager.get(this);
 		cache = new CacheClient(this);
-
-		this.remove = this.getIntent().getBooleanExtra("remove", false);
 	}
 
 	@Override
@@ -74,12 +71,19 @@ public class RegisterActivity extends AccountAuthenticatorActivity{
 
 
 	public void onRegister(View v) {
+		
+		//check for network connection
+		
+		if(!ServerClient.isNetworkAvailable()){
+			showMessage("No Network Connection");
+			return;
+		}
 
 		String mUsername = username.getText().toString();
 		String pass = password.getText().toString();
 		String mEmail = email.getText().toString();
 
-		if(mUsername == "" || pass == "" || mEmail == ""){
+		if(mUsername.matches("") || pass.matches("") || mEmail.matches("")){
 			showMessage("Please fill in all fields");
 			return;
 		}
@@ -112,11 +116,6 @@ public class RegisterActivity extends AccountAuthenticatorActivity{
 		}
 		System.out.println("status = " + status + ", uid = " + uid);
 
-		if(remove){
-			RogoAuthenticatorActivity.logout();
-		}
-
-
 		clear();
 
 		if("success".equals(status)){
@@ -130,16 +129,16 @@ public class RegisterActivity extends AccountAuthenticatorActivity{
 			cache.saveFile(CacheClient.SESSION_CACHE, session);
 
 			final Intent start = new Intent(this, MainScreenActivity.class);
-			start.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			start.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
 			startActivity(start);
+			this.finish();
 		}
 	}
 
 	public void openLoginScreen(View v){
 		final Context context = this;
-		this.finish();
 		Intent intent = new Intent(context, RogoAuthenticatorActivity.class);
-		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		intent.putExtra("reset", true);
 		startActivity(intent);
 	}
@@ -152,7 +151,7 @@ public class RegisterActivity extends AccountAuthenticatorActivity{
 	private Boolean hasErrors(String user, String pass){
 
 		EmailValidator validate = new EmailValidator();
-
+		
 		boolean hasErrors = false;
 
 		if (!validate.validate(user)) {  
@@ -234,6 +233,13 @@ public boolean getToken() {
 
 public void setToken(boolean token) {
 	RegisterActivity.token = token;
+}
+
+@Override
+public void onBackPressed() {
+	Intent intent = new Intent(this, RogoAuthenticatorActivity.class);
+	intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+	startActivity(intent);
 }
 
 }

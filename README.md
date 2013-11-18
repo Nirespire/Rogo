@@ -224,3 +224,37 @@ Request: `nearby.txt?count=2&session=[session]`
     	],
     	"session": "changed"
     }
+	
+#### Getting basic user status information
+
+**Request location:** `status.json`
+
+**Functionality:** Fetches some simple status information about the current user, including `uid`, `username`, the time which the user's availability and location were last updated, and the number of new meetup requests the user has.
+
+**Login session required**: Yes. 
+
+**Required Parameters:**  
+None
+
+**Optional Parameters:** 
+None
+
+**Example:**  
+Request: `status.txt?session=[session]`
+
+    {
+    	"status": "success",
+    	"data": {
+    		"requests": "3",
+    		"user": [
+    			{
+    				"uid": "69",
+    				"username": "GetOutFrog",
+    				"status": "available",
+    				"location_label": "Outer Space",
+    				"update_time": "2013-11-06 23:29:27"
+    			}
+    		]
+    	},
+    	"session": "changed"
+    }

@@ -23,7 +23,6 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 public class SendRequestActivity extends Activity implements LocationListener {
@@ -43,14 +42,6 @@ public class SendRequestActivity extends Activity implements LocationListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.send_request);
         postLocation();
-        
-        String targetID = (String) getIntent().getSerializableExtra("user");
-        if(targetID == null){
-        	targetID = "4";
-        }
-    	TextView userText = (TextView) findViewById(R.id.textView1);
-    	userText.setText(String.format("User %s", targetID));
-    	userText.invalidate();
     }
 
     @Override
@@ -78,7 +69,6 @@ public class SendRequestActivity extends Activity implements LocationListener {
     	//temp
     	
     	String targetID = (String) getIntent().getSerializableExtra("user");
-    	System.out.println("DEBUG: targetID = " + targetID);
 
     	
         EditText trait = (EditText) findViewById(R.id.request_trait);

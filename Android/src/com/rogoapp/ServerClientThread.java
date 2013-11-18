@@ -31,7 +31,7 @@ public class ServerClientThread extends Thread {
     	ServerClient sc = new ServerClient();
     	sc.reset();
     	
-    	System.out.println("DEBUG: Begin ServerClientThread");
+    	System.out.println("DEBUG: Begin ServerClientThread1");
     	String response = "";
 		try {
 			HttpClient httpclient = new DefaultHttpClient();

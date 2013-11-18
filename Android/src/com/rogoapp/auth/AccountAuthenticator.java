@@ -32,11 +32,11 @@ public class AccountAuthenticator extends AbstractAccountAuthenticator {
 
         final Context mContext;
         final static String ACCOUNT_TYPE = "com.rogoapp";
-        private ServerClient server;
         private CacheClient cache;
         public AccountAuthenticator(Context context) {
                 super(context);
                 mContext = context; //added for use when adding an account
+                this.cache = new CacheClient(context);
         }
 
         @Override
@@ -180,7 +180,7 @@ public class AccountAuthenticator extends AbstractAccountAuthenticator {
         	nameValuePairs.add(new BasicNameValuePair("password", password));
 			
     		try {
-				return !server.genericPostRequest("login", nameValuePairs).getString("data").equals("Email or password is incorrect!");
+				return !ServerClient.genericPostRequest("login", nameValuePairs, mContext).getString("data").equals("Email or password is incorrect!");
 			} catch (JSONException e) {
 				e.printStackTrace();
 				return false;
@@ -196,7 +196,7 @@ public class AccountAuthenticator extends AbstractAccountAuthenticator {
         	nameValuePairs.add(new BasicNameValuePair("password", password));
 			
     		try {
-				JSONObject json = (server.genericPostRequest("login", nameValuePairs));
+				JSONObject json = (ServerClient.genericPostRequest("login", nameValuePairs, mContext));
 				String token = /*json.getJSONObject("data").getString("session") + */json.getJSONObject("data").getString("secret");
 				cache.saveFile(CacheClient.SESSION_CACHE, json.getJSONObject("data").getString("session"));
 				return token;
@@ -228,9 +228,35 @@ public class AccountAuthenticator extends AbstractAccountAuthenticator {
             return sb.toString();
         }
         
+        public static String hashSession(String session){
+            MessageDigest md = null;
+            try{
+                md = MessageDigest.getInstance("SHA-256");
+            }
+            catch(Exception e){
+                e.printStackTrace();
+            }
+            
+            md.update(session.getBytes());
+             
+            byte byteData[] = md.digest();
+            
+            StringBuffer sb = new StringBuffer();
+            for (int i = 0; i < byteData.length; i++) {
+             sb.append(Integer.toString((byteData[i] & 0xff) + 0x100, 16).substring(1));
+            }
+            
+            return sb.toString();
+        }
+        
+        public String getCurrentSession(){ //Added by Marcus
+        	String cSession = cache.loadFile(CacheClient.SESSION_CACHE);
+        	return cSession;
+        }
+        
         public String changeSession(){
 			
-        	String cSession = cache.loadFile(CacheClient.SESSION_CACHE);
+        	String cSession = getCurrentSession();
         	String token = "";
         	
         	AccountManager am = AccountManager.get(mContext);
@@ -243,8 +269,10 @@ public class AccountAuthenticator extends AbstractAccountAuthenticator {
         		token = am.peekAuthToken(account, RogoAuthenticatorActivity.PARAM_AUTHTOKEN_TYPE);
         	}
             
-        	cache.saveFile(CacheClient.SESSION_CACHE, hashPassword(cSession + token));
-        	return hashPassword(cSession);
+        	String newSession = hashSession(cSession + token);
+
+        	cache.saveFile(CacheClient.SESSION_CACHE, newSession);
+        	return newSession;
         }
         
 }

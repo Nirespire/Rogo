@@ -213,12 +213,11 @@ public class RogoAuthenticatorActivity extends AccountAuthenticatorActivity {
 
 			this.password = AccountAuthenticator.hashPassword(password);
 			
-			ServerClient server = new ServerClient();
 			List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
 			nameValuePairs.add(new BasicNameValuePair("email", username));
 			nameValuePairs.add(new BasicNameValuePair("password", password));
 
-			JSONObject json = server.genericPostRequest("login", nameValuePairs);
+			JSONObject json = ServerClient.genericPostRequest("login", nameValuePairs, context);
 
 			String toHash = "";
 			try {
@@ -277,10 +276,10 @@ public class RogoAuthenticatorActivity extends AccountAuthenticatorActivity {
 			intent.putExtra(AccountManager.KEY_ACCOUNT_NAME, username);  
 			intent.putExtra(AccountManager.KEY_ACCOUNT_TYPE, accountType);
 			intent.putExtra(AccountManager.KEY_PASSWORD, password);
-			if(getToken()){
+			//if(getToken()){ //The secret needs to always be saved 
 				intent.putExtra(AccountManager.KEY_AUTHTOKEN, toHash);
 				am.setAuthToken(accounts[0], PARAM_AUTHTOKEN_TYPE, toHash);
-			}
+			//}
 			this.setAccountAuthenticatorResult(intent.getExtras());  
 			this.setResult(RESULT_OK, intent);
 

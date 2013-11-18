@@ -25,10 +25,11 @@ import org.json.JSONException;
  */
 
 
+import com.rogoapp.auth.*;
 
 
 
-
+import android.content.Context;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -75,7 +76,7 @@ public class ServerClient{
 	}
 	
 	
-	public JSONObject genericPostRequest(String request, List<NameValuePair> nameValuePairs) {
+	public static JSONObject genericPostRequest(String request, List<NameValuePair> nameValuePairs, Context context) {
 	    // Takes a request and a list of NameValuePairs for an http post request
 		// Other classes must make nameValuePairs list
 		// They will need org.apache.http.NameValuePair
@@ -87,12 +88,30 @@ public class ServerClient{
 		// Returns a JSON object
 	    HttpClient httpclient = new DefaultHttpClient();
 	    HttpPost httppost = new HttpPost("http://api.rogoapp.com/request/" + request);
+
+		context = MainScreenActivity.showContext();
+	    AccountAuthenticator aa = new AccountAuthenticator(context);
+
+	    if(!(request.equals("register") || request.equals("login"))){
+	    	
+	    	String newSession = aa.getCurrentSession();
+	    
+	    	if(nameValuePairs == null || !nameValuePairs.isEmpty()){
+	    		nameValuePairs.add(new BasicNameValuePair("session", newSession));
+	    	}
+	    	else{
+	    		nameValuePairs = new ArrayList<NameValuePair>();
+	    		nameValuePairs.add(new BasicNameValuePair("session", newSession));
+	    	}
+	    }
+	    
 	    
 	    try {
 
 	        httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 	        
 	        // fetch data in background thread
+	        System.out.println("Request type = " + request);
 	        ServerClientThread scThread = new ServerClientThread(httppost);
 	        scThread.start();
 	        try {
@@ -104,6 +123,7 @@ public class ServerClient{
 	        
 	        System.out.println("IN SERVERCLIENT: status = " + status);
 	        
+	        updateSessionIfNecessary(aa);
 	        
 			return ServerClient.lastResponse;
 	    }
@@ -113,6 +133,21 @@ public class ServerClient{
 	    
 	    return null;
 	}  
+	
+	private static void updateSessionIfNecessary(AccountAuthenticator auth){
+		try {
+			if(lastResponse != null && lastResponse.has("session")){
+				String updated = lastResponse.getString("session");
+				if("changed".equals(updated)){
+					auth.changeSession();
+				}
+			}
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
 	
 	public JSONObject getLastResponse(){
 		return lastResponse;

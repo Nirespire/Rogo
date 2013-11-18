@@ -5,26 +5,37 @@ class RequestObject{
 	private $_req;
 	
 	private $_sqlCon;
+	private $_user;
 	/** Constructor
 	 ** Currently takes optional PDO connection argument
-	 ** Now allows n optional specification of the request array ($_GET, $_POST, $_REQUEST)
+	 ** There really isn't much of a reason to modify this unless you really need something initialized before performRequest()
 	 **/
 	public function __construct(){
-		for($i=0;$i<func_num_args();$i++){
+		for($i=0;$i<func_num_args();$i++){	//Loop through all of the arguments provided to the instruction ("RequestObject($arg1,$arg2,...)").
 			$arg = func_get_arg($i);
-			if(is_object($arg)){
-				$class = get_class($arg);
-				if($class == 'PDO'){
-					$this->_sqlCon = $arg;
+			if(is_object($arg)){ 			//If this argument is of class-type object (basically anything not a primative data type). 
+				$class = get_class($arg); 	//Get the actual class of the argument
+				if($class == 'PDO'){		//Hey look! It's our SQL object
+					$this->_sqlCon = $arg; 	//We should save this. 
+				}
+				elseif($class == 'User'){	//If it's our User class
+					$this->_user = $arg;
 				}
 			}
 		} 
-		if(REQUEST_DATA_ARRAY == 0){
+		if(REQUEST_DATA_ARRAY == 0){ 		//Determine whether we want request data from $_REQUEST or $_POST
 			$this->_req = $_REQUEST;
 		}
 		else{
 			$this->_req = $_POST;
 		}
+		
+		if($this->_user == null){
+			$this->_user = new User();
+		}
+		// Uncomment this initialize line if we need user information from session, otherwise, leave this commented out.
+		// That is, if we need to make sure the user is logged in and/or need to get UID/email/username/whatnot for the requesting user.
+		//$this->_user->initialize();
 	}
 	public function performRequest(){
 		$count = TIPS_DEFAULT_COUNT;

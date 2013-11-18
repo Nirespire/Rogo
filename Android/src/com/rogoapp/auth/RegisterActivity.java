@@ -92,8 +92,7 @@ public class RegisterActivity extends AccountAuthenticatorActivity{
 
 		nameValuePairs.add(new BasicNameValuePair("password", AccountAuthenticator.hashPassword(pass)));
 
-		ServerClient sc = new ServerClient();
-		JSONObject jObj = sc.genericPostRequest("register", nameValuePairs);
+		JSONObject jObj = ServerClient.genericPostRequest("register", nameValuePairs, this.getApplicationContext());
 		String uid = null;
 		String status = null;
 		String session = "";
@@ -101,8 +100,9 @@ public class RegisterActivity extends AccountAuthenticatorActivity{
 		try{
 			//uid = sc.getLastResponse().getString("uid");
 			status = jObj.getString("status");
-			if(status == "error")
+			if("error".equals(status) || "failure".equals(status)){
 				status = jObj.getString("data");
+			}
 			showMessage(status);
 			session = jObj.getJSONObject("data").getString("session");
 			secret = jObj.getJSONObject("data").getString("secret");
@@ -119,7 +119,7 @@ public class RegisterActivity extends AccountAuthenticatorActivity{
 
 		clear();
 
-		if(status.equals("success")){
+		if("success".equals(status)){
 			
 			Account account = this.login(mEmail, pass);
 			if(account == null)
@@ -160,7 +160,7 @@ public class RegisterActivity extends AccountAuthenticatorActivity{
 
 			showMessage("Invalid Email Address");
 		}  
-		else if (password.length() <= 6) {  
+		else if (password.length() < 6) {  //Yeah, no, less than 6 characters should not be "<= 6".
 			hasErrors = true;
 
 			showMessage("Password must be at least 6 characters");

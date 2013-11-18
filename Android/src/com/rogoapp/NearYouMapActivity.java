@@ -2,20 +2,34 @@
 package com.rogoapp;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.location.LocationClient;
 import com.google.android.gms.location.LocationListener;
-import com.google.android.gms.location.LocationRequest;
+//import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.rogoapp.auth.AccountAuthenticator;
 
-import android.app.Activity;
+//import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
+import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -35,6 +49,11 @@ public class NearYouMapActivity extends FragmentActivity implements
 	private static final int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9002;
 	GoogleMap mMap;
 	LocationClient mLocationClient;
+	
+	private double userLat;
+	private double userLong;
+	
+	private List<User> otherUsers;
 	
 	@SuppressWarnings("unused")
 	private static final String LOGTAG = "Maps";
@@ -58,6 +77,106 @@ public class NearYouMapActivity extends FragmentActivity implements
 				mLocationClient = new LocationClient(this, this, this);
 				mLocationClient.connect();
 			//	goToCurrentLocation();
+				
+				/***************************************************/
+				
+				//first update avaliability
+				//force location to be florida gym
+				userLat = 29.649674; //florida gym
+				userLong = -82.347224; //florida gym
+				List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
+				nameValuePairs.add(new BasicNameValuePair("location_lat", String.valueOf(userLat)));
+				nameValuePairs.add(new BasicNameValuePair("location_lon", String.valueOf(userLong)));
+				nameValuePairs.add(new BasicNameValuePair("availability", "available"));
+				nameValuePairs.add(new BasicNameValuePair("radius", "1"));
+				
+				JSONObject jObj = ServerClient.genericPostRequest("availability", nameValuePairs, this.getApplicationContext());
+				
+				try{
+					String status = jObj.getString("status");
+					if(status.equals("success")){
+						System.out.println("updated succesfully");
+					}
+					else{
+						System.out.println("not updated!");
+					}
+				}catch(JSONException e){
+					System.err.println("IN MAP: " + e);
+				}catch(NullPointerException e){
+					System.err.println("IN MAP: " + e);
+				}
+				
+				//now that this user's availability is updated, we must get nearby users
+				nameValuePairs = new ArrayList<NameValuePair>(2);
+				jObj = ServerClient.genericPostRequest("nearby", nameValuePairs, this.getApplicationContext());
+				//sort jObj into list of users
+				otherUsers = new ArrayList<User>();
+				
+			/*	User user1 = new User(29.643508, -82.344167, "user1Loc", 0.0, "", "");
+				User user2 = new User(29.643509, -82.346458, "user2Loc", 0.0, "", "");
+				User user3 = new User(29.643504, -82.345254, "user3Loc", 0.0, "", "");
+				User user4 = new User(29.643505, -82.345664, "user4Loc", 0.0, "", "");
+				otherUsers.add(user1);	
+				otherUsers.add(user2);	
+				otherUsers.add(user3);	
+				otherUsers.add(user4);	
+				
+				for (int k = 0; k < otherUsers.size(); k++) {
+					Marker marker = mMap.addMarker(new MarkerOptions()
+					.position(new LatLng(otherUsers.get(k).getLat(), otherUsers.get(k).getLon()))
+					.title(otherUsers.get(k).getLabel())
+						);
+				} */ /********** Testing the Markers *************/
+				
+				
+				JSONArray others = null;
+					try {
+					others = jObj.getJSONArray("data");
+					for(int i = 0; i < others.length(); i++){
+						JSONObject oneUser = others.getJSONObject(i);
+						
+						String label = oneUser.getString("location_label");
+						System.out.println(label);
+			
+						String latString = oneUser.getString("location_latitude");
+						double lat = Double.parseDouble(latString);
+						System.out.println(lat);
+						
+						String lonString = oneUser.getString("location_longitude");
+						double lon = Double.parseDouble(lonString);
+						System.out.println(lon);
+						
+						String distanceString = oneUser.getString("distance");
+						double distance = Double.parseDouble(distanceString);
+						System.out.println(distance);
+				
+						String updated = oneUser.getString("updated");
+						System.out.println(updated);
+						
+						String recentness = oneUser.getString("recentness");
+						System.out.println(recentness);
+						
+						User currUser = new User(lat, lon, label, distance, updated, recentness);
+						otherUsers.add(currUser);
+					
+						/* now, otherUsers should be full of all nearby users
+						 * put these users on the map!
+						 */
+						
+						for (int k = 0; k < otherUsers.size(); k++) {
+							Marker marker = mMap.addMarker(new MarkerOptions()
+							.position(new LatLng(otherUsers.get(k).getLat(), otherUsers.get(k).getLon()))
+							.title(otherUsers.get(k).getLabel())
+								);
+						}	
+					
+					}
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}        
+
+		        /**************************************************/
 			}
 		
 		

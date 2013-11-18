@@ -56,6 +56,11 @@ define('MEET_FORM_NAME_MAX_LENGTH',255);
 define('MEET_LOCATION_MAX_LENGTH',255);
 
 /****************************************************************/
+/** Meeting request configuration                              **/
+/****************************************************************/
+define('MEET_REQUEST_CHARACTERISTIC_LENGTH',255);
+
+/****************************************************************/
 /** The config definitions below here should NOT be modified!  **/
 /** Unless you really know what you're doing, and are prepared **/
 /** to make the changes required in other files, changing      **/

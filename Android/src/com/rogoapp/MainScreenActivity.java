@@ -54,7 +54,6 @@ public class MainScreenActivity extends SherlockActivity {
 
 	private static Context mcontext;
     CacheClient cache = new CacheClient(this);
-    ServerClient server = new ServerClient();
 
 
 
@@ -324,7 +323,7 @@ public class MainScreenActivity extends SherlockActivity {
 
     public boolean storeTips() {
         if(ServerClient.isNetworkAvailable()){
-        	JSONObject json = server.genericPostRequest("tips", Collections.<NameValuePair>emptyList());
+        	JSONObject json = ServerClient.genericPostRequest("tips", Collections.<NameValuePair>emptyList(), this.getApplicationContext());
         	if(json != null)
         		parseJ(json, TIPS_FILE);
         	return json != null;

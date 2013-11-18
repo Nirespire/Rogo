@@ -223,7 +223,6 @@ Request: `nearby.txt?count=2&session=[session]`
     		}
     	],
     	"session": "changed"
-<<<<<<< HEAD
     }
 	
 #### Sending a meetup request
@@ -288,5 +287,4 @@ Request: `status.txt?session=[session]`
     		]
     	},
     	"session": "changed"
->>>>>>> parent of 01141be... Added status call to API doc
     }

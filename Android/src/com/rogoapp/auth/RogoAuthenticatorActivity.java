@@ -26,7 +26,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 public class RogoAuthenticatorActivity extends AccountAuthenticatorActivity {
@@ -40,23 +39,18 @@ public class RogoAuthenticatorActivity extends AccountAuthenticatorActivity {
 
 	public static boolean createToken;
 	public boolean openMain;
-	
+
 	private CheckBox rememberMe;
 
 	private EditText tvUsername;  
 	private EditText tvPassword;
 
-	private TextView txtUsername;
-	private TextView txtPassword;
-	
+
 	private Button register;
 	private Button login;
 
 	private String username;  
 	private String password;
-	
-	private boolean remove;
-
 
 	final Context context = this;
 	private CacheClient cache;
@@ -73,21 +67,18 @@ public class RogoAuthenticatorActivity extends AccountAuthenticatorActivity {
 
 		am = AccountManager.get(this);
 		cache = new CacheClient(this);
-		this.remove = false;
-		
+
 		//set variables and aesthetic changes
 		rememberMe = (CheckBox)this.findViewById(R.id.remember_me_check);
 
-		
+
 		tvUsername = (EditText) this.findViewById(R.id.auth_txt_username);  
 		tvPassword = (EditText) this.findViewById(R.id.auth_txt_pswd);
 
-		txtUsername = (TextView) this.findViewById(R.id.txt_username);
-		txtPassword = (TextView) this.findViewById(R.id.txt_pswd);
 
 		username = tvUsername.getText().toString();  
 		password = tvPassword.getText().toString();
-		
+
 		login = (Button) this.findViewById(R.id.btnLogin);
 		register = (Button) this.findViewById(R.id.link_to_register);
 		register.setBackgroundColor(Color.WHITE);
@@ -95,18 +86,18 @@ public class RogoAuthenticatorActivity extends AccountAuthenticatorActivity {
 			login.setText("Remember Login");
 
 		openMain = getIntent().getBooleanExtra(OPEN_MAIN, false);
-				Account[] accounts = am.getAccountsByType(PARAM_AUTHTOKEN_TYPE);
-				if(accounts.length != 0){
-					String username = accounts[0].name;
-					tvUsername.setText(username);
-					tvUsername.setFocusable(false);
-					register.setText("Not " + username + "?");
-					
-		//			sString pass = am.getPassword(accounts[0]);
-		//			String token = am.peekAuthToken(accounts[0], RogoAuthenticatorActivity.PARAM_AUTHTOKEN_TYPE);
-		//			if(token == null || token == "")
-		//				am.setAuthToken(accounts[0], PARAM_AUTHTOKEN_TYPE, "Hello token!");
-				}
+		Account[] accounts = am.getAccountsByType(PARAM_AUTHTOKEN_TYPE);
+		if(accounts.length != 0){
+			String username = accounts[0].name;
+			tvUsername.setText(username);
+			tvUsername.setFocusable(false);
+			register.setText("Not " + username + "?");
+
+			//			sString pass = am.getPassword(accounts[0]);
+			//			String token = am.peekAuthToken(accounts[0], RogoAuthenticatorActivity.PARAM_AUTHTOKEN_TYPE);
+			//			if(token == null || token == "")
+			//				am.setAuthToken(accounts[0], PARAM_AUTHTOKEN_TYPE, "Hello token!");
+		}
 		//		if(accounts.length >= 1){
 		//			String pass = am.getPassword(accounts[1]);
 		//			String token = am.peekAuthToken(accounts[1], RogoAuthenticatorActivity.PARAM_AUTHTOKEN_TYPE);
@@ -130,16 +121,6 @@ public class RogoAuthenticatorActivity extends AccountAuthenticatorActivity {
 		}
 	}
 
-	public void setVar(){
-
-		//sets all the local variables for the login features
-		tvUsername = (EditText) this.findViewById(R.id.auth_txt_username);  
-		tvPassword = (EditText) this.findViewById(R.id.auth_txt_pswd);
-
-		txtUsername = (TextView) this.findViewById(R.id.txt_username);
-		txtPassword = (TextView) this.findViewById(R.id.txt_pswd); 
-	}
-
 	private boolean getToken(){
 		return createToken;
 	}
@@ -154,13 +135,12 @@ public class RogoAuthenticatorActivity extends AccountAuthenticatorActivity {
 	}  
 
 	public void openRegisterScreen(View v){
-		
+
 		String check = (String) register.getText();
-		
+
 		if(check.equals("Register")){
 			//opens the registration form
 			Intent intent = new Intent(context, RegisterActivity.class);
-			intent.putExtra("remove", remove);
 			intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NO_HISTORY);
 			startActivity(intent);
 		}
@@ -168,9 +148,9 @@ public class RogoAuthenticatorActivity extends AccountAuthenticatorActivity {
 			tvUsername.setText("");
 			tvUsername.setFocusableInTouchMode(true);
 			register.setText(R.string.register);
-			this.remove = true;
+			logout();
 		}
-			
+
 	}
 	public void onRememberMe(View V){
 
@@ -190,7 +170,7 @@ public class RogoAuthenticatorActivity extends AccountAuthenticatorActivity {
 	public static void logout(){
 
 		Account account = am.getAccountsByType(PARAM_AUTHTOKEN_TYPE)[0];
-		
+
 		//clears the stored password and invalidates the current auth-token if one exists
 		String authToken = am.peekAuthToken(account, PARAM_AUTHTOKEN_TYPE);
 
@@ -200,6 +180,12 @@ public class RogoAuthenticatorActivity extends AccountAuthenticatorActivity {
 	}
 
 	public void onSaveClick(View v) {  
+		
+		//check for network
+		if(!ServerClient.isNetworkAvailable()){
+			showMessage("No Network Connection");
+			return;
+		}
 
 		//checks for any errors within the form
 		//if errors are found, the login exits
@@ -212,7 +198,7 @@ public class RogoAuthenticatorActivity extends AccountAuthenticatorActivity {
 			// is time to check with the server  
 
 			this.password = AccountAuthenticator.hashPassword(password);
-			
+
 			List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
 			nameValuePairs.add(new BasicNameValuePair("email", username));
 			nameValuePairs.add(new BasicNameValuePair("password", password));
@@ -223,9 +209,8 @@ public class RogoAuthenticatorActivity extends AccountAuthenticatorActivity {
 			try {
 				String check = json.getString("data");
 				if(check.equals("Email or password is incorrect!")){
+									
 					tvPassword.setText("");
-					tvPassword.setHighlightColor(Color.RED);
-					tvUsername.setHighlightColor(Color.RED);
 					Toast.makeText(context, check, Toast.LENGTH_LONG).show();
 					return;
 				}
@@ -240,6 +225,8 @@ public class RogoAuthenticatorActivity extends AccountAuthenticatorActivity {
 			} catch (JSONException e) {
 				e.printStackTrace();
 				System.out.println("Json did not return");
+				showMessage("Server error: Corrupted Response");
+				return;
 			}
 
 			// finished  
@@ -250,10 +237,6 @@ public class RogoAuthenticatorActivity extends AccountAuthenticatorActivity {
 			}  
 
 			Account[] accounts = am.getAccountsByType(PARAM_AUTHTOKEN_TYPE);
-			if(remove && accounts.length == 1)
-				logout();
-			
-			accounts = am.getAccountsByType(PARAM_AUTHTOKEN_TYPE);
 
 			if(accounts.length != 0 && !accounts[0].name.equalsIgnoreCase(username)){
 				showMessage("Only one user is allowed on this phone.\nPlease log out before continuing.");
@@ -266,7 +249,7 @@ public class RogoAuthenticatorActivity extends AccountAuthenticatorActivity {
 			// This is the magic that adds the account to the Android Account Manager  
 			final Account account = new Account(username, accountType);
 			am.addAccountExplicitly(account, password, null);  
-//			am.addAccount(PARAM_AUTHTOKEN_TYPE, PARAM_AUTHTOKEN_TYPE, null, null, this, null, null);
+			//			am.addAccount(PARAM_AUTHTOKEN_TYPE, PARAM_AUTHTOKEN_TYPE, null, null, this, null, null);
 
 			// Now we tell our caller, could be the Android Account Manager or even our own application  
 			// that the process was successful  
@@ -276,66 +259,43 @@ public class RogoAuthenticatorActivity extends AccountAuthenticatorActivity {
 			intent.putExtra(AccountManager.KEY_ACCOUNT_NAME, username);  
 			intent.putExtra(AccountManager.KEY_ACCOUNT_TYPE, accountType);
 			intent.putExtra(AccountManager.KEY_PASSWORD, password);
-			//if(getToken()){ //The secret needs to always be saved 
+			if(getToken()){ 
 				intent.putExtra(AccountManager.KEY_AUTHTOKEN, toHash);
-				am.setAuthToken(accounts[0], PARAM_AUTHTOKEN_TYPE, toHash);
-			//}
+				am.setAuthToken(account, PARAM_AUTHTOKEN_TYPE, toHash);
+			}
 			this.setAccountAuthenticatorResult(intent.getExtras());  
 			this.setResult(RESULT_OK, intent);
 
 
 
 			//after setting the account, close the login activity and open the MainScreenActivity
-			this.finish();
 			if(openMain){
 				final Intent start = new Intent(context, MainScreenActivity.class);
 				start.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				startActivity(start);
 			}
+			this.finish();
 
 		}
 	}
 
 	private Boolean hasErrors(){
-
-		this.username = tvUsername.getText().toString();  
-		this.password = tvPassword.getText().toString(); 
+		
 		EmailValidator validate = new EmailValidator();
 
-		boolean hasErrors = false;
-		boolean badUsername = false;
-		boolean badPass = false;
-
-
-
-		if(validate.validate(username) && !badUsername){
-			txtUsername.setBackgroundColor(Color.WHITE);
-			txtUsername.setText("Username");
-			tvUsername.setBackgroundColor(Color.WHITE);
-		}
-		if(!badPass){
-			txtPassword.setBackgroundColor(Color.WHITE);
-			txtPassword.setText("Password");
-			tvPassword.setBackgroundColor(Color.WHITE);
-		}
+		this.username = tvUsername.getText().toString();  
+		this.password = tvPassword.getText().toString();		
 
 		if (!validate.validate(username)) {  
-			hasErrors = true;
-			badUsername = true;
-
-			txtUsername.setText("Invalid Email Address");
-			txtUsername.setBackgroundColor(Color.RED);
-			tvUsername.setBackgroundColor(Color.MAGENTA);
+			showMessage("Invalid Email");
+			return true;
 		}  
 		else if (password.length() < 6) {  
-			hasErrors = true;
-			badPass = true;
-
-			txtPassword.setText("Incorrect Password");
-			txtPassword.setBackgroundColor(Color.RED);
-			tvPassword.setBackgroundColor(Color.MAGENTA);  
+			showMessage("Invalid Password");
+			return true;
 		}  
-		return hasErrors;
+		
+		return false;
 	}
 
 	private void showMessage(final String msg) {

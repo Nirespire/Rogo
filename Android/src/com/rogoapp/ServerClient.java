@@ -89,7 +89,7 @@ public class ServerClient{
 	    HttpClient httpclient = new DefaultHttpClient();
 	    HttpPost httppost = new HttpPost("http://api.rogoapp.com/request/" + request);
 
-		context = MainScreenActivity.showContext();
+		context = SplashScreen.showContext();
 	    AccountAuthenticator aa = new AccountAuthenticator(context);
 
 	    if(!(request.equals("register") || request.equals("login"))){
@@ -175,7 +175,7 @@ public class ServerClient{
 	//returns true if there is a connected network or if a network is being connected
 		public static boolean isNetworkAvailable() {
 			//gives the application's context
-			Context context = MainScreenActivity.showContext();
+			Context context = SplashScreen.showContext();
 			
 			//magical connectivity genie
 			ConnectivityManager connectivityManager 

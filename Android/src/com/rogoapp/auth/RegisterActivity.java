@@ -138,7 +138,7 @@ public class RegisterActivity extends AccountAuthenticatorActivity{
 	public void openLoginScreen(View v){
 		final Context context = this;
 		Intent intent = new Intent(context, RogoAuthenticatorActivity.class);
-		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NO_HISTORY);
 		intent.putExtra("reset", true);
 		startActivity(intent);
 	}
@@ -238,7 +238,7 @@ public void setToken(boolean token) {
 @Override
 public void onBackPressed() {
 	Intent intent = new Intent(this, RogoAuthenticatorActivity.class);
-	intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+	intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NO_HISTORY);
 	startActivity(intent);
 }
 

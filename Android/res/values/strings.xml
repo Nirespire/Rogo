@@ -17,6 +17,7 @@
     <string name="intro_logo_desc">Rogo logo</string>
     <string name="settings">Settings</string>
     <string name="user">USER</string>
+    <string name="current_location">Current Location</string>
 
     <color name="white">#FFFFFF</color>
     <color name="yellow">#FFFF00</color>

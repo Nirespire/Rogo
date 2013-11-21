@@ -5,5 +5,10 @@
         android:orderInCategory="100"
         android:showAsAction="never"
         android:title="@string/action_settings"/>
+    <item
+        android:id="@+id/goToCurrentLocation"
+        android:orderInCategory="200"
+        android:showAsAction="always"
+        android:title="@string/current_location"/>
 
 </menu>

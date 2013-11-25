@@ -165,6 +165,12 @@ public class DebugActivity extends Activity implements LocationListener {
         Intent intent = new Intent(context, SendRequestActivity.class);
         startActivity(intent);
     }
+    
+    public void openUserScreen(View v){
+        final Context context = this;
+        Intent intent = new Intent(context, UserActivity.class);
+        startActivity(intent);
+    }
 
     public String getLocation(View v){
 

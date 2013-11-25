@@ -58,10 +58,17 @@ public class NearYouMapActivity extends FragmentActivity implements
 	GoogleMap mMap;
 	LocationClient mLocationClient;
 	
-	private double userLat;
-	private double userLong;
-	
-	private List<User> otherUsers;
+	double userLat;
+	double userLong;
+	String label;
+	String latString;
+	double lat;
+	String lonString;
+	double lon;
+	String distanceString;
+	double distance;
+	String updated;
+	String recentness;
 	
 	@SuppressWarnings("unused")
 	private static final String LOGTAG = "Maps";
@@ -79,93 +86,9 @@ public class NearYouMapActivity extends FragmentActivity implements
 	
 			if(initMap()) {
 				Toast.makeText(this, "Ready to map!", Toast.LENGTH_SHORT).show();
-			//	goToLocation(GVILLE_LAT, GVILLE_LNG, DEFAULTZOOM);
-			//	mMap.setMyLocationEnabled(true);
 				// code for the current location
 				mLocationClient = new LocationClient(this, this, this);
-				mLocationClient.connect();
-			//	goToCurrentLocation();
-				
-				/***************************************************/
-				
-				//first update avaliability
-				//force location to be florida gym
-				userLat = 29.649674; //florida gym
-				userLong = -82.347224; //florida gym
-				List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
-				nameValuePairs.add(new BasicNameValuePair("location_lat", String.valueOf(userLat)));
-				nameValuePairs.add(new BasicNameValuePair("location_lon", String.valueOf(userLong)));
-				nameValuePairs.add(new BasicNameValuePair("availability", "available"));
-				nameValuePairs.add(new BasicNameValuePair("radius", "1"));
-				
-				JSONObject jObj = ServerClient.genericPostRequest("availability", nameValuePairs, this.getApplicationContext());
-				
-				try{
-					String status = jObj.getString("status");
-					if(status.equals("success")){
-						System.out.println("updated succesfully");
-					}
-					else{
-						System.out.println("not updated!");
-					}
-				}catch(JSONException e){
-					System.err.println("IN MAP: " + e);
-				}catch(NullPointerException e){
-					System.err.println("IN MAP: " + e);
-				}
-				
-				//now that this user's availability is updated, we must get nearby users
-				nameValuePairs = new ArrayList<NameValuePair>(2);
-				jObj = ServerClient.genericPostRequest("nearby", nameValuePairs, this.getApplicationContext());
-				//sort jObj into list of users
-				otherUsers = new ArrayList<User>();
-				
-				JSONArray others = null;
-					try {
-					others = jObj.getJSONArray("data");
-					for(int i = 0; i < others.length(); i++){
-						JSONObject oneUser = others.getJSONObject(i);
-						
-						String label = oneUser.getString("location_label");
-						System.out.println(label);
-			
-						String latString = oneUser.getString("location_latitude");
-						double lat = Double.parseDouble(latString);
-						System.out.println(lat);
-						
-						String lonString = oneUser.getString("location_longitude");
-						double lon = Double.parseDouble(lonString);
-						System.out.println(lon);
-						
-						String distanceString = oneUser.getString("distance");
-						double distance = Double.parseDouble(distanceString);
-						System.out.println(distance);
-				
-						String updated = oneUser.getString("updated");
-						System.out.println(updated);
-						
-						String recentness = oneUser.getString("recentness");
-						System.out.println(recentness);
-						
-						User currUser = new User(lat, lon, label, distance, updated, recentness);
-						otherUsers.add(currUser);
-					
-						/* now, otherUsers should be full of all nearby users
-						 * put these users on the map!
-						 */
-						
-						for (int k = 0; k < otherUsers.size(); k++) {
-							Marker marker = mMap.addMarker(new MarkerOptions()
-							.position(new LatLng(otherUsers.get(k).getLat(), otherUsers.get(k).getLon()))
-							.title(otherUsers.get(k).getLabel())
-								);
-						}	
-					}
-				} catch (JSONException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}        
-		        /**************************************************/
+				mLocationClient.connect();				
 			}
 			else {
 				Toast.makeText(this, "Map not available!", Toast.LENGTH_SHORT).show();
@@ -221,26 +144,110 @@ public class NearYouMapActivity extends FragmentActivity implements
 		return (mMap != null);
 	}
 	
-	private void goToLocation(double lat, double lng, float zoom) {
+/*	private void goToLocation(double lat, double lng, float zoom) {
 		LatLng ll = new LatLng(lat, lng);
 		CameraUpdate update = CameraUpdateFactory.newLatLngZoom(ll, zoom);
 		mMap.animateCamera(update);		
-	}
+	} */
 	
 	// This method is called to make the map move (animated) to the actual current location of the user
+
+	protected void goToCurrentLocation() {
+		Location currentLocation = mLocationClient.getLastLocation();
+		if (currentLocation == null) {
+			Toast.makeText(this, "Current location is not available", Toast.LENGTH_SHORT).show();
+		}
+		else {
+			Toast.makeText(this, "Current location is available", Toast.LENGTH_SHORT).show();
+			userLat = currentLocation.getLatitude();
+			userLong = currentLocation.getLongitude();
+			LatLng ll = new LatLng(userLat, userLong);
+			CameraUpdate update = CameraUpdateFactory.newLatLngZoom(ll, DEFAULTZOOM);
+			mMap.animateCamera(update);
+			updateAvailability(userLat, userLong);
+		}
+	}
 	
-		protected void goToCurrentLocation() {
-			Location currentLocation = mLocationClient.getLastLocation();
-			if (currentLocation == null) {
-				Toast.makeText(this, "Current location is not available", Toast.LENGTH_SHORT).show();
+	protected void updateAvailability(double lat, double lng) {
+		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
+		nameValuePairs.add(new BasicNameValuePair("location_lat", String.valueOf(lat)));
+		nameValuePairs.add(new BasicNameValuePair("location_lon", String.valueOf(lng)));
+		nameValuePairs.add(new BasicNameValuePair("availability", "available"));
+		nameValuePairs.add(new BasicNameValuePair("radius", "1"));
+		
+		JSONObject jObj = ServerClient.genericPostRequest("availability", nameValuePairs, this.getApplicationContext());
+		
+		try{
+			String status = jObj.getString("status");
+			if(status.equals("success")){						/******************** WHY CAN'T I GET SUCCESS???? ********************/
+				System.out.println("updated succesfully");
+				Toast.makeText(this, "Availability updated successfully", Toast.LENGTH_SHORT).show();
+			//	putUsersOnMap(nameValuePairs);
 			}
-			else {
-				Toast.makeText(this, "Current location is available", Toast.LENGTH_SHORT).show();
-				LatLng ll = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
-				CameraUpdate update = CameraUpdateFactory.newLatLngZoom(ll, DEFAULTZOOM);
-				mMap.animateCamera(update);
+			else{
+				System.out.println("not updated!");
 			}
+		}catch(JSONException e){
+			System.err.println("IN MAP: " + e);
+		}catch(NullPointerException e){
+			System.err.println("IN MAP: " + e);
+		}
+	}
+	
+	protected void putUsersOnMap(List<NameValuePair> nameValuePairs) {
+		//now that this user's availability is updated, we must get nearby users
+		nameValuePairs = new ArrayList<NameValuePair>(2);
+		JSONObject jObj = ServerClient.genericPostRequest("nearby", nameValuePairs, this.getApplicationContext());
+		//sort jObj into list of users
+		List<User> otherUsers = new ArrayList<User>();
+		
+		JSONArray others = null;
+			try {
+			others = jObj.getJSONArray("data");
+			for(int i = 0; i < others.length(); i++){
+				JSONObject oneUser = others.getJSONObject(i);
+				
+				label = oneUser.getString("location_label");
+				System.out.println(label);
+	
+				latString = oneUser.getString("location_latitude");
+				lat = Double.parseDouble(latString);
+				System.out.println(lat);
+				
+				lonString = oneUser.getString("location_longitude");
+				lon = Double.parseDouble(lonString);
+				System.out.println(lon);
+				
+				distanceString = oneUser.getString("distance");
+				distance = Double.parseDouble(distanceString);
+				System.out.println(distance);
+		
+				updated = oneUser.getString("updated");
+				System.out.println(updated);
+				
+				recentness = oneUser.getString("recentness");
+				System.out.println(recentness);
+				
+				User currUser = new User(lat, lon, label, distance, updated, recentness);
+				otherUsers.add(currUser);
+			
+				/* now, otherUsers should be full of all nearby users
+				 * put these users on the map!
+				 */
+				
+				for (int k = 0; k < otherUsers.size(); k++) {
+					Marker marker = mMap.addMarker(new MarkerOptions()
+					.position(new LatLng(otherUsers.get(k).getLat(), otherUsers.get(k).getLon()))
+					.title(otherUsers.get(k).getLabel())
+						);
+				}	
+			}
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		} 
+	}
+		
 	
 	/* The next 3 methods are to establish implementation of CurrentLocation
 	 * which comes from GooglePlayServicesClient (2 implemented classes)
@@ -254,11 +261,11 @@ public class NearYouMapActivity extends FragmentActivity implements
 	@Override
 	public void onConnected(Bundle arg0) {
 		Toast.makeText(this, "Connected to location service", Toast.LENGTH_SHORT).show();
-		LocationRequest request = LocationRequest.create();
+	/*	LocationRequest request = LocationRequest.create();
 		request.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
 		request.setInterval(30000);	// should be 60000
 		request.setFastestInterval(10000);  // should be 10000
-		mLocationClient.requestLocationUpdates(request, this);
+		mLocationClient.requestLocationUpdates(request, this); */
 	}
 
 	@Override
@@ -270,7 +277,8 @@ public class NearYouMapActivity extends FragmentActivity implements
 	@Override
 	public void onLocationChanged(Location location) {
 		String msg = "Location: " + location.getLatitude() + "," + location.getLongitude();
-		Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();	
+		Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+	//	updateAvailability(location);
 	}
 }
 

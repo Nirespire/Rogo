@@ -69,7 +69,7 @@
          android:layout_height="wrap_content"
          android:layout_below="@+id/recently_met"
          android:layout_centerHorizontal="true"
-         android:text="User(local)" 
+         android:text="User(other)" 
          android:onClick="openUserScreen"/>
 
      <Button

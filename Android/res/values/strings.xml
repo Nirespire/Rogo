@@ -52,7 +52,6 @@
         <item>5 miles</item>
         <item>10 miles</item>
     </string-array>
-    
     <string-array name="profile_page">
         <item>Username</item>
         <item>Points</item>
@@ -100,5 +99,6 @@
     <string name="recently_met">Recently Met</string>
     <string name="add_friend">Add Buddy </string>
     <string name="title_activity_send_request">SendRequestActivity</string>
+    <string name="title_activity_profile">ProfileActivity</string>
 
 </resources>

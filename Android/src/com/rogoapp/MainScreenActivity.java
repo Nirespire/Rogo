@@ -1,11 +1,13 @@
 package com.rogoapp;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
 import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -13,8 +15,11 @@ import org.json.JSONObject;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager.NameNotFoundException;
 //import android.content.SharedPreferences;
 import android.content.res.Resources;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.Editable;
@@ -59,17 +64,6 @@ public class MainScreenActivity extends SherlockActivity {
 	private static Context mcontext;
     CacheClient cache = new CacheClient(this);
     
-    //For GCM Services:
-    //TODO: Replace with proper messages/IDs/Versions
-    public static final String EXTRA_MESSAGE = "message";
-    public static final String PROPERTY_REG_ID = "registration_id";
-    private static final String PROPERTY_APP_VERSION = "appVersion";
-    private final static int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
-    String SENDER_ID = "104532562629";	//represents the project id of Rogo on GCC
-    static final String TAG = "GCMDemo";
-    GoogleCloudMessaging gcm;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,21 +77,6 @@ public class MainScreenActivity extends SherlockActivity {
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
         System.out.println(sharedPrefs.getString("radius", "RADIUS NOT FOUND"));
         
-        //For GCM Services:
-        if( checkPlayServices() ){
-        	gcm = GoogleCloudMessaging.getInstance(this);
-        	//TODO: Add PROPERTY_REG_ID to shared preferences
-        	//TODO: Make sure getRegistrationID actually checks for the current version (it doesn't right now)
-        	String regid = getRegistrationId(mcontext, sharedPrefs);
-        		if( regid.equals("") ){
-        			//TODO: Implement registerInBackground() function
-        			//registerInBackground();
-        		}
-        	
-        }
-        else{
-        	Log.i(TAG, "No valid Google Play Services APK found.");
-        }
         
         //Adding some functionality to tips button
         textListener(this.findViewById(R.id.tips_edit_box));
@@ -352,7 +331,7 @@ public class MainScreenActivity extends SherlockActivity {
 
     public boolean storeTips() {
         if(ServerClient.isNetworkAvailable()){
-        	JSONObject json = ServerClient.genericPostRequest("tips", Collections.<NameValuePair>emptyList(), this.getApplicationContext());
+        	JSONObject json = ServerClient.genericPostRequest("tips", Collections.<NameValuePair>emptyList());
         	if(json != null)
         		parseJ(json, TIPS_FILE);
         	return json != null;
@@ -434,41 +413,7 @@ public class MainScreenActivity extends SherlockActivity {
         });
     }
     
-    //For GCM Services:
-    private boolean checkPlayServices() {
-        int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
-        if (resultCode != ConnectionResult.SUCCESS) {
-            if (GooglePlayServicesUtil.isUserRecoverableError(resultCode)) {
-                GooglePlayServicesUtil.getErrorDialog(resultCode, this,
-                        PLAY_SERVICES_RESOLUTION_REQUEST).show();
-            } else {
-                Log.i(TAG, "This device is not supported.");
-                finish();
-            }
-            return false;
-        }
-        return true;
-    }
-    
-    private String getRegistrationId(Context context, SharedPreferences prefs){
-    	//TODO: Add PROPERTY_REG_ID, PROPERTY_APP_VERSION to shared prefs
-        String registrationId = prefs.getString(PROPERTY_REG_ID, "");
-        if ( registrationId.equals("") ) { 
-            Log.i(TAG, "Registration not found.");
-            return "";
-        }
-        // Check if app was updated; if so, it must clear the registration ID
-        // since the existing regID is not guaranteed to work with the new
-        // app version.
-        int registeredVersion = prefs.getInt(PROPERTY_APP_VERSION, Integer.MIN_VALUE);
-        //TODO: Actually check for current version
-        int currentVersion = 0; //how do we actually check for version?
-        if (registeredVersion != currentVersion) {
-            Log.i(TAG, "App version changed.");
-            return "";
-        }
-        return registrationId;
-    }
+   
     
     /*
     @Override

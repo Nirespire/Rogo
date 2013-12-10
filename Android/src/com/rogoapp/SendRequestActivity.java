@@ -73,9 +73,6 @@ public class SendRequestActivity extends Activity implements LocationListener {
     	//TODO:  How do we know our current user's username?
     	//String RequestingUserID = intent.getStringExtra("RequestingUserID");
     	
-    	//temp
-    	String userID = "1234";
-    	//temp
     	
     	String targetID = (String) getIntent().getSerializableExtra("user");
     	System.out.println("DEBUG: targetID = " + targetID);
@@ -97,7 +94,7 @@ public class SendRequestActivity extends Activity implements LocationListener {
 
 		nameValuePairs.add(new BasicNameValuePair("location_label", location.getText().toString()));
 		
-        JSONObject jObj = ServerClient.genericPostRequest("meetrequest", nameValuePairs, this.getApplicationContext());
+        JSONObject jObj = ServerClient.genericPostRequest("meetrequest", nameValuePairs);
         String status = null;
         try{
         	status = jObj.getString("status");
@@ -210,7 +207,7 @@ public class SendRequestActivity extends Activity implements LocationListener {
         nameValuePairs.add(new BasicNameValuePair("availability","available"));
         nameValuePairs.add(new BasicNameValuePair("radius","1")); //1 mile
         
-        ServerClient.genericPostRequest("availability", nameValuePairs, this.getApplicationContext());
+        ServerClient.genericPostRequest("availability", nameValuePairs);
         
 
     }

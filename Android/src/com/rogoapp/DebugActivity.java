@@ -261,7 +261,7 @@ public class DebugActivity extends Activity implements LocationListener {
         nameValuePairs.add(new BasicNameValuePair("availability","available"));
         nameValuePairs.add(new BasicNameValuePair("radius","1")); //1 mile
         
-        ServerClient.genericPostRequest("availability", nameValuePairs, this.getApplicationContext());
+        ServerClient.genericPostRequest("availability", nameValuePairs);
         
 
 

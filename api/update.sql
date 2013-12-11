@@ -1,0 +1,1 @@
+SELECT * FROM `sessions` AS s INNER JOIN (select uid,MAX(last_use) as most_recent FROM sessions GROUP BY uid) AS max ON s.uid=max.uid WHERE s.last_use <> max.most_recent

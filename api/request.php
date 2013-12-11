@@ -14,7 +14,8 @@ class RequestHandler{
 		'passwordch' => 'changepw.php',
 		'availability' => 'availability.php',
 		'meetrequest' => 'meetrequest.php',
-		'status'=>'status.php'
+		'status'=>'status.php',
+		'regidupdate'=>'updatepushid.php'
 	);
 	private static $REQUEST_STATUS = array(
 		STATUS_SUCCESS => 'success',

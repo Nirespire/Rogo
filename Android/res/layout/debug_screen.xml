@@ -17,15 +17,6 @@
         android:onClick="getLocation"
         android:text="Get Location" />
 
-    <Button
-        android:id="@+id/login_debug_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/registration_debug_button"
-        android:layout_centerHorizontal="true"
-        android:onClick="openLoginScreen"
-        android:text="Login Screen" />
-
     <TextView
         android:id="@+id/textView1"
         android:layout_width="wrap_content"
@@ -55,16 +46,6 @@
         android:text="Send Request" />
 
     <Button
-        android:id="@+id/registration_debug_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/textView1"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="52dp"
-        android:onClick="openRegistrationScreen"
-        android:text="Registration Screen" />
-
-    <Button
         android:id="@+id/check_requests_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -81,7 +62,33 @@
         android:layout_centerHorizontal="true"
         android:onClick="openRecentlyMetScreen"
         android:text="Recently Met List" />
-    
-   
+
+     <Button
+         android:id="@+id/button1"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_below="@+id/recently_met"
+         android:layout_centerHorizontal="true"
+         android:text="User(other)" 
+         android:onClick="openUserScreen"/>
+
+     <Button
+         android:id="@+id/registration_debug_button"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_below="@+id/textView1"
+         android:layout_centerHorizontal="true"
+         android:layout_marginTop="20dp"
+         android:onClick="openRegistrationScreen"
+         android:text="Registration Screen" />
+
+     <Button
+         android:id="@+id/login_debug_button"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_below="@+id/registration_debug_button"
+         android:layout_centerHorizontal="true"
+         android:onClick="openLoginScreen"
+         android:text="Login Screen" />
 
 </RelativeLayout>

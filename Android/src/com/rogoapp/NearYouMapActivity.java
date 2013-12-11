@@ -11,12 +11,13 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.actionbarsherlock.view.MenuItem;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.location.LocationClient;
 import com.google.android.gms.location.LocationListener;
-//import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -26,7 +27,6 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.rogoapp.auth.AccountAuthenticator;
 
-//import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -36,6 +36,14 @@ import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.widget.Toast;
 
+/*
+ * Now That I have the location listener up and running, the next thing needed is to make the location listener update
+ * the user's current location as he/she walks around.  This means updating their availability and
+ * pulling of nearby users periodically, as often as I check to see if their location has changed.
+ * 
+ * Just make the code that updates availability and pulls nearby users its own method called as
+ * often as the location listener updates location.
+ */
 
 
 public class NearYouMapActivity extends FragmentActivity implements
@@ -71,8 +79,8 @@ public class NearYouMapActivity extends FragmentActivity implements
 	
 			if(initMap()) {
 				Toast.makeText(this, "Ready to map!", Toast.LENGTH_SHORT).show();
-				goToLocation(GVILLE_LAT, GVILLE_LNG, DEFAULTZOOM);
-				mMap.setMyLocationEnabled(true);
+			//	goToLocation(GVILLE_LAT, GVILLE_LNG, DEFAULTZOOM);
+			//	mMap.setMyLocationEnabled(true);
 				// code for the current location
 				mLocationClient = new LocationClient(this, this, this);
 				mLocationClient.connect();
@@ -111,23 +119,6 @@ public class NearYouMapActivity extends FragmentActivity implements
 				jObj = ServerClient.genericPostRequest("nearby", nameValuePairs, this.getApplicationContext());
 				//sort jObj into list of users
 				otherUsers = new ArrayList<User>();
-				
-			/*	User user1 = new User(29.643508, -82.344167, "user1Loc", 0.0, "", "");
-				User user2 = new User(29.643509, -82.346458, "user2Loc", 0.0, "", "");
-				User user3 = new User(29.643504, -82.345254, "user3Loc", 0.0, "", "");
-				User user4 = new User(29.643505, -82.345664, "user4Loc", 0.0, "", "");
-				otherUsers.add(user1);	
-				otherUsers.add(user2);	
-				otherUsers.add(user3);	
-				otherUsers.add(user4);	
-				
-				for (int k = 0; k < otherUsers.size(); k++) {
-					Marker marker = mMap.addMarker(new MarkerOptions()
-					.position(new LatLng(otherUsers.get(k).getLat(), otherUsers.get(k).getLon()))
-					.title(otherUsers.get(k).getLabel())
-						);
-				} */ /********** Testing the Markers *************/
-				
 				
 				JSONArray others = null;
 					try {
@@ -169,40 +160,41 @@ public class NearYouMapActivity extends FragmentActivity implements
 							.title(otherUsers.get(k).getLabel())
 								);
 						}	
-					
 					}
 				} catch (JSONException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}        
-
 		        /**************************************************/
 			}
-		
-		
-			/* So far, I am connected to location services, so how do I use that service to make
-			 * this map go to the user's current location upon start up?
-			 */
-			
 			else {
 				Toast.makeText(this, "Map not available!", Toast.LENGTH_SHORT).show();
 			}
-		
-			
 		}
 		else {
 			setContentView(R.layout.activity_main);
 			Toast.makeText(this, "uhhh...", Toast.LENGTH_SHORT).show();
-		}
-		
+		}	
 	}
 
-	// Now that we have the actionbar, I doubt this is needed.  I will erase this when its confirmed.
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(android.view.MenuItem item) {
+		
+		switch (item.getItemId()) {
+		case R.id.goToCurrentLocation:
+			goToCurrentLocation();
+			break;
+		default:
+			break;
+		}
+		return super.onOptionsItemSelected(item);
 	}
 	
 	public boolean servicesOK() {
@@ -229,19 +221,10 @@ public class NearYouMapActivity extends FragmentActivity implements
 		return (mMap != null);
 	}
 	
-	private void goToLocation(double lat, double lng) {
-		LatLng ll = new LatLng(lat, lng);
-		CameraUpdate update = CameraUpdateFactory.newLatLng(ll);
-		mMap.animateCamera(update);
-		
-	}
-	
 	private void goToLocation(double lat, double lng, float zoom) {
 		LatLng ll = new LatLng(lat, lng);
 		CameraUpdate update = CameraUpdateFactory.newLatLngZoom(ll, zoom);
-		mMap.animateCamera(update);
-//mMap.animateCamera(CameraUpdateFactory.zoomTo(zoom));
-		
+		mMap.animateCamera(update);		
 	}
 	
 	// This method is called to make the map move (animated) to the actual current location of the user
@@ -253,9 +236,9 @@ public class NearYouMapActivity extends FragmentActivity implements
 			}
 			else {
 				Toast.makeText(this, "Current location is available", Toast.LENGTH_SHORT).show();
-			/*	LatLng ll = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
+				LatLng ll = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
 				CameraUpdate update = CameraUpdateFactory.newLatLngZoom(ll, DEFAULTZOOM);
-				mMap.animateCamera(update); */
+				mMap.animateCamera(update);
 			}
 		} 
 	
@@ -263,35 +246,31 @@ public class NearYouMapActivity extends FragmentActivity implements
 	 * which comes from GooglePlayServicesClient (2 implemented classes)
 	 */
 	
-
 	@Override
 	public void onConnectionFailed(ConnectionResult arg0) {
-		// TODO Auto-generated method stub
-		
+		// TODO Auto-generated method stub	
 	}
 
 	@Override
 	public void onConnected(Bundle arg0) {
 		Toast.makeText(this, "Connected to location service", Toast.LENGTH_SHORT).show();
-/*		LocationRequest request = LocationRequest.create();
+		LocationRequest request = LocationRequest.create();
 		request.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-		request.setInterval(5000);
-		request.setFastestInterval(1000);
-		mLocationClient.requestLocationUpdates(request, this); */
+		request.setInterval(30000);	// should be 60000
+		request.setFastestInterval(10000);  // should be 10000
+		mLocationClient.requestLocationUpdates(request, this);
 	}
 
 	@Override
 	public void onDisconnected() {
 		// TODO Auto-generated method stub
-		
 	}
 
 	// This method is for LocationListener
 	@Override
 	public void onLocationChanged(Location location) {
 		String msg = "Location: " + location.getLatitude() + "," + location.getLongitude();
-		Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
-		
+		Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();	
 	}
 }
 

@@ -17,6 +17,7 @@
     <string name="intro_logo_desc">Rogo logo</string>
     <string name="settings">Settings</string>
     <string name="user">USER</string>
+    <string name="current_location">Current Location</string>
 
     <color name="white">#FFFFFF</color>
     <color name="yellow">#FFFF00</color>
@@ -51,7 +52,6 @@
         <item>5 miles</item>
         <item>10 miles</item>
     </string-array>
-    
     <string-array name="profile_page">
         <item>Username</item>
         <item>Points</item>
@@ -99,5 +99,6 @@
     <string name="recently_met">Recently Met</string>
     <string name="add_friend">Add Buddy </string>
     <string name="title_activity_send_request">SendRequestActivity</string>
+    <string name="title_activity_profile">ProfileActivity</string>
 
 </resources>

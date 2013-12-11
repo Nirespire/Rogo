@@ -62,7 +62,7 @@ class User{
 	
 	private function GetUserDataFromSession($session){
 		try{
-			$query = 'SELECT s.session, s.secret, u.uid, u.email, u.username FROM sessions AS s INNER JOIN users AS u ON s.uid=u.uid WHERE s.session=:session LIMIT 1';
+			$query = 'SELECT s.sid, s.session, s.secret, u.uid, u.email, u.username FROM sessions AS s INNER JOIN users AS u ON s.uid=u.uid WHERE s.session=:session LIMIT 1';
 			$sessionStatement = $this->_sqlCon->prepare($query);
 			$sessionStatement->execute(array(':session'=>$session));
 			if($sessionStatement->rowCount() > 0){
@@ -164,6 +164,10 @@ class User{
 	public function getEmail(){
 		if(!$this->isLoggedIn()){ return false; }
 		return $this->_userData['email'];
+	}
+	public function getSID(){
+		if(!$this->isLoggedIn()){ return false; }
+		return $this->_userData['sid'];
 	}
 }
 

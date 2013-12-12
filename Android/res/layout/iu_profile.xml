@@ -18,13 +18,13 @@
             android1:textColor="@color/black" />
 
         <TextView
-            android1:id="@+id/points"
+            android1:id="@+id/status"
             android1:layout_width="wrap_content"
             android1:layout_height="wrap_content"
             android1:layout_alignLeft="@+id/user2"
             android1:layout_below="@+id/user2"
             android1:layout_marginTop="30dp"
-            android1:text="Points:"
+            android1:text="Status"
             android1:textAppearance="?android:attr/textAppearanceLarge"
             android1:textColor="@color/black" />
 
@@ -32,8 +32,8 @@
             android1:id="@+id/email"
             android1:layout_width="wrap_content"
             android1:layout_height="wrap_content"
-            android1:layout_alignLeft="@+id/points"
-            android1:layout_below="@+id/points"
+            android1:layout_alignLeft="@+id/status"
+            android1:layout_below="@+id/status"
             android1:layout_marginTop="30dp"
             android1:text="Email:"
             android1:textAppearance="?android:attr/textAppearanceLarge"

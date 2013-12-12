@@ -11,7 +11,6 @@
         android1:layout_height="wrap_content"
         android1:layout_marginLeft="24dp"
         android1:layout_marginTop="47dp" >
-
     </RadioGroup>
 
     <TextView
@@ -36,46 +35,7 @@
         android1:textColor="@color/black" />
 
     <TextView
-        android1:id="@+id/textView3"
-        android1:layout_width="wrap_content"
-        android1:layout_height="wrap_content"
-        android1:layout_above="@+id/textView2"
-        android1:layout_alignLeft="@+id/radioGroup1"
-        android1:layout_marginBottom="58dp"
-        android1:text="Meet At"
-        android1:textAppearance="?android:attr/textAppearanceLarge"
-        android1:textColor="@color/black" />
-
-    <TextView
-        android1:id="@+id/textView5"
-        android1:layout_width="wrap_content"
-        android1:layout_height="wrap_content"
-        android1:layout_alignLeft="@+id/textView3"
-        android1:layout_below="@+id/textView4"
-        android1:layout_marginTop="18dp"
-        android1:text="Unique Trait"
-        android1:textAppearance="?android:attr/textAppearanceMedium" />
-
-    <TextView
-        android1:id="@+id/textView4"
-        android1:layout_width="wrap_content"
-        android1:layout_height="wrap_content"
-        android1:layout_alignLeft="@+id/radioGroup1"
-        android1:layout_alignTop="@+id/radioGroup1"
-        android1:text="Interests"
-        android1:textAppearance="?android:attr/textAppearanceMedium" />
-
-    <TextView
-        android1:id="@+id/user2_interests"
-        android1:layout_width="wrap_content"
-        android1:layout_height="wrap_content"
-        android1:layout_alignLeft="@+id/radioGroup1"
-        android1:layout_below="@+id/textView4"
-        android1:text="NA"
-        android1:textAppearance="?android:attr/textAppearanceSmall" />
-
-    <TextView
-        android1:id="@+id/location"
+        android1:id="@+id/meet_location"
         android1:layout_width="wrap_content"
         android1:layout_height="wrap_content"
         android1:layout_above="@+id/textView2"
@@ -94,15 +54,6 @@
         android1:text="XXXXXX"
         android1:textAppearance="?android:attr/textAppearanceLarge" />
 
-    <TextView
-        android1:id="@+id/user2_traits"
-        android1:layout_width="wrap_content"
-        android1:layout_height="wrap_content"
-        android1:layout_above="@+id/textView3"
-        android1:layout_alignLeft="@+id/textView3"
-        android1:text="NA"
-        android1:textAppearance="?android:attr/textAppearanceSmall" />
-
     <Button
         android1:id="@+id/we_met_button"
         android1:layout_width="wrap_content"
@@ -110,8 +61,8 @@
         android1:layout_alignParentBottom="true"
         android1:layout_centerHorizontal="true"
         android1:layout_marginBottom="48dp"
-        android1:text="We Met!" 
-        android1:onClick="weMet"/>
+        android1:onClick="weMet"
+        android1:text="We Met!" />
 
     <EditText
         android1:id="@+id/entered_verification_code"
@@ -125,5 +76,52 @@
 
         <requestFocus />
     </EditText>
+
+    <TextView
+        android1:id="@+id/textView3"
+        android1:layout_width="wrap_content"
+        android1:layout_height="wrap_content"
+        android1:layout_above="@+id/meet_location"
+        android1:layout_alignLeft="@+id/user2_interests"
+        android1:text="Meet At"
+        android1:textAppearance="?android:attr/textAppearanceLarge"
+        android1:textColor="@color/black" />
+
+    <TextView
+        android1:id="@+id/user2_traits"
+        android1:layout_width="wrap_content"
+        android1:layout_height="wrap_content"
+        android1:layout_alignLeft="@+id/textView5"
+        android1:layout_below="@+id/textView5"
+        android1:text="NA"
+        android1:textAppearance="?android:attr/textAppearanceSmall" />
+
+    <TextView
+        android1:id="@+id/textView5"
+        android1:layout_width="wrap_content"
+        android1:layout_height="wrap_content"
+        android1:layout_alignLeft="@+id/user2_interests"
+        android1:layout_below="@+id/user2_interests"
+        android1:layout_marginTop="20dp"
+        android1:text="Unique Trait"
+        android1:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android1:id="@+id/textView4"
+        android1:layout_width="wrap_content"
+        android1:layout_height="wrap_content"
+        android1:layout_alignLeft="@+id/radioGroup1"
+        android1:layout_below="@+id/radioGroup1"
+        android1:text="Interests"
+        android1:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android1:id="@+id/user2_interests"
+        android1:layout_width="wrap_content"
+        android1:layout_height="wrap_content"
+        android1:layout_alignLeft="@+id/radioGroup1"
+        android1:layout_below="@+id/textView4"
+        android1:text="NA"
+        android1:textAppearance="?android:attr/textAppearanceSmall" />
 
 </RelativeLayout>

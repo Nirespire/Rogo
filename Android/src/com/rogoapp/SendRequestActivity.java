@@ -112,9 +112,16 @@ public class SendRequestActivity extends Activity implements LocationListener {
         
         final Context context = this;
         if(status.equals("success")){
-            final Intent start = new Intent(context, MainScreenActivity.class);
+            final Intent start = new Intent(context, MeetingSomeoneActivity.class);
             start.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            start.putExtra("user", targetID);
+            start.putExtra("location", location.getText().toString());
+            start.putExtra("trait", trait.getText().toString());
             startActivity(start);
+        }
+        
+        else{
+            Toast.makeText(this,"User Not Found",Toast.LENGTH_LONG).show();
         }
         
     }

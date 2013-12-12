@@ -94,9 +94,9 @@ Request: `login.txt?email=idontknowhowtocomputer@gmail.com&password=google.com`
     }
 
 #### Getting Tips
-**Request location:** `tips.json`
+**Request location:** `tips.json` and `mrtips.json`
 
-**Functionality:** Returns a list of randomly selected tips (`tip`), along with their unique tip ids (`tip_id`). The tips however will not be randomly ordered, so it is suggested that the client select the tips at random when displaying them.
+**Functionality:** Returns a list of randomly selected tips (`tip`), along with their unique tip ids (`tip_id`). The tips however will not be randomly ordered, so it is suggested that the client select the tips at random when displaying them. Requesting `tips.json` will return tips for conversations and socializing, `mrtips.json` will return suggestions for random people to talk to.
 
 **Login session required**: No.
 
@@ -254,7 +254,7 @@ Request: `meetrequest.txt?characteristic=Awkward guy in dungeon&location_label=T
             "location_label": "The Dungeon",
             "characteristic": "Awkward guy in dungeon"
         },
-        "session": "unchanged"
+        "session": "changed"
     }
 
 	

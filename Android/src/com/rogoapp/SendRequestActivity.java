@@ -232,11 +232,12 @@ public class SendRequestActivity extends Activity implements LocationListener {
         }
         //System.out.println(sharedRadius+"   "+sharedAvail);
         //TODO NEED TO PULL USER INFO
-        //Map<String, ?> prefMap = sharedPrefs.getAll();
-        //for(Map.Entry<String, ?> entry : prefMap.entrySet()){
-        //	String key = entry.getKey();
-        //	System.out.println(key);
-        //}
+        Map<String, ?> prefMap = sharedPrefs.getAll();
+        for(Map.Entry<String, ?> entry : prefMap.entrySet()){
+        	String key = entry.getKey();
+        	System.out.println(key);
+        	System.out.println("TEST");
+        }
         
         nameValuePairs.add(new BasicNameValuePair("availability",sharedAvail));
         nameValuePairs.add(new BasicNameValuePair("radius",sharedRadius)); //1 mile

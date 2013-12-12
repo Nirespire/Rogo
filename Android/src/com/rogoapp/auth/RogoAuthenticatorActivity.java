@@ -35,7 +35,9 @@ public class RogoAuthenticatorActivity extends AccountAuthenticatorActivity {
 	public static final String PARAM_USERNAME = "username";
 	public static final String OPEN_MAIN = "open main";
 
-	public static final String PARAM_CONFIRMCREDENTIALS = "server confirmation"; 
+	public static final String PARAM_CONFIRMCREDENTIALS = "server confirmation";
+	
+	private static volatile String toHash;
 
 	public static boolean createToken;
 	public boolean openMain;
@@ -67,6 +69,8 @@ public class RogoAuthenticatorActivity extends AccountAuthenticatorActivity {
 
 		am = AccountManager.get(this);
 		cache = new CacheClient(this);
+		
+		toHash = "";
 
 		//set variables and aesthetic changes
 		rememberMe = (CheckBox)this.findViewById(R.id.remember_me_check);
@@ -180,7 +184,7 @@ public class RogoAuthenticatorActivity extends AccountAuthenticatorActivity {
 	}
 
 	public void onSaveClick(View v) {  
-		
+
 		//check for network
 		if(!ServerClient.isNetworkAvailable()){
 			showMessage("No Network Connection");
@@ -198,38 +202,41 @@ public class RogoAuthenticatorActivity extends AccountAuthenticatorActivity {
 			// is time to check with the server  
 
 			this.password = AccountAuthenticator.hashPassword(password);
+			Thread thread = new Thread(new Runnable(){
 
-			List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
-			nameValuePairs.add(new BasicNameValuePair("email", username));
-			nameValuePairs.add(new BasicNameValuePair("password", password));
+				public void run(){
+					List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
+					nameValuePairs.add(new BasicNameValuePair("email", username));
+					nameValuePairs.add(new BasicNameValuePair("password", password));
 
-			JSONObject json = ServerClient.genericPostRequest("login", nameValuePairs, context);
+					JSONObject json = ServerClient.genericPostRequest("login", nameValuePairs, context);
 
-			String toHash = "";
-			try {
-				String check = json.getString("data");
-				if(check.equals("Email or password is incorrect!")){
-									
-					tvPassword.setText("");
-					Toast.makeText(context, check, Toast.LENGTH_LONG).show();
-					return;
+					try {
+						String check = json.getString("data");
+						if(check.equals("Email or password is incorrect!")){
+
+							tvPassword.setText("");
+							Toast.makeText(context, check, Toast.LENGTH_LONG).show();
+							return;
+						}
+						else{
+							JSONObject data = json.getJSONObject("data");
+							String session = data.getString("session");
+							String secret = data.getString("secret");
+
+							cache.saveFile(CacheClient.SESSION_CACHE, session);
+							RogoAuthenticatorActivity.toHash = secret;
+						}
+					} catch (JSONException e) {
+						e.printStackTrace();
+						System.out.println("Json did not return");
+						showMessage("Server error: Corrupted Response");
+						return;
+					}
+
+					// finished  
 				}
-				else{
-					JSONObject data = json.getJSONObject("data");
-					String session = data.getString("session");
-					String secret = data.getString("secret");
-
-					cache.saveFile(CacheClient.SESSION_CACHE, session);
-					toHash = secret;
-				}
-			} catch (JSONException e) {
-				e.printStackTrace();
-				System.out.println("Json did not return");
-				showMessage("Server error: Corrupted Response");
-				return;
-			}
-
-			// finished  
+			});
 
 			String accountType = this.getIntent().getStringExtra(PARAM_AUTHTOKEN_TYPE);  
 			if (accountType == null) {  
@@ -259,13 +266,24 @@ public class RogoAuthenticatorActivity extends AccountAuthenticatorActivity {
 			intent.putExtra(AccountManager.KEY_ACCOUNT_NAME, username);  
 			intent.putExtra(AccountManager.KEY_ACCOUNT_TYPE, accountType);
 			intent.putExtra(AccountManager.KEY_PASSWORD, password);
-			if(getToken()){ 
+
+			try {
+				thread.join();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			if(getToken()){
+				String t = toHash;
 				intent.putExtra(AccountManager.KEY_AUTHTOKEN, toHash);
 				am.setAuthToken(account, PARAM_AUTHTOKEN_TYPE, toHash);
 			}
 			this.setAccountAuthenticatorResult(intent.getExtras());  
 			this.setResult(RESULT_OK, intent);
-
+			
+			if(toHash == "")
+				logout();
 
 
 			//after setting the account, close the login activity and open the MainScreenActivity
@@ -280,7 +298,7 @@ public class RogoAuthenticatorActivity extends AccountAuthenticatorActivity {
 	}
 
 	private Boolean hasErrors(){
-		
+
 		EmailValidator validate = new EmailValidator();
 
 		this.username = tvUsername.getText().toString();  
@@ -294,7 +312,7 @@ public class RogoAuthenticatorActivity extends AccountAuthenticatorActivity {
 			showMessage("Invalid Password");
 			return true;
 		}  
-		
+
 		return false;
 	}
 

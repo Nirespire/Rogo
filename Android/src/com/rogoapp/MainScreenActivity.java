@@ -50,7 +50,7 @@ public class MainScreenActivity extends SherlockActivity {
     Button debugButton; //TODO REMOVE
 
     List<String> tips = new ArrayList<String>();
-    List<String> randoms;
+    List<String> randoms = new ArrayList<String>();
 
 	private static Context mcontext;
     CacheClient cache = new CacheClient(this);

@@ -67,6 +67,15 @@ class RequestObject{
 			$this->setResult(STATUS_FAILURE,'Something went wrong while setting up push notifications!');	//Tell the user everything died
 		}
 		
+		try{
+			$cleaningQuery = 'DELETE FROM sessions WHERE push_id NOT NULL AND sid IN (SELECT s.sid FROM sessions AS s INNER JOIN (select uid,MAX(last_use) as most_recent FROM sessions GROUP BY uid) AS max ON s.uid=max.uid WHERE s.last_use <> max.most_recent AND s.uid=:uid)';
+			$sessionCleaningStatement = $this->_sqlCon->prepare($cleaningQuery);
+			$sessionCleaningStatement->execute(array(':uid'=>$this->_user->getUID()));
+		}
+		catch(PDOException $e){
+			logError($_SERVER['SCRIPT_NAME'],__LINE__,'Unable to clean user session data',$e->getMessage(),time()); 		//Let's log the exception
+		}
+		
 		$this->setResult(STATUS_SUCCESS,$data);
 	}
 	

@@ -4,6 +4,7 @@ import com.actionbarsherlock.app.SherlockPreferenceActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.view.MenuItem.OnMenuItemClickListener;
+import com.rogoapp.auth.RogoAuthenticatorActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,7 +20,7 @@ public class UserSettingsActivity extends SherlockPreferenceActivity{
 	
     public boolean onCreateOptionsMenu(Menu menu) {
 
-        menu.add("Logout")
+        menu.add(Menu.NONE, 1, 1, "Logout")
         .setOnMenuItemClickListener(this.LogoutClickListener)
         .setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM | MenuItem.SHOW_AS_ACTION_WITH_TEXT);
 
@@ -29,7 +30,7 @@ public class UserSettingsActivity extends SherlockPreferenceActivity{
     OnMenuItemClickListener LogoutClickListener = new OnMenuItemClickListener(){
         @Override
         public boolean onMenuItemClick(MenuItem item){
-            //LOGOUT STUFF
+            RogoAuthenticatorActivity.logout();
             return false;
         }
     };

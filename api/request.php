@@ -15,7 +15,8 @@ class RequestHandler{
 		'availability' => 'availability.php',
 		'meetrequest' => 'meetrequest.php',
 		'status'=>'status.php',
-		'regidupdate'=>'updatepushid.php'
+		'regidupdate'=>'updatepushid.php',
+		'mrtips'=>'meetrandom.php'
 	);
 	private static $REQUEST_STATUS = array(
 		STATUS_SUCCESS => 'success',

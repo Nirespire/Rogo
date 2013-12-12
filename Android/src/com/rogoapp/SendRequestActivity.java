@@ -214,10 +214,10 @@ public class SendRequestActivity extends Activity implements LocationListener {
         Boolean sharedBool = sharedPrefs.getBoolean("availability", false);
         String sharedAvail;
         if(sharedBool){
-        	sharedAvail = "True";
+        	sharedAvail = "available";
         }
         else{
-        	sharedAvail = "False";
+        	sharedAvail = "busy";
         }
         System.out.println(sharedRadius+"   "+sharedAvail);
         //TODO NEED TO PULL USER INFO

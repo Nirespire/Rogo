@@ -100,6 +100,20 @@ public class SendRequestActivity extends Activity implements LocationListener {
 
 		nameValuePairs.add(new BasicNameValuePair("location_label", location.getText().toString()));
 		
+    	loc = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+    	Location locate = loc.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+    	if(locate != null){
+    		nameValuePairs.add(new BasicNameValuePair("location_lat",String.format("%s", locate.getLatitude())));
+    		nameValuePairs.add(new BasicNameValuePair("location_lon",String.format("%s", locate.getLongitude())));
+    	}
+        else{
+        	nameValuePairs.add(new BasicNameValuePair("location_lat","0.000000")); //Maybe I'm a bad person, but
+        	nameValuePairs.add(new BasicNameValuePair("location_lon","0.000000")); //But the server requires a minimum of 5 decimal places
+        	
+        	//System.out.println("Location not available");
+        }
+		
+		
         JSONObject jObj = ServerClient.genericPostRequest("meetrequest", nameValuePairs, this.getApplicationContext());
         String status = null;
         try{
@@ -231,13 +245,14 @@ public class SendRequestActivity extends Activity implements LocationListener {
         	sharedAvail = "busy";
         }
         //System.out.println(sharedRadius+"   "+sharedAvail);
-        //TODO NEED TO PULL USER INFO
+        
+        /*
         Map<String, ?> prefMap = sharedPrefs.getAll();
         for(Map.Entry<String, ?> entry : prefMap.entrySet()){
         	String key = entry.getKey();
         	System.out.println(key);
-        	System.out.println("TEST");
-        }
+        	//System.out.println("TEST");
+        }*/
         
         nameValuePairs.add(new BasicNameValuePair("availability",sharedAvail));
         nameValuePairs.add(new BasicNameValuePair("radius",sharedRadius)); //1 mile

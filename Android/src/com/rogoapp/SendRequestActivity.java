@@ -2,6 +2,7 @@ package com.rogoapp;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -13,12 +14,14 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
@@ -206,9 +209,26 @@ public class SendRequestActivity extends Activity implements LocationListener {
         	System.out.println("Location not available");
         }
         
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+        String sharedRadius = sharedPrefs.getString("radius", "RADIUS NOT FOUND");
+        Boolean sharedBool = sharedPrefs.getBoolean("availability", false);
+        String sharedAvail;
+        if(sharedBool){
+        	sharedAvail = "True";
+        }
+        else{
+        	sharedAvail = "False";
+        }
+        System.out.println(sharedRadius+"   "+sharedAvail);
         //TODO NEED TO PULL USER INFO
-        nameValuePairs.add(new BasicNameValuePair("availability","available"));
-        nameValuePairs.add(new BasicNameValuePair("radius","1")); //1 mile
+        //Map<String, ?> prefMap = sharedPrefs.getAll();
+        //for(Map.Entry<String, ?> entry : prefMap.entrySet()){
+        //	String key = entry.getKey();
+        //	System.out.println(key);
+        //}
+        
+        nameValuePairs.add(new BasicNameValuePair("availability",sharedAvail));
+        nameValuePairs.add(new BasicNameValuePair("radius",sharedRadius)); //1 mile
         
         ServerClient.genericPostRequest("availability", nameValuePairs, this.getApplicationContext());
         

@@ -256,7 +256,7 @@ Request: `meetrequest.txt?characteristic=Awkward guy in dungeon&location_label=T
         },
         "session": "changed"
     }
-
+ 
 	
 #### Getting basic user status information
 

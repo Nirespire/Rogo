@@ -14,7 +14,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 //import android.content.SharedPreferences;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.Editable;
@@ -41,6 +40,7 @@ public class MainScreenActivity extends SherlockActivity {
 
     static final String TIPS_FILE = "tips";
     static final String USER_TIPS = "uTips";
+    static final String MEET_TIPS_FILE = "meetTips";
 
     Button nearYouButton;
     Button meetRandomButton;
@@ -50,7 +50,7 @@ public class MainScreenActivity extends SherlockActivity {
     Button debugButton; //TODO REMOVE
 
     List<String> tips = new ArrayList<String>();
-    List<String> meetRandom;
+    List<String> randoms;
 
 	private static Context mcontext;
     CacheClient cache = new CacheClient(this);
@@ -72,6 +72,7 @@ public class MainScreenActivity extends SherlockActivity {
         //Adding some functionality to tips button
         textListener(this.findViewById(R.id.tips_edit_box));
         storeTips();
+        storeMeetRand();
     }
 
 
@@ -226,14 +227,14 @@ public class MainScreenActivity extends SherlockActivity {
     public void refreshMeetRandomButton(View arg0){
         final Button button = (Button)findViewById(R.id.meet_random_button);
 
-        if(meetRandom == null || meetRandom.isEmpty()){
+        if(randoms == null || randoms.isEmpty()){
             System.err.println("DEBUG: Reloading meetRandom array");
             reloadMeetRandomArray();
         }
 
         Random rand = new Random(System.currentTimeMillis());
-        int random = rand.nextInt(meetRandom.size());
-        String out = meetRandom.remove(random);
+        int random = rand.nextInt(randoms.size());
+        String out = randoms.remove(random);
         button.setText(out);
     }
 
@@ -330,6 +331,15 @@ public class MainScreenActivity extends SherlockActivity {
         }
         return false;
     }
+    public boolean storeMeetRand() {
+        if(ServerClient.isNetworkAvailable()){
+        	JSONObject json = ServerClient.genericPostRequest("tips", Collections.<NameValuePair>emptyList(), this.getApplicationContext());
+        	if(json != null)
+        		parseJ(json, MEET_TIPS_FILE);
+        	return json != null;
+        }
+        return false;
+    }
 
     public void reloadTipsArray(){
         //needed some tips so the file wasn't empty
@@ -354,13 +364,26 @@ public class MainScreenActivity extends SherlockActivity {
         cache.saveFile(TIPS_FILE, "New tip!\nWhat a tip\nTipped over\nTipsy");
 
     }
+    
+    //needed some tips cached, so I made this
+    public void oneTimeMeetBuffer() {
+
+        cache.saveFile(MEET_TIPS_FILE, "You have no internet!\nFind a friend with access to the server");
+
+    }
+    
     public void reloadMeetRandomArray(){
-        Resources res = getResources();
-        if(meetRandom == null){
-            meetRandom = new ArrayList<String>();
+        //needed some tips so the file wasn't empty
+        //if file is empty, it loads the Tips not available exception constantly
+        if(cache.isEmpty(TIPS_FILE)){
+            if(!storeTips()){
+                oneTimeMeetBuffer();
+            }
         }
-        String[] _randoms = res.getStringArray(R.array.meetRandomArray);
-        Collections.addAll(meetRandom, _randoms);
+
+        String[] _randoms = cache.loadFile(MEET_TIPS_FILE).split("\n");
+        Collections.addAll(randoms, _randoms);
+        return;
     }
 
 

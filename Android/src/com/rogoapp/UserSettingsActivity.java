@@ -1,13 +1,14 @@
 package com.rogoapp;
 
-import android.os.Bundle;
-import android.preference.PreferenceActivity;
-import android.preference.PreferenceManager;
-import android.content.Intent;
-import android.view.Menu;
-import android.view.MenuItem;
+import com.actionbarsherlock.app.SherlockPreferenceActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
+import com.actionbarsherlock.view.MenuItem.OnMenuItemClickListener;
 
-public class UserSettingsActivity extends PreferenceActivity{
+import android.content.Intent;
+import android.os.Bundle;
+
+public class UserSettingsActivity extends SherlockPreferenceActivity{
 
 	@Override
 	public void onCreate(Bundle savedInstanceState){
@@ -15,11 +16,24 @@ public class UserSettingsActivity extends PreferenceActivity{
 		addPreferencesFromResource(R.layout.user_settings);
 	}
 	
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu){
-		menu.add(Menu.NONE, 0, 0, "Show current settings");
-		return super.onCreateOptionsMenu(menu);
-	}
+	
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        menu.add("Logout")
+        .setOnMenuItemClickListener(this.LogoutClickListener)
+        .setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM | MenuItem.SHOW_AS_ACTION_WITH_TEXT);
+
+        return true;
+    }
+    
+    OnMenuItemClickListener LogoutClickListener = new OnMenuItemClickListener(){
+        @Override
+        public boolean onMenuItemClick(MenuItem item){
+            //LOGOUT STUFF
+            return false;
+        }
+    };
+	
 	/*
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item){

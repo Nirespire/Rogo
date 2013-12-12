@@ -80,7 +80,8 @@ public class MainScreenActivity extends SherlockActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
 
         menu.add("User")
-        .setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+        .setOnMenuItemClickListener(this.UserClickListener)
+        .setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM | MenuItem.SHOW_AS_ACTION_WITH_TEXT);
 
         menu.add("Settings")
         .setOnMenuItemClickListener(this.SettingsClickListener)
@@ -98,6 +99,14 @@ public class MainScreenActivity extends SherlockActivity {
         @Override
         public boolean onMenuItemClick(MenuItem item){
             Intent intent = new Intent(MainScreenActivity.this, UserSettingsActivity.class);
+            startActivity(intent);
+            return false;
+        }
+    };
+    OnMenuItemClickListener UserClickListener = new OnMenuItemClickListener(){
+        @Override
+        public boolean onMenuItemClick(MenuItem item){
+            Intent intent = new Intent(MainScreenActivity.this, UserActivity.class);
             startActivity(intent);
             return false;
         }

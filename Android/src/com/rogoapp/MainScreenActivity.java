@@ -342,7 +342,7 @@ public class MainScreenActivity extends SherlockActivity {
     }
     public boolean storeMeetRand() {
         if(ServerClient.isNetworkAvailable()){
-        	JSONObject json = ServerClient.genericPostRequest("tips", Collections.<NameValuePair>emptyList(), this.getApplicationContext());
+        	JSONObject json = ServerClient.genericPostRequest("mrtips", Collections.<NameValuePair>emptyList(), this.getApplicationContext());
         	if(json != null)
         		parseJ(json, MEET_TIPS_FILE);
         	return json != null;

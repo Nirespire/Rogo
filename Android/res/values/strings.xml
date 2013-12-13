@@ -100,5 +100,6 @@
     <string name="add_friend">Add Buddy </string>
     <string name="title_activity_send_request">SendRequestActivity</string>
     <string name="title_activity_profile">ProfileActivity</string>
+    <string name="requests_received">Requests Received</string>
 
 </resources>

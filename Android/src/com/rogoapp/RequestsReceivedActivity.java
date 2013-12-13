@@ -42,7 +42,7 @@ public class RequestsReceivedActivity extends SherlockListActivity {
     ListView requestsReceivedList;
     LocationManager loc;
 
-    ArrayList<RequestReceived> users;
+    ArrayList<RequestReceived> requests;
     
     RequestsReceivedAdapter listAdapter;
 
@@ -103,15 +103,15 @@ public class RequestsReceivedActivity extends SherlockListActivity {
         
         requestsReceivedList = this.getListView();
 
-        users = new ArrayList<RequestReceived>();
+        requests = new ArrayList<RequestReceived>();
         getRequestsReceived();
 
-        if(!users.isEmpty()){
+        if(!requests.isEmpty()){
             /*ArrayAdapter<String> arrayAdapter =      
                     new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, users);
             nearbyUsersList.setAdapter(arrayAdapter);
             */
-        	this.listAdapter = new RequestsReceivedAdapter(this,R.layout.requests_received_item,users);
+        	this.listAdapter = new RequestsReceivedAdapter(this,R.layout.requests_received_item,requests);
         	this.setListAdapter(this.listAdapter);
         }
 
@@ -176,7 +176,7 @@ public class RequestsReceivedActivity extends SherlockListActivity {
 
     public boolean getRequestsReceived() {
         if(ServerClient.isNetworkAvailable()){
-            JSONObject json = ServerClient.genericPostRequest("nearby", Collections.<NameValuePair>emptyList());
+            JSONObject json = ServerClient.genericPostRequest("myrequests", Collections.<NameValuePair>emptyList());
             if(json != null)
                 parseJ(json, REQUESTS_RECEIVED_FILE);
             return json != null;
@@ -187,7 +187,7 @@ public class RequestsReceivedActivity extends SherlockListActivity {
     public void parseJ(JSONObject jObject, String filename){
         JSONArray jArray = new JSONArray();
         try {
-            jArray = jObject.getJSONArray("data");
+            jArray = jObject.getJSONObject("data").getJSONArray("incoming");
         } catch (JSONException e1) {
             e1.printStackTrace();
         }
@@ -199,14 +199,17 @@ public class RequestsReceivedActivity extends SherlockListActivity {
                 
                 n.username = oneObject.getString("username");
                 n.uid = oneObject.getInt("uid");
+                n.rid = oneObject.getInt("rid");
                 n.distance = oneObject.getDouble("distance");
+                n.recentness = oneObject.getString("recentness");
+                n.characteristic = oneObject.getString("characteristic");
 
 
             } catch (JSONException e) {
                 e.printStackTrace();
             }
 
-            users.add(n);
+            requests.add(n);
         }
 
     }
@@ -214,7 +217,10 @@ public class RequestsReceivedActivity extends SherlockListActivity {
     private class RequestReceived {
     	public String username;
     	public int uid;
+    	public int rid;
     	public double distance;
+    	public String recentness;
+    	public String characteristic;
     	
     	public String getDistance(){
     		return String.format("%6s",this.distance);
@@ -223,11 +229,11 @@ public class RequestsReceivedActivity extends SherlockListActivity {
 
     private class RequestsReceivedAdapter extends ArrayAdapter<RequestReceived> {
 
-        private ArrayList<RequestReceived> users;
+        private ArrayList<RequestReceived> requests;
 
-        public RequestsReceivedAdapter(Context context, int textViewResourceId, ArrayList<RequestReceived> users) {
-                super(context, textViewResourceId, users);
-                this.users = users;
+        public RequestsReceivedAdapter(Context context, int textViewResourceId, ArrayList<RequestReceived> requests) {
+                super(context, textViewResourceId, requests);
+                this.requests = requests;
         }
 
         @Override
@@ -237,7 +243,7 @@ public class RequestsReceivedActivity extends SherlockListActivity {
                     LayoutInflater vi = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                     v = vi.inflate(R.layout.requests_received_item, null);
                 }
-                RequestReceived u = users.get(position);
+                RequestReceived u = requests.get(position);
                 if (u != null) {
                         TextView tt = (TextView) v.findViewById(R.id.requests_received_username);
                         TextView bt = (TextView) v.findViewById(R.id.requests_received_distance);
@@ -245,7 +251,7 @@ public class RequestsReceivedActivity extends SherlockListActivity {
                               tt.setText(u.username);                            
                         }
                         if(bt != null){
-                              bt.setText(u.getDistance());
+                              bt.setText(u.characteristic);
                         }
                 }
                 return v;

@@ -224,7 +224,7 @@ GooglePlayServicesClient.OnConnectionFailedListener, LocationListener, OnInfoWin
             @Override
             public void onInfoWindowClick(Marker marker) {
             	String[] uidString = marker.getTitle().split(" ");
-               Intent intent = new Intent(getApplicationContext(), SendRequestActivity.class);
+               Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
                intent.putExtra("user", uidString[0]);
                startActivity(intent);
             }

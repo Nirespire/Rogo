@@ -37,7 +37,7 @@ public class UserActivity extends Activity {
         interests.setText(sharedPrefs.getString("user_interests", "No Interests!"));
         
        
-        JSONObject userInfo = ServerClient.genericPostRequest("status", Collections.<NameValuePair>emptyList(), this.getApplicationContext());        
+        JSONObject userInfo = ServerClient.genericPostRequest("status", Collections.<NameValuePair>emptyList());        
         
         try{
             JSONObject jArray = userInfo.getJSONObject("data");

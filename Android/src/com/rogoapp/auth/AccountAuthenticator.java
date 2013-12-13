@@ -180,7 +180,7 @@ public class AccountAuthenticator extends AbstractAccountAuthenticator {
         	nameValuePairs.add(new BasicNameValuePair("password", password));
 			
     		try {
-				return !ServerClient.genericPostRequest("login", nameValuePairs, mContext).getString("data").equals("Email or password is incorrect!");
+				return !ServerClient.genericPostRequest("login", nameValuePairs).getString("data").equals("Email or password is incorrect!");
 			} catch (JSONException e) {
 				e.printStackTrace();
 				return false;
@@ -196,7 +196,7 @@ public class AccountAuthenticator extends AbstractAccountAuthenticator {
         	nameValuePairs.add(new BasicNameValuePair("password", password));
 			
     		try {
-				JSONObject json = (ServerClient.genericPostRequest("login", nameValuePairs, mContext));
+				JSONObject json = (ServerClient.genericPostRequest("login", nameValuePairs));
 				String token = /*json.getJSONObject("data").getString("session") + */json.getJSONObject("data").getString("secret");
 				cache.saveFile(CacheClient.SESSION_CACHE, json.getJSONObject("data").getString("session"));
 				return token;

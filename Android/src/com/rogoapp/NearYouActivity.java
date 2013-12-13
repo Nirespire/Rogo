@@ -94,7 +94,7 @@ public class NearYouActivity extends SherlockListActivity {
         nameValuePairs.add(new BasicNameValuePair("availability",sharedAvail));
         nameValuePairs.add(new BasicNameValuePair("radius",sharedRadius));
 
-        JSONObject jObj = ServerClient.genericPostRequest("availability", nameValuePairs, this.getApplicationContext());
+        JSONObject jObj = ServerClient.genericPostRequest("availability", nameValuePairs);
 
         try{
             String status = jObj.getString("status");
@@ -186,7 +186,7 @@ public class NearYouActivity extends SherlockListActivity {
 
     public boolean getNearbyUsers() {
         if(ServerClient.isNetworkAvailable()){
-            JSONObject json = ServerClient.genericPostRequest("nearby", Collections.<NameValuePair>emptyList(), this.getApplicationContext());
+            JSONObject json = ServerClient.genericPostRequest("nearby", Collections.<NameValuePair>emptyList());
             if(json != null)
                 parseJ(json, NEARBY_FILE);
             return json != null;

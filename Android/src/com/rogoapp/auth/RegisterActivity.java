@@ -96,7 +96,7 @@ public class RegisterActivity extends AccountAuthenticatorActivity{
 
 		nameValuePairs.add(new BasicNameValuePair("password", AccountAuthenticator.hashPassword(pass)));
 
-		JSONObject jObj = ServerClient.genericPostRequest("register", nameValuePairs, this.getApplicationContext());
+		JSONObject jObj = ServerClient.genericPostRequest("register", nameValuePairs);
 		String uid = null;
 		String status = null;
 		String session = "";

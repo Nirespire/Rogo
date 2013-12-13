@@ -45,7 +45,7 @@ public class ProfileActivity extends SherlockActivity{
 		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
 		nameValuePairs.add(new BasicNameValuePair("person_id", targetID));
 		
-		JSONObject userInfo = ServerClient.genericPostRequest("userdata", nameValuePairs, this.getApplicationContext());
+		JSONObject userInfo = ServerClient.genericPostRequest("userdata", nameValuePairs);
 		
 		username.setText(targetID);
 		

@@ -140,7 +140,7 @@ GooglePlayServicesClient.OnConnectionFailedListener, LocationListener, OnInfoWin
                 nameValuePairs.add(new BasicNameValuePair("availability",sharedAvail));
                 nameValuePairs.add(new BasicNameValuePair("radius",sharedRadius));
 
-                JSONObject jObj = ServerClient.genericPostRequest("availability", nameValuePairs, this.getApplicationContext());
+                JSONObject jObj = ServerClient.genericPostRequest("availability", nameValuePairs);
 
                 try{
                     String status = jObj.getString("status");
@@ -158,7 +158,7 @@ GooglePlayServicesClient.OnConnectionFailedListener, LocationListener, OnInfoWin
 
                 //now that this user's availability is updated, we must get nearby users
                 nameValuePairs = new ArrayList<NameValuePair>(2);
-                jObj = ServerClient.genericPostRequest("nearby", nameValuePairs, this.getApplicationContext());
+                jObj = ServerClient.genericPostRequest("nearby", nameValuePairs);
                 //sort jObj into list of users
                 otherUsers = new ArrayList<User>();
                 

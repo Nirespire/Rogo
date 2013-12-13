@@ -205,6 +205,7 @@ Request: `nearby.txt?count=2&session=[session]`
     	"data": [
     		{
     			"uid": "5",
+				"username": "GetOutFrog",
     			"location_label": "The dungeon",
     			"location_latitude": "29.6504",
     			"location_longitude": "-82.3429",
@@ -214,6 +215,7 @@ Request: `nearby.txt?count=2&session=[session]`
     		},
     		{
     			"uid": "4",
+				"username": "tits-palmer",
     			"location_label": "Table in back corner of Starbucks",
     			"location_latitude": "29.6501",
     			"location_longitude": "-82.3487",
@@ -264,6 +266,8 @@ Request: `meetrequest.txt?characteristic=Awkward guy in dungeon&location_label=T
 
 **Functionality:** Fetches some simple status information about the current user, including `uid`, `username`, the time which the user's availability and location were last updated, and the number of new meetup requests the user has.
 
+**Login session required**: Yes. 
+
 **Required Parameters:**  
 None
 
@@ -284,8 +288,20 @@ Request: `status.txt?session=[session]`
     				"status": "available",
     				"location_label": "Outer Space",
     				"update_time": "2013-11-06 23:29:27"
+					"points": "420"
     			}
     		]
     	},
     	"session": "changed"
     }
+	
+#### Updating Push ID registration
+
+**Request location:** `regidupdate.json`
+
+**Functionality:** Updates the Google Cloud Messenger push ID for the current session. 
+
+**Login session required**: Yes. 
+
+**Required Parameters:**  
+* `register_id`: The GCM ID for the phone in use. Example: `???`

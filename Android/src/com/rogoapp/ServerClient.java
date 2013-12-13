@@ -76,7 +76,7 @@ public class ServerClient{
 	}
 	
 	
-	public static JSONObject genericPostRequest(String request, List<NameValuePair> nameValuePairs, Context context) {
+	public static JSONObject genericPostRequest(String request, List<NameValuePair> nameValuePairs) {
 	    // Takes a request and a list of NameValuePairs for an http post request
 		// Other classes must make nameValuePairs list
 		// They will need org.apache.http.NameValuePair
@@ -89,7 +89,7 @@ public class ServerClient{
 	    HttpClient httpclient = new DefaultHttpClient();
 	    HttpPost httppost = new HttpPost("http://api.rogoapp.com/request/" + request);
 
-		context = SplashScreen.showContext();
+		Context context = SplashScreen.showContext();
 	    AccountAuthenticator aa = new AccountAuthenticator(context);
 
 	    if(!(request.equals("register") || request.equals("login"))){

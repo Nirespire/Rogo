@@ -114,7 +114,7 @@ public class SendRequestActivity extends Activity implements LocationListener {
         }
 		
 		
-        JSONObject jObj = ServerClient.genericPostRequest("meetrequest", nameValuePairs, this.getApplicationContext());
+        JSONObject jObj = ServerClient.genericPostRequest("meetrequest", nameValuePairs);
         String status = null;
         try{
         	status = jObj.getString("status");
@@ -264,7 +264,7 @@ public class SendRequestActivity extends Activity implements LocationListener {
         nameValuePairs.add(new BasicNameValuePair("availability",sharedAvail));
         nameValuePairs.add(new BasicNameValuePair("radius",sharedRadius));
         
-        ServerClient.genericPostRequest("availability", nameValuePairs, this.getApplicationContext());
+        ServerClient.genericPostRequest("availability", nameValuePairs);
         
 
     }

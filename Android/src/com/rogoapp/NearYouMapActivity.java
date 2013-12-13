@@ -77,6 +77,7 @@ GooglePlayServicesClient.OnConnectionFailedListener, LocationListener, OnInfoWin
     GVILLE_HEIGHT = 42.000000;
     
     LocationManager loc;
+    LocationRequest request;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -327,12 +328,13 @@ GooglePlayServicesClient.OnConnectionFailedListener, LocationListener, OnInfoWin
     @Override
     public void onConnectionFailed(ConnectionResult arg0) {
         // TODO Auto-generated method stub	
+    	Toast.makeText(this, "Reconnect please", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onConnected(Bundle arg0) {
         Toast.makeText(this, "Connected to location service", Toast.LENGTH_SHORT).show();
-        LocationRequest request = LocationRequest.create();
+        request = LocationRequest.create();
         request.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
         request.setInterval(30000);	// should be 60000
         request.setFastestInterval(10000);  // should be 10000
@@ -341,7 +343,13 @@ GooglePlayServicesClient.OnConnectionFailedListener, LocationListener, OnInfoWin
 
     @Override
     public void onDisconnected() {
-        // TODO Auto-generated method stub
+    	
+    }
+    
+    @Override
+    public void onStop() {
+    	mLocationClient.disconnect();
+    	super.onStop();
     }
 
     // This method is for LocationListener

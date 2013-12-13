@@ -19,6 +19,9 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.LayoutInflater;
+import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
@@ -26,12 +29,13 @@ import android.widget.Button;
 import android.widget.ListView;
 
 import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.app.SherlockListActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.view.MenuItem.OnMenuItemClickListener;
 
 
-public class NearYouActivity extends SherlockActivity {
+public class NearYouActivity extends SherlockListActivity {
 
     static final String NEARBY_FILE = "nearby";
 
@@ -39,7 +43,9 @@ public class NearYouActivity extends SherlockActivity {
     ListView nearbyUsersList;
     LocationManager loc;
 
-    ArrayList<String> users;
+    ArrayList<NearbyUser> users;
+    
+    NearbyUserAdapter listAdapter;
 
     CacheClient cache = new CacheClient(this);
 
@@ -105,15 +111,18 @@ public class NearYouActivity extends SherlockActivity {
         }
         
         
-        nearbyUsersList = (ListView) findViewById(R.id.nearby_users_list);
+        nearbyUsersList = this.getListView();
 
-        users = new ArrayList<String>();
+        users = new ArrayList<NearbyUser>();
         getNearbyUsers();
 
         if(!users.isEmpty()){
-            ArrayAdapter<String> arrayAdapter =      
+            /*ArrayAdapter<String> arrayAdapter =      
                     new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, users);
             nearbyUsersList.setAdapter(arrayAdapter);
+            */
+        	this.listAdapter = new NearbyUserAdapter(this,R.layout.nearby_user_item,users);
+        	this.setListAdapter(this.listAdapter);
         }
 
 
@@ -122,18 +131,13 @@ public class NearYouActivity extends SherlockActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id){
 
-                String user = (String) parent.getItemAtPosition(position);
+                NearbyUser user = (NearbyUser) parent.getItemAtPosition(position);
 
-                int i = user.indexOf("'");
-                int j = user.lastIndexOf("'");
-
-                user = user.substring(i + 1 , j);
-
-                System.out.println(user);
+                System.out.printf("(%s) %s",user.uid,user.username);
 
                 Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
 
-                intent.putExtra("user", user);
+                intent.putExtra("user", Integer.toString(user.uid));
                 startActivity(intent);
             }
 
@@ -191,35 +195,71 @@ public class NearYouActivity extends SherlockActivity {
 
     public void parseJ(JSONObject jObject, String filename){
         JSONArray jArray = new JSONArray();
-        StringBuffer out;
         try {
             jArray = jObject.getJSONArray("data");
         } catch (JSONException e1) {
             e1.printStackTrace();
         }
-
         for (int i=0; i < jArray.length(); i++)
         {
-            out = new StringBuffer();
+        	NearbyUser n = new NearbyUser();
             try {
                 JSONObject oneObject = jArray.getJSONObject(i);
-                // Pulling items from the array
-                String s = oneObject.getString("distance");
-                s = s.length() > 6 ? s.substring(0, 6) : s;
-                out.append("User: " +  "'" + oneObject.getString("username") + "'\n" + 
-                        "Distance: " + s + " mile(s)");
+                
+                n.username = oneObject.getString("username");
+                n.uid = oneObject.getInt("uid");
+                n.distance = oneObject.getDouble("distance");
 
 
             } catch (JSONException e) {
                 e.printStackTrace();
             }
 
-            users.add(out.toString());
+            users.add(n);
         }
 
     }
+    
+    private class NearbyUser{
+    	public String username;
+    	public int uid;
+    	public double distance;
+    	
+    	public String getDistance(){
+    		return String.format("%6s",this.distance);
+    	}
+    }
 
+    private class NearbyUserAdapter extends ArrayAdapter<NearbyUser> {
 
+        private ArrayList<NearbyUser> users;
+
+        public NearbyUserAdapter(Context context, int textViewResourceId, ArrayList<NearbyUser> users) {
+                super(context, textViewResourceId, users);
+                this.users = users;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+                View v = convertView;
+                if (v == null) {
+                    LayoutInflater vi = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                    v = vi.inflate(R.layout.nearby_user_item, null);
+                }
+                NearbyUser u = users.get(position);
+                if (u != null) {
+                        TextView tt = (TextView) v.findViewById(R.id.nearby_user_username);
+                        TextView bt = (TextView) v.findViewById(R.id.nearby_user_distance);
+                        if (tt != null) {
+                              tt.setText(u.username);                            
+                        }
+                        if(bt != null){
+                              bt.setText(u.getDistance());
+                        }
+                }
+                return v;
+        }
+}
 
 }
 

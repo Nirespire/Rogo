@@ -111,7 +111,7 @@ public class RequestsReceivedActivity extends SherlockListActivity {
                     new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, users);
             nearbyUsersList.setAdapter(arrayAdapter);
             */
-        	this.listAdapter = new RequestsReceivedAdapter(this,R.layout.nearby_user_item,users);
+        	this.listAdapter = new RequestsReceivedAdapter(this,R.layout.requests_received_item,users);
         	this.setListAdapter(this.listAdapter);
         }
 
@@ -235,12 +235,12 @@ public class RequestsReceivedActivity extends SherlockListActivity {
                 View v = convertView;
                 if (v == null) {
                     LayoutInflater vi = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                    v = vi.inflate(R.layout.nearby_user_item, null);
+                    v = vi.inflate(R.layout.requests_received_item, null);
                 }
                 RequestReceived u = users.get(position);
                 if (u != null) {
-                        TextView tt = (TextView) v.findViewById(R.id.nearby_user_username);
-                        TextView bt = (TextView) v.findViewById(R.id.nearby_user_distance);
+                        TextView tt = (TextView) v.findViewById(R.id.requests_received_username);
+                        TextView bt = (TextView) v.findViewById(R.id.requests_received_distance);
                         if (tt != null) {
                               tt.setText(u.username);                            
                         }

@@ -2,6 +2,7 @@ package com.rogoapp.push;
 
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
+import com.rogoapp.R;
 
 import android.app.IntentService;
 import android.app.Notification;
@@ -82,11 +83,11 @@ public class GcmIntentService extends IntentService {
 
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(this)
-        .setSmallIcon(/*R.drawable.ic_stat_gcm*/2)
+        .setSmallIcon(R.drawable.ic_launcher)
         .setContentTitle("GCM Notification")
-/*        .setStyle(new NotificationCompat.BigTextStyle()
+        .setStyle(new NotificationCompat.BigTextStyle()
         .bigText(msg))
-*/        .setContentText(msg);
+        .setContentText(msg);
 
         mBuilder.setContentIntent(contentIntent);
        // mNotificationManager.notify(NOTIFICATION_ID, ((Object) mBuilder).build());

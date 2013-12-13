@@ -138,6 +138,7 @@ public class NearYouActivity extends SherlockListActivity {
                 Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
 
                 intent.putExtra("user", Integer.toString(user.uid));
+                
                 startActivity(intent);
             }
 

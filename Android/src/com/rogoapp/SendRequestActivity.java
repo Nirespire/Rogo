@@ -79,6 +79,7 @@ public class SendRequestActivity extends Activity implements LocationListener {
     	
     	
     	String targetID = (String) getIntent().getSerializableExtra("user");
+    	System.out.println(targetID);
 
     	
         EditText trait = (EditText) findViewById(R.id.request_trait);

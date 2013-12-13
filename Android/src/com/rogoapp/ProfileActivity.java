@@ -73,10 +73,12 @@ public class ProfileActivity extends SherlockActivity{
 	
 	public void sendRequest(View v){
 	    final Context context = this;
-        Intent intent = new Intent(context, SendRequestActivity.class);
-	    intent.putExtra("user",this.uid);
-	    intent.putExtra("username",this.usrnm);
-        startActivity(intent);
+	    if (ServerClient.isNetworkAvailable()) {
+	        Intent intent = new Intent(context, SendRequestActivity.class);
+		    intent.putExtra("user",this.uid);
+		    intent.putExtra("username",this.usrnm);
+	        startActivity(intent);
+	    }
 	}
 
 }

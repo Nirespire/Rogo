@@ -148,6 +148,10 @@
             android:name="com.rogoapp.SendRequestActivity"
             android:label="@string/title_activity_send_request" >
         </activity>
+        <activity
+            android:name="com.rogoapp.RequestsReceivedActivity"
+            android:label="recieved" >
+        </activity>
 
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"

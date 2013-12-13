@@ -51,7 +51,7 @@ public class RequestsReceivedActivity extends SherlockListActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.near_you);
+        setContentView(R.layout.request_list);
         
         List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
         

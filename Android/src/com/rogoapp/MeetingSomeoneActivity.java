@@ -1,5 +1,8 @@
 package com.rogoapp;
 
+import java.math.BigInteger;
+import java.security.SecureRandom;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,6 +21,7 @@ public class MeetingSomeoneActivity extends Activity {
     //private TextView interests;
     private TextView location;
     private TextView trait;
+    private TextView verification;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -28,14 +32,19 @@ public class MeetingSomeoneActivity extends Activity {
         //interests = (TextView)findViewById(R.id.user2_interests);
         location = (TextView)findViewById(R.id.meet_location);
         trait = (TextView)findViewById(R.id.user2_traits);
+        verification = (TextView)findViewById(R.id.verification_code);
 
         String targetID = (String) getIntent().getSerializableExtra("username");
         String u2trait = (String) getIntent().getSerializableExtra("trait");
         String u2location = (String) getIntent().getSerializableExtra("location");
+        SecureRandom random = new SecureRandom();
+        String s = new BigInteger(130, random).toString(32);
+        String code = s.substring(0,5);;
 
         user.setText(targetID);
         location.setText(u2location);
         trait.setText(u2trait);
+        verification.setText(code);
 
 
         //TODO NEED TO PULL: OTHER USER'S INTERESTS, OTHER USER'S ENTERED TRAIT, NEARBY LOCATION TO MEET AT AND SET IN TEXTVIEWS

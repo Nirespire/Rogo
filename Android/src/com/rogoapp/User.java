@@ -43,8 +43,12 @@ public class User {
 	private ArrayList<String> interests;
 	private int score;
 	private int level;
-	private ArrayList<Friend> friends; //Friend class yet to be created.
-	private ArrayList<User> recentlyMet; // List for recently met users - not used anywhere yet
+	
+	// Friend class created
+	private ArrayList<Friend> friends;
+	
+	// List for recently met users - not used anywhere yet
+	private ArrayList<User> recentlyMet; 
 	
 	//--------------------------------------------------------------------------------------
 	//INITIALIZATION: Initilization of User object

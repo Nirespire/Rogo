@@ -204,8 +204,10 @@ public class NearYouActivity extends SherlockActivity {
             try {
                 JSONObject oneObject = jArray.getJSONObject(i);
                 // Pulling items from the array
-                out.append("User: " +  "'" + oneObject.getString("uid") + "'" + 
-                        " Distance: " + oneObject.getString("distance"));
+                String s = oneObject.getString("distance");
+                s = s.length() > 6 ? s.substring(0, 6) : s;
+                out.append("User: " +  "'" + oneObject.getString("username") + "'\n" + 
+                        "Distance: " + s + " mile(s)");
 
 
             } catch (JSONException e) {

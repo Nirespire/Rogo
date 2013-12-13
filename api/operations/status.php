@@ -48,11 +48,12 @@ class RequestObject{
 		$uid = $this->_user->getUID();
 		
 		try{
-			$query = 'SELECT u.uid,u.username,a.status,a.location_label,a.update_time FROM users AS u INNER JOIN availability AS a ON a.uid=u.uid WHERE u.uid=:uid'; //Just your SQL query. Notice the tokens prefixed with a colon, ":sometid" and ":count"
+			$query = 'SELECT u.uid,u.username,u.email,a.status,a.location_label,a.update_time FROM users AS u INNER JOIN availability AS a ON a.uid=u.uid WHERE u.uid=:uid'; //Just your SQL query. Notice the tokens prefixed with a colon, ":sometid" and ":count"
 			$userStatement = $this->_sqlCon->prepare($query); 					//Now we prepare the query. Just go with it, otherwise look it up. I don't feel like explaining it
 			$userStatement->execute(array(':uid'=>$this->_user->getUID()));			//Now, using the array, we assign values to those tokens in the query that were prefixed with a colon.
 																				//This prevents against SQL injection and stuff.
 			$user = $userStatement->fetchAll(PDO::FETCH_ASSOC);				//Get an associated array (key-value) of all of the resulting rows
+			$user[0]['points'] = $this->_user->getPoints();
 			
 			$requestQuery = 'SELECT count(r.originid) AS requests FROM meetup_requests AS r WHERE r.targetid=:uid AND r.status="waiting"'; //Just your SQL query. Notice the tokens prefixed with a colon, ":sometid" and ":count"
 			$requestStatement = $this->_sqlCon->prepare($requestQuery); 					//Now we prepare the query. Just go with it, otherwise look it up. I don't feel like explaining it

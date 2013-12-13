@@ -77,9 +77,6 @@ public class SendRequestActivity extends Activity implements LocationListener {
     	//TODO:  How do we know our current user's username?
     	//String RequestingUserID = intent.getStringExtra("RequestingUserID");
     	
-    	//temp
-    	String userID = "1234";
-    	//temp
     	
     	String targetID = (String) getIntent().getSerializableExtra("user");
 
@@ -262,7 +259,7 @@ public class SendRequestActivity extends Activity implements LocationListener {
         }*/
         
         nameValuePairs.add(new BasicNameValuePair("availability",sharedAvail));
-        nameValuePairs.add(new BasicNameValuePair("radius",sharedRadius)); //1 mile
+        nameValuePairs.add(new BasicNameValuePair("radius",sharedRadius));
         
         ServerClient.genericPostRequest("availability", nameValuePairs, this.getApplicationContext());
         

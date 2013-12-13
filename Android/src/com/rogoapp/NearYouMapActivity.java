@@ -12,9 +12,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.widget.Toast;
@@ -68,6 +72,8 @@ GooglePlayServicesClient.OnConnectionFailedListener, LocationListener, OnInfoWin
     @SuppressWarnings("unused")
     private static final double GVILLE_LAT = 29.666576,
     GVILLE_LNG = -82.319977;
+    
+    LocationManager loc;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,13 +97,45 @@ GooglePlayServicesClient.OnConnectionFailedListener, LocationListener, OnInfoWin
 
                 //first update avaliability
                 //force location to be florida gym
-                userLat = 29.649674; //florida gym
-                userLong = -82.347224; //florida gym
+                //userLat = 29.649674; //florida gym
+                //userLong = -82.347224; //florida gym
+                //WHY WOULD YOU DO THIS?!
+                
                 List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
-                nameValuePairs.add(new BasicNameValuePair("location_lat", String.valueOf(userLat)));
-                nameValuePairs.add(new BasicNameValuePair("location_lon", String.valueOf(userLong)));
-                nameValuePairs.add(new BasicNameValuePair("availability", "available"));
-                nameValuePairs.add(new BasicNameValuePair("radius", "1"));
+                
+                loc = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+            	Location locate = loc.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            	System.out.println("THE CURRENT LOCATION IS....  "+locate);
+            	
+            	if(locate != null){
+            		nameValuePairs.add(new BasicNameValuePair("location_lat",String.format("%s", locate.getLatitude())));
+            		nameValuePairs.add(new BasicNameValuePair("location_lon",String.format("%s", locate.getLongitude())));
+            		System.out.println(String.format("%s", locate.getLatitude()));
+            		System.out.println(String.format("%s", locate.getLongitude()));
+            	}
+                else{
+                	nameValuePairs.add(new BasicNameValuePair("location_lat","0.000000")); //Maybe I'm a bad person, but
+                	nameValuePairs.add(new BasicNameValuePair("location_lon","0.000000")); //But the server requires a minimum of 5 decimal places
+                	
+                	//System.out.println("Location not available");
+                }
+            	
+                //nameValuePairs.add(new BasicNameValuePair("availability", "available"));
+                //nameValuePairs.add(new BasicNameValuePair("radius", "1"));
+            	
+            	SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+            	System.out.println(sharedPrefs.getString("radius","1"));
+                String sharedRadius = sharedPrefs.getString("radius", "1");
+                Boolean sharedBool = sharedPrefs.getBoolean("availability", false);
+                String sharedAvail;
+                if(sharedBool){
+                	sharedAvail = "available";
+                }
+                else{
+                	sharedAvail = "busy";
+                }
+                nameValuePairs.add(new BasicNameValuePair("availability",sharedAvail));
+                nameValuePairs.add(new BasicNameValuePair("radius",sharedRadius));
 
                 JSONObject jObj = ServerClient.genericPostRequest("availability", nameValuePairs, this.getApplicationContext());
 

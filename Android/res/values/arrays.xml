@@ -6,15 +6,15 @@
         <item name="3">1000 Feet</item>
         <item name="4">1/2 Mile</item>
         <item name="5">1 Mile</item>
-        <item name="6">5 Miles</item>
+        <item name="6">2 Miles</item>
     </string-array>
     <string-array name="radiusValues">
-        <item name="1">100</item>
-        <item name="2">500</item>
-        <item name="3">1000</item>
-        <item name="4">2640</item>
-        <item name="3">5280</item>
-        <item name="4">10560</item>
+        <item name="1">0.01893939</item>
+        <item name="2">0.09469697</item>
+        <item name="3">0.18939394</item>
+        <item name="4">0.5</item>
+        <item name="3">1</item>
+        <item name="4">2</item>
     </string-array>
      
 </resources>

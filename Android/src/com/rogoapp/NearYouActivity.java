@@ -2,16 +2,21 @@ package com.rogoapp;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -52,6 +57,54 @@ public class NearYouActivity extends SherlockActivity {
             }
         });
 
+        List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
+        
+        loc = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+    	Location locate = loc.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+    	System.out.println("THE CURRENT LOCATION IS....  "+locate);
+    	
+    	if(locate != null){
+    		nameValuePairs.add(new BasicNameValuePair("location_lat",String.format("%s", locate.getLatitude())));
+    		nameValuePairs.add(new BasicNameValuePair("location_lon",String.format("%s", locate.getLongitude())));
+    		System.out.println(String.format("%s", locate.getLatitude()));
+    		System.out.println(String.format("%s", locate.getLongitude()));
+    	}
+        else{
+        	nameValuePairs.add(new BasicNameValuePair("location_lat","0.000000")); //Maybe I'm a bad person, but
+        	nameValuePairs.add(new BasicNameValuePair("location_lon","0.000000")); //But the server requires a minimum of 5 decimal places
+        }
+    	
+    	SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+    	System.out.println(sharedPrefs.getString("radius","1"));
+        String sharedRadius = sharedPrefs.getString("radius", "1");
+        Boolean sharedBool = sharedPrefs.getBoolean("availability", false);
+        String sharedAvail;
+        if(sharedBool){
+        	sharedAvail = "available";
+        }
+        else{
+        	sharedAvail = "busy";
+        }
+        nameValuePairs.add(new BasicNameValuePair("availability",sharedAvail));
+        nameValuePairs.add(new BasicNameValuePair("radius",sharedRadius));
+
+        JSONObject jObj = ServerClient.genericPostRequest("availability", nameValuePairs, this.getApplicationContext());
+
+        try{
+            String status = jObj.getString("status");
+            if(status.equals("success")){
+                System.out.println("updated succesfully");
+            }
+            else{
+                System.out.println("not updated!");
+            }
+        }catch(JSONException e){
+            System.err.println("IN MAP: " + e);
+        }catch(NullPointerException e){
+            System.err.println("IN MAP: " + e);
+        }
+        
+        
         nearbyUsersList = (ListView) findViewById(R.id.nearby_users_list);
 
         users = new ArrayList<String>();

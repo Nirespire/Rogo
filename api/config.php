@@ -1,4 +1,15 @@
 <?php
+
+/****************************************************************/
+/** Points and Rogo Functionality                              **/
+/****************************************************************/
+define('POINT_VALUE_USER',5);
+define('POINT_VALUE_NON_USER',1);
+
+/****************************************************************/
+/** Some misc input stuff                                      **/
+/****************************************************************/
+
 define('INPUT_EMAIL_LENGTH',255);
 define('INPUT_USERNAME_LENGTH',30);
 //Length to trim the input "password" to. 128 is the length of a Base64 SHA512 hash.

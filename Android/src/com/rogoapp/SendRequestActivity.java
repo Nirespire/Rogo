@@ -49,11 +49,13 @@ public class SendRequestActivity extends Activity implements LocationListener {
         postLocation();
         
         String targetID = (String) getIntent().getSerializableExtra("user");
-        if(targetID == null){
-        	targetID = "4";
+        
+        String targetUsername = (String) getIntent().getSerializableExtra("username");
+        if(targetUsername == null){
+        	targetID = "[Fake User]";
         }
     	TextView userText = (TextView) findViewById(R.id.textView1);
-    	userText.setText(String.format("User %s", targetID));
+    	userText.setText(String.format("Send request to\n%s", targetUsername));
     	userText.invalidate();
     }
 

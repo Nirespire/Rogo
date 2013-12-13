@@ -25,6 +25,7 @@ public class ProfileActivity extends SherlockActivity{
     TextView username;
     TextView status;
     TextView interests;
+    TextView points;
     
     
     String uid;
@@ -38,6 +39,7 @@ public class ProfileActivity extends SherlockActivity{
 		username = (TextView)findViewById(R.id.username_value);
         status = (TextView)findViewById(R.id.status_value);
         interests = (TextView)findViewById(R.id.interests_value);
+        points = (TextView)findViewById(R.id.points_value);
 		
 		String targetID = (String) getIntent().getSerializableExtra("user");
 		this.uid = targetID;
@@ -56,6 +58,12 @@ public class ProfileActivity extends SherlockActivity{
             this.usrnm = user.getJSONObject(0).getString("username");
             username.setText(this.usrnm);
             status.setText(user.getJSONObject(0).getString("status"));
+            
+            int pointsVal = user.getJSONObject(0).getInt("points");
+            String pointsStr = (pointsVal != 1)?"Points":"Point";
+            String pointsLabel = String.format("%d %s",pointsVal,pointsStr);
+            
+            points.setText(pointsLabel);
             
             this.getSupportActionBar().setTitle(usrnm);
         }

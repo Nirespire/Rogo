@@ -24,7 +24,7 @@
             android1:layout_alignLeft="@+id/user2"
             android1:layout_below="@+id/user2"
             android1:layout_marginTop="30dp"
-            android1:text="Status"
+            android1:text="Status:"
             android1:textAppearance="?android:attr/textAppearanceLarge"
             android1:textColor="@color/black" />
 
@@ -49,6 +49,17 @@
             android1:text="Interests:"
             android1:textAppearance="?android:attr/textAppearanceLarge"
             android1:textColor="@color/black" />
+        
+        <TextView
+            android1:id="@+id/pointslabel"
+            android1:layout_width="wrap_content"
+            android1:layout_height="wrap_content"
+            android1:layout_alignLeft="@+id/interests"
+            android1:layout_below="@+id/interests"
+            android1:layout_marginTop="30dp"
+            android1:text="Points:"
+            android1:textAppearance="?android:attr/textAppearanceLarge"
+            android1:textColor="@color/black" />
 
         <TextView
             android1:id="@+id/username_value"
@@ -62,7 +73,7 @@
             android1:textAppearance="?android:attr/textAppearanceMedium" />
 
         <TextView
-            android1:id="@+id/points_value"
+            android1:id="@+id/status_value"
             android1:layout_width="wrap_content"
             android1:layout_height="wrap_content"
             android1:layout_above="@+id/email"
@@ -75,16 +86,24 @@
             android1:layout_width="wrap_content"
             android1:layout_height="wrap_content"
             android1:layout_above="@+id/interests"
-            android1:layout_alignLeft="@+id/points_value"
+            android1:layout_alignLeft="@+id/status_value"
             android1:text="Medium Text"
+            android1:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <TextView
+            android1:id="@+id/points_value"
+            android1:layout_width="wrap_content"
+            android1:layout_height="wrap_content"
+            android1:layout_alignBottom="@+id/pointslabel"
+            android1:layout_alignLeft="@+id/interests_value"
+            android1:text="0 Points"
             android1:textAppearance="?android:attr/textAppearanceMedium" />
 
         <TextView
             android1:id="@+id/interests_value"
             android1:layout_width="wrap_content"
             android1:layout_height="wrap_content"
-            android1:layout_alignBaseline="@+id/interests"
-            android1:layout_alignBottom="@+id/interests"
+            android1:layout_above="@+id/pointslabel"
             android1:layout_alignLeft="@+id/email_value"
             android1:text="Medium Text"
             android1:textAppearance="?android:attr/textAppearanceMedium" />

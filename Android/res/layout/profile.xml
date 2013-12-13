@@ -6,23 +6,12 @@
     android:background="@drawable/gradient" >
 
     <TextView
-        android1:id="@+id/status"
-        android1:layout_width="wrap_content"
-        android1:layout_height="wrap_content"
-        android1:layout_alignLeft="@+id/user2"
-        android1:layout_below="@+id/user2"
-        android1:layout_marginTop="52dp"
-        android1:text="Status"
-        android1:textAppearance="?android:attr/textAppearanceLarge"
-        android1:textColor="@color/black" />
-
-    <TextView
         android1:id="@+id/status_value"
         android1:layout_width="wrap_content"
         android1:layout_height="wrap_content"
         android1:layout_alignLeft="@+id/username_value"
         android1:layout_alignTop="@+id/status"
-        android1:text=""
+        android1:text="-"
         android1:textAppearance="?android:attr/textAppearanceMedium" />
 
     <Button
@@ -42,7 +31,7 @@
         android1:layout_alignBottom="@+id/user2"
         android1:layout_marginLeft="22dp"
         android1:layout_toRightOf="@+id/user2"
-        android1:text=""
+        android1:text="-"
         android1:textAppearance="?android:attr/textAppearanceMedium" />
 
     <TextView
@@ -56,5 +45,36 @@
         android1:text="Username:"
         android1:textAppearance="?android:attr/textAppearanceLarge"
         android1:textColor="@color/black" />
+
+    <TextView
+        android1:id="@+id/status"
+        android1:layout_width="wrap_content"
+        android1:layout_height="wrap_content"
+        android1:layout_alignLeft="@+id/user2"
+        android1:layout_below="@+id/user2"
+        android1:layout_marginTop="32dp"
+        android1:text="Status"
+        android1:textAppearance="?android:attr/textAppearanceLarge"
+        android1:textColor="@color/black" />
+
+    <TextView
+        android1:id="@+id/points_label"
+        android1:layout_width="wrap_content"
+        android1:layout_height="wrap_content"
+        android1:layout_below="@+id/status_value"
+        android1:layout_toLeftOf="@+id/button1"
+        android1:layout_marginTop="32dp"
+        android1:text="Points:"
+        android1:textAppearance="?android:attr/textAppearanceLarge"
+        android1:textColor="@color/black" />
+
+    <TextView
+        android1:id="@+id/points_value"
+        android1:layout_width="wrap_content"
+        android1:layout_height="wrap_content"
+        android1:layout_alignTop="@+id/points_label"
+        android1:layout_alignLeft="@+id/status_value"
+        android1:text="0 Points"
+        android1:textAppearance="?android:attr/textAppearanceMedium" />
 
 </RelativeLayout>

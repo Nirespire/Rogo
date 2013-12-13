@@ -20,6 +20,7 @@ public class UserActivity extends Activity {
     TextView email;
     TextView status;
     TextView interests;
+    TextView points;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,8 +31,10 @@ public class UserActivity extends Activity {
 
         username = (TextView)findViewById(R.id.username_value);
         email = (TextView)findViewById(R.id.email_value);
-        status = (TextView)findViewById(R.id.points_value);
+        status = (TextView)findViewById(R.id.status_value);
         interests = (TextView)findViewById(R.id.interests_value);
+        points = (TextView)findViewById(R.id.points_value);
+        
 
         username.setText(sharedPrefs.getString("prefUsername","No Username Set!"));
         interests.setText(sharedPrefs.getString("user_interests", "No Interests!"));
@@ -45,6 +48,12 @@ public class UserActivity extends Activity {
             email.setText(user.getJSONObject(0).getString("email"));
             username.setText(user.getJSONObject(0).getString("username"));
             status.setText(user.getJSONObject(0).getString("status"));
+            
+            int pointsVal = user.getJSONObject(0).getInt("points");
+            String pointsStr = (pointsVal != 1)?"Points":"Point";
+            String pointsLabel = String.format("%d %s",pointsVal,pointsStr);
+            
+            points.setText(pointsLabel);
         }
         catch(JSONException ex){
             ex.printStackTrace();

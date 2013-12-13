@@ -49,7 +49,7 @@ class RequestObject{
 		
 		try{
 			$incomingRequestsQuery = '
-				SELECT r.rid, r.characteristic, r.location_label, r.location_lat, r.location_lon, r.request_time, r.status,
+				SELECT r.rid AS request_id, r.characteristic, r.location_label, r.location_lat, r.location_lon, r.request_time, r.status,
 				SecondsToRecentness(TIMESTAMPDIFF(SECOND,r.request_time,NOW())) AS recentness,
 				u.uid, u.username
 				FROM meetup_requests AS r
@@ -62,7 +62,7 @@ class RequestObject{
 			$incoming = $incomingRequestStatement->fetchAll(PDO::FETCH_ASSOC);
 			
 			$outgoingRequestsQuery = '
-				SELECT r.rid, r.characteristic, r.location_label, r.location_lat, r.location_lon, r.request_time, r.status,
+				SELECT r.rid AS request_id, r.characteristic, r.location_label, r.location_lat, r.location_lon, r.request_time, r.status,
 				SecondsToRecentness(TIMESTAMPDIFF(SECOND,r.request_time,NOW())) AS recentness,
 				u.uid, u.username
 				FROM meetup_requests AS r

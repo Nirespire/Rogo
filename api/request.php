@@ -17,7 +17,8 @@ class RequestHandler{
 		'status'=>'status.php',
 		'regidupdate'=>'updatepushid.php',
 		'mrtips'=>'meetrandom.php',
-		'userdata'=>'userdata.php'
+		'userdata'=>'userdata.php',
+		'myrequests'=>'requests.php'
 	);
 	private static $REQUEST_STATUS = array(
 		STATUS_SUCCESS => 'success',

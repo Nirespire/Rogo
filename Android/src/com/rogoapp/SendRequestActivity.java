@@ -49,11 +49,13 @@ public class SendRequestActivity extends Activity implements LocationListener {
         postLocation();
         
         String targetID = (String) getIntent().getSerializableExtra("user");
-        if(targetID == null){
-        	targetID = "4";
+        
+        String targetUsername = (String) getIntent().getSerializableExtra("username");
+        if(targetUsername == null){
+        	targetID = "[Fake User]";
         }
     	TextView userText = (TextView) findViewById(R.id.textView1);
-    	userText.setText(String.format("User %s", targetID));
+    	userText.setText(String.format("Send request to\n%s", targetUsername));
     	userText.invalidate();
     }
 
@@ -79,6 +81,7 @@ public class SendRequestActivity extends Activity implements LocationListener {
     	
     	
     	String targetID = (String) getIntent().getSerializableExtra("user");
+    	System.out.println(targetID);
 
     	
         EditText trait = (EditText) findViewById(R.id.request_trait);
@@ -239,7 +242,7 @@ public class SendRequestActivity extends Activity implements LocationListener {
         }
         
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-        String sharedRadius = sharedPrefs.getString("radius", "RADIUS NOT FOUND");
+        String sharedRadius = sharedPrefs.getString("radius", "1");
         Boolean sharedBool = sharedPrefs.getBoolean("availability", false);
         String sharedAvail;
         if(sharedBool){

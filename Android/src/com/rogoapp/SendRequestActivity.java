@@ -129,6 +129,7 @@ public class SendRequestActivity extends Activity implements LocationListener {
             final Intent start = new Intent(context, MeetingSomeoneActivity.class);
             start.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
             start.putExtra("user", targetID);
+            start.putExtra("username", getIntent().getSerializableExtra("username"));
             start.putExtra("location", location.getText().toString());
             start.putExtra("trait", trait.getText().toString());
             startActivity(start);

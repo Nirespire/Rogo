@@ -5,77 +5,56 @@
     android:layout_height="match_parent"
     android:background="@drawable/gradient" >
 
-        <TextView
-            android1:id="@+id/interests"
-            android1:layout_width="wrap_content"
-            android1:layout_height="wrap_content"
-            android1:layout_alignLeft="@+id/status"
-            android1:layout_below="@+id/status"
-            android1:layout_marginTop="48dp"
-            android1:text="Interests:"
-            android1:textAppearance="?android:attr/textAppearanceLarge"
-            android1:textColor="@color/black" />
+    <TextView
+        android1:id="@+id/status"
+        android1:layout_width="wrap_content"
+        android1:layout_height="wrap_content"
+        android1:layout_alignLeft="@+id/user2"
+        android1:layout_below="@+id/user2"
+        android1:layout_marginTop="52dp"
+        android1:text="Status"
+        android1:textAppearance="?android:attr/textAppearanceLarge"
+        android1:textColor="@color/black" />
 
-        <TextView
-            android1:id="@+id/status"
-            android1:layout_width="wrap_content"
-            android1:layout_height="wrap_content"
-            android1:layout_alignLeft="@+id/user2"
-            android1:layout_below="@+id/user2"
-            android1:layout_marginTop="52dp"
-            android1:text="Status"
-            android1:textAppearance="?android:attr/textAppearanceLarge"
-            android1:textColor="@color/black" />
+    <TextView
+        android1:id="@+id/status_value"
+        android1:layout_width="wrap_content"
+        android1:layout_height="wrap_content"
+        android1:layout_alignLeft="@+id/username_value"
+        android1:layout_alignTop="@+id/status"
+        android1:text=""
+        android1:textAppearance="?android:attr/textAppearanceMedium" />
 
-        <TextView
-            android1:id="@+id/status_value"
-            android1:layout_width="wrap_content"
-            android1:layout_height="wrap_content"
-            android1:layout_alignLeft="@+id/username_value"
-            android1:layout_alignTop="@+id/status"
-            android1:text="Medium Text"
-            android1:textAppearance="?android:attr/textAppearanceMedium" />
+    <Button
+        android1:id="@+id/button1"
+        android1:layout_width="wrap_content"
+        android1:layout_height="wrap_content"
+        android1:layout_below="@+id/status"
+        android1:layout_centerHorizontal="true"
+        android1:layout_marginTop="64dp"
+        android1:onClick="sendRequest"
+        android1:text="Send Request!" />
 
-        <TextView
-            android1:id="@+id/interests_value"
-            android1:layout_width="wrap_content"
-            android1:layout_height="wrap_content"
-            android1:layout_alignBaseline="@+id/interests"
-            android1:layout_alignBottom="@+id/interests"
-            android1:layout_alignLeft="@+id/status_value"
-            android1:text="Medium Text"
-            android1:textAppearance="?android:attr/textAppearanceMedium" />
+    <TextView
+        android1:id="@+id/username_value"
+        android1:layout_width="wrap_content"
+        android1:layout_height="wrap_content"
+        android1:layout_alignBottom="@+id/user2"
+        android1:layout_marginLeft="22dp"
+        android1:layout_toRightOf="@+id/user2"
+        android1:text=""
+        android1:textAppearance="?android:attr/textAppearanceMedium" />
 
-        <Button
-            android1:id="@+id/button1"
-            android1:layout_width="wrap_content"
-            android1:layout_height="wrap_content"
-            android1:layout_below="@+id/interests"
-            android1:layout_centerHorizontal="true"
-            android1:layout_marginTop="64dp"
-            android1:text="Send Request!" 
-            android1:onClick="sendRequest"/>
+    <TextView
+        android1:id="@+id/user2"
+        android1:layout_width="wrap_content"
+        android1:layout_height="wrap_content"
+        android1:layout_alignParentLeft="true"
+        android1:layout_alignParentTop="true"
+        android1:layout_marginLeft="21dp"
+        android1:layout_marginTop="69dp"
+        android1:text="Username:"
+        android1:textAppearance="?android:attr/textAppearanceLarge"
+        android1:textColor="@color/black" />
 
-        <TextView
-            android1:id="@+id/username_value"
-            android1:layout_width="wrap_content"
-            android1:layout_height="wrap_content"
-            android1:layout_alignBottom="@+id/user2"
-            android1:layout_marginLeft="22dp"
-            android1:layout_toRightOf="@+id/user2"
-            android1:text="Medium Text"
-            android1:textAppearance="?android:attr/textAppearanceMedium" />
-
-        <TextView
-            android1:id="@+id/user2"
-            android1:layout_width="wrap_content"
-            android1:layout_height="wrap_content"
-            android1:layout_alignParentLeft="true"
-            android1:layout_alignParentTop="true"
-            android1:layout_marginLeft="21dp"
-            android1:layout_marginTop="69dp"
-            android1:text="Username:"
-            android1:textAppearance="?android:attr/textAppearanceLarge"
-            android1:textColor="@color/black" />
-
-  </RelativeLayout>
+</RelativeLayout>

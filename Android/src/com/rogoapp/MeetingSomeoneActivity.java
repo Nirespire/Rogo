@@ -15,7 +15,7 @@ import android.widget.Toast;
 public class MeetingSomeoneActivity extends Activity {
 
     private TextView user;
-    private TextView interests;
+    //private TextView interests;
     private TextView location;
     private TextView trait;
 
@@ -25,11 +25,11 @@ public class MeetingSomeoneActivity extends Activity {
         setContentView(R.layout.meeting_someone);
 
         user = (TextView)findViewById(R.id.user2);
-        interests = (TextView)findViewById(R.id.user2_interests);
+        //interests = (TextView)findViewById(R.id.user2_interests);
         location = (TextView)findViewById(R.id.meet_location);
         trait = (TextView)findViewById(R.id.user2_traits);
 
-        String targetID = (String) getIntent().getSerializableExtra("user");
+        String targetID = (String) getIntent().getSerializableExtra("username");
         String u2trait = (String) getIntent().getSerializableExtra("trait");
         String u2location = (String) getIntent().getSerializableExtra("location");
 

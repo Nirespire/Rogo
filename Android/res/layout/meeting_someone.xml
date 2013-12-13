@@ -78,14 +78,14 @@
     </EditText>
 
     <TextView
-        android1:id="@+id/textView3"
+        android1:id="@+id/textView5"
         android1:layout_width="wrap_content"
         android1:layout_height="wrap_content"
-        android1:layout_above="@+id/meet_location"
-        android1:layout_alignLeft="@+id/user2_interests"
-        android1:text="Meet At"
-        android1:textAppearance="?android:attr/textAppearanceLarge"
-        android1:textColor="@color/black" />
+        android1:layout_alignLeft="@+id/radioGroup1"
+        android1:layout_below="@+id/radioGroup1"
+        android1:layout_marginTop="21dp"
+        android1:text="Unique Trait"
+        android1:textAppearance="?android:attr/textAppearanceMedium" />
 
     <TextView
         android1:id="@+id/user2_traits"
@@ -97,31 +97,13 @@
         android1:textAppearance="?android:attr/textAppearanceSmall" />
 
     <TextView
-        android1:id="@+id/textView5"
+        android1:id="@+id/textView3"
         android1:layout_width="wrap_content"
         android1:layout_height="wrap_content"
-        android1:layout_alignLeft="@+id/user2_interests"
-        android1:layout_below="@+id/user2_interests"
-        android1:layout_marginTop="20dp"
-        android1:text="Unique Trait"
-        android1:textAppearance="?android:attr/textAppearanceMedium" />
-
-    <TextView
-        android1:id="@+id/textView4"
-        android1:layout_width="wrap_content"
-        android1:layout_height="wrap_content"
-        android1:layout_alignLeft="@+id/radioGroup1"
-        android1:layout_below="@+id/radioGroup1"
-        android1:text="Interests"
-        android1:textAppearance="?android:attr/textAppearanceMedium" />
-
-    <TextView
-        android1:id="@+id/user2_interests"
-        android1:layout_width="wrap_content"
-        android1:layout_height="wrap_content"
-        android1:layout_alignLeft="@+id/radioGroup1"
-        android1:layout_below="@+id/textView4"
-        android1:text="NA"
-        android1:textAppearance="?android:attr/textAppearanceSmall" />
+        android1:layout_above="@+id/meet_location"
+        android1:layout_alignLeft="@+id/user2_traits"
+        android1:text="Meet At"
+        android1:textAppearance="?android:attr/textAppearanceLarge"
+        android1:textColor="@color/black" />
 
 </RelativeLayout>

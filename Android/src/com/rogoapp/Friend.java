@@ -4,16 +4,24 @@ public class Friend {
 	// Properties are private 
 	private String username; 
 	private String firstName; 
+	
+	// Constructors
 	public Friend() { 
-		username = "default"; firstName = "default"; 
+		username = "default";
+		firstName = "default"; 
 	} 
 	public Friend(String username, String firstName) { 
-		this.username = username; this.firstName = firstName; 
+		this.username = username;
+		this.firstName = firstName; 
 	} 
-	public Friend(User person) { //Construct friend object from User object 
+	
+	// Construct friend object from User object
+	public Friend(User person) {  
 		firstName = person.getFirstName(); 
 		username = person.getUsername(); 
 	} 
+	
+	// Get/Set methods
 	public String getUsername() { 
 		return username; 
 	} 

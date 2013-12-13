@@ -305,3 +305,93 @@ Request: `status.txt?session=[session]`
 
 **Required Parameters:**  
 * `register_id`: The GCM ID for the phone in use. Example: `???`
+
+**Optional Parameters:** 
+None
+
+#### Getting another user's information
+
+**Request location:** `userdata.json`
+
+**Functionality:** Gets some basic profile and availability information about other users.
+
+**Login session required**: Yes. 
+
+**Required Parameters:**  
+* `person_id`: The UID of the user whose information you are trying to view. Example: `24`. 
+
+**Optional Parameters:** 
+None
+
+**Example:**  
+Request: `userdata.json?person_id=3`
+
+    {
+        "status": "success",
+        "data": {
+            "user": [
+                {
+                    "uid": "3",
+                    "username": "Dongs REO Speedwagon",
+                    "status": "available",
+                    "location_label": "Hiding in ceiling tiles in local coffee establishment",
+                    "update_time": "2013-11-13 12:38:44",
+                    "recentness": "2 hours",
+                    "points": "47"
+                }
+            ]
+        },
+        "session": "changed"
+    }
+
+#### Viewing Incoming and Outgoing Meetup Requests
+
+**Request location:** `myrequests.json`
+
+**Functionality:** Returns both the requests to meet up with the current user, and the requests the user has sent to other users.
+
+**Login session required**: Yes. 
+
+**Required Parameters:**  
+None
+
+**Optional Parameters:** 
+None
+
+**Example:**
+Request: `myrequests.json`
+
+    {
+        "status": "success",
+        "data": {
+            "incoming": [
+                {
+                    "rid": "23",
+                    "characteristic": "Red Hat",
+                    "location_label": "Starbux Reitz Union",
+                    "location_lat": "29.6483233333333",
+                    "location_lon": "-82.3443366666667",
+                    "request_time": "2013-12-11 22:15:27",
+                    "status": "waiting",
+                    "recentness": "1 day 3 hours",
+                    "uid": "14",
+                    "username": "xXxHEADSHOT9000xXx"
+                }
+            ],
+            "outgoing": [
+                {
+                    "request_id": "89",
+                    "characteristic": "Awkward guy in dungeon",
+                    "location_label": "The Dungeon",
+                    "location_lat": "29.6483233333333",
+                    "location_lon": "-82.3443366666667",
+                    "request_time": "2013-12-12 19:30:00",
+                    "status": "waiting",
+                    "recentness": "6 hours",
+                    "uid": "3",
+                    "username": "AndThenThereWere3"
+                }
+            ]
+        },
+        "session": "changed"
+    }

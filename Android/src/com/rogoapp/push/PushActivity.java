@@ -27,7 +27,7 @@ public class PushActivity extends Activity {
 	private final static int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
 
 	private String TAG = "** pushAndroidActivity **";
-	private TextView mDisplay;
+	private TextView mDisplay; 
 
 
 	GoogleCloudMessaging gcm;

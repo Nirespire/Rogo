@@ -52,7 +52,6 @@ public class NearYouMapActivity extends FragmentActivity implements
 GooglePlayServicesClient.ConnectionCallbacks,
 GooglePlayServicesClient.OnConnectionFailedListener, LocationListener, OnInfoWindowClickListener  {
 
-
     private static final int GPS_ERRORDIALOG_REQUEST = 9001;
     private static final float DEFAULTZOOM = 17;
     @SuppressWarnings("unused")
@@ -165,6 +164,10 @@ GooglePlayServicesClient.OnConnectionFailedListener, LocationListener, OnInfoWin
                     for(int i = 0; i < others.length(); i++){
                         JSONObject oneUser = others.getJSONObject(i);
 
+                        String userIDString = oneUser.getString("uid");
+                        int userID = Integer.parseInt(userIDString);
+                        System.out.println(userID);
+                        
                         String label = oneUser.getString("location_label");
                         System.out.println(label);
 
@@ -186,7 +189,7 @@ GooglePlayServicesClient.OnConnectionFailedListener, LocationListener, OnInfoWin
                         String recentness = oneUser.getString("recentness");
                         System.out.println(recentness);
 
-                        User currUser = new User(lat, lon, label, distance, updated, recentness);
+                        User currUser = new User(userID, lat, lon, label, distance, updated, recentness);
                         otherUsers.add(currUser);
 
                         /* now, otherUsers should be full of all nearby users
@@ -196,9 +199,10 @@ GooglePlayServicesClient.OnConnectionFailedListener, LocationListener, OnInfoWin
                         for (int k = 0; k < otherUsers.size(); k++) {
                             Marker marker = mMap.addMarker(new MarkerOptions()
                             .position(new LatLng(otherUsers.get(k).getLat(), otherUsers.get(k).getLon()))
-                            .title(otherUsers.get(k).getLabel()));
+                            .title(otherUsers.get(k).getUID() + " " + otherUsers.get(k).getLabel()));
                             markers.add(marker);
-                        }	
+                        }
+                    
                     }
                 } catch (JSONException e) {
                     // TODO Auto-generated catch block
@@ -214,6 +218,16 @@ GooglePlayServicesClient.OnConnectionFailedListener, LocationListener, OnInfoWin
             setContentView(R.layout.activity_main);
             Toast.makeText(this, "uhhh...", Toast.LENGTH_SHORT).show();
         }	
+        
+        mMap.setOnInfoWindowClickListener(new OnInfoWindowClickListener() {
+            @Override
+            public void onInfoWindowClick(Marker marker) {
+            	String[] uidString = marker.getTitle().split(" ");
+               Intent intent = new Intent(getApplicationContext(), SendRequestActivity.class);
+               intent.putExtra("user", uidString[0]);
+               startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -270,11 +284,11 @@ GooglePlayServicesClient.OnConnectionFailedListener, LocationListener, OnInfoWin
         return (mMap != null);
     }
 
-    private void goToLocation(double lat, double lng, float zoom) {
+ /*   private void goToLocation(double lat, double lng, float zoom) {
         LatLng ll = new LatLng(lat, lng);
         CameraUpdate update = CameraUpdateFactory.newLatLngZoom(ll, zoom);
         mMap.animateCamera(update);		
-    }
+    } */
 
     // This method is called to make the map move (animated) to the actual current location of the user
 

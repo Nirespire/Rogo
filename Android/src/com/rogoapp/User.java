@@ -59,7 +59,7 @@ public class User {
 		level = 1;	//starting level is 1
 	}
 	
-	public User(double lat, double lon, String loc_label, double distanceFromCurrUser, String lastLocationUpdate, String recentness) {
+	public User(int uid, double lat, double lon, String loc_label, double distanceFromCurrUser, String lastLocationUpdate, String recentness) {
 		username = "default";
 		firstName = "default";
 		lastName = "default";
@@ -67,6 +67,7 @@ public class User {
 		email = "default";
 		score = 0;	//starting score is 0
 		level = 1;	//starting level is 1
+		this.uid = uid;
 		this.lat = lat;
 		this.lon = lon;
 		this.loc_label = loc_label;
@@ -192,6 +193,10 @@ public class User {
 	
 	public String getRecentness() {
 		return recentness;
+	}
+	
+	public int getUID() {
+		return uid;
 	}
 	
 	/*********************************************/

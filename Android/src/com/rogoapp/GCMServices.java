@@ -174,7 +174,4 @@ public class GCMServices {
         editor.commit();
     }
     
-    
-    
-    
 }

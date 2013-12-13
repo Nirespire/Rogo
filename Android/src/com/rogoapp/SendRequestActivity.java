@@ -239,7 +239,7 @@ public class SendRequestActivity extends Activity implements LocationListener {
         }
         
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-        String sharedRadius = sharedPrefs.getString("radius", "RADIUS NOT FOUND");
+        String sharedRadius = sharedPrefs.getString("radius", "1");
         Boolean sharedBool = sharedPrefs.getBoolean("availability", false);
         String sharedAvail;
         if(sharedBool){

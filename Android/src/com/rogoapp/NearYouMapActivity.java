@@ -71,7 +71,8 @@ GooglePlayServicesClient.OnConnectionFailedListener, LocationListener, OnInfoWin
 
     @SuppressWarnings("unused")
     private static final double GVILLE_LAT = 29.666576,
-    GVILLE_LNG = -82.319977;
+    GVILLE_LNG = -82.319977,
+    GVILLE_HEIGHT = 42.000000;
     
     LocationManager loc;
 

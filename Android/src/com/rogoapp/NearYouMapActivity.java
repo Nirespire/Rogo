@@ -312,9 +312,9 @@ GooglePlayServicesClient.OnConnectionFailedListener, LocationListener, OnInfoWin
             mMap.animateCamera(update);
             Circle circle = mMap.addCircle(new CircleOptions()
             .center(new LatLng(locate.getLatitude(), locate.getLongitude()))
-            .radius(9)
-            .strokeColor(Color.BLACK)
-            .fillColor(Color.BLUE)
+            .radius(7)
+            .strokeColor(Color.BLUE)
+            .fillColor(Color.GREEN)
             );
             
         }

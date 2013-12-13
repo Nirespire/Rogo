@@ -145,6 +145,22 @@ class User{
 		//$this->setResult(STATUS_SUCCESS,$data);
 	}
 	
+	/* Sum up the number of points this user has */
+	public function getPoints(){
+		try{
+			$pointsQuery = 'SELECT uid, SUM(score) as points FROM (SELECT mid,uid,:user_points as score FROM meetup_user UNION SELECT mid,uid,:nonuser_points as score From meetup_nonuser WHERE uid=:uid GROUP BY uid) as user_scores';
+			$pointsStatement = $this->_sqlCon->prepare($pointsQuery);
+			$pointsStatement->execute(array(':uid'=>$this->getUID(),':user_points'=>intval(POINT_VALUE_USER),':nonuser_points'=>intval(POINT_VALUE_NON_USER)));
+			
+			$pointsResult = $pointsStatement->fetch(PDO::FETCH_ASSOC);
+			return $pointsResult['points'];
+		}
+		catch(PDOException $e){
+			logError($_SERVER['SCRIPT_NAME'],__LINE__,'Error fetching user points!',$e->getMessage(),time(),false);
+			return -1;
+		}
+	}
+	
 	/** Used by request.php to tell client if the session was updated or not **/
 	public function didSessionUpdate(){
 		return $this->_updatedSession;

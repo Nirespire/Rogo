@@ -45,27 +45,60 @@ class RequestObject{
 			$this->setResult(STATUS_NLI,'You must be logged in!');
 			return;
 		}
-		$uid = $this->_user->getUID();
+		//$uid = $this->_user->getUID();
+		
+		if(!isset($this->_req['person_id'])){
+			$this->setResult(STATUS_ERROR,'No user ID specified');
+			return;
+		}
+		
+		$person_id = $this->_req['person_id'];
+		if(strlen($person_id) > 11){
+			$this->setResult(STATUS_ERROR,'The person ID entered appears to be too long!');
+			return false;
+		}
+		if(!ctype_digit($person_id)){
+			$this->setResult(STATUS_ERROR,'The person ID does not appear to be valid!');
+			return false;
+		}
+		if(!$this->isUserId($person_id)){
+			$this->setResult(STATUS_ERROR,'The person ID does not appear to be valid!');
+			return false;
+		}
 		
 		try{
-			$query = 'SELECT u.uid,u.username,u.email,a.status,a.location_label,a.update_time FROM users AS u INNER JOIN availability AS a ON a.uid=u.uid WHERE u.uid=:uid'; //Just your SQL query. Notice the tokens prefixed with a colon, ":sometid" and ":count"
+			$query = 'SELECT 
+						u.uid,u.username,a.status,a.location_label,a.update_time, 
+						SecondsToRecentness(TIMESTAMPDIFF(SECOND,a.update_time,NOW())) AS recentness, 
+						CASE 
+							WHEN user_scores.points IS NULL THEN 0
+							ELSE user_scores.points 
+						END as points 
+						FROM users AS u 
+						LEFT JOIN availability AS a ON a.uid=u.uid 
+						LEFT JOIN
+							(SELECT uid, SUM(score) as points FROM 
+								(SELECT mid,uid,:user_points as score FROM meetup_user UNION 
+								 SELECT mid,uid,:nonuser_points as score From meetup_nonuser 
+								 GROUP BY uid) AS meetings )
+							as user_scores
+						ON u.uid=user_scores.uid
+						WHERE u.uid=:uid';
 			$userStatement = $this->_sqlCon->prepare($query); 					//Now we prepare the query. Just go with it, otherwise look it up. I don't feel like explaining it
-			$userStatement->execute(array(':uid'=>$this->_user->getUID()));			//Now, using the array, we assign values to those tokens in the query that were prefixed with a colon.
+			$pvu = intval(POINT_VALUE_USER);
+			$pvnu = intval(POINT_VALUE_NON_USER);
+			$userStatement->bindParam(':uid',$person_id);
+			$userStatement->bindParam(':user_points',$pvu,PDO::PARAM_INT);
+			$userStatement->bindParam(':nonuser_points',$pvnu,PDO::PARAM_INT);
+			$userStatement->execute();			//Now, using the array, we assign values to those tokens in the query that were prefixed with a colon.
 																				//This prevents against SQL injection and stuff.
 			$user = $userStatement->fetchAll(PDO::FETCH_ASSOC);				//Get an associated array (key-value) of all of the resulting rows
-			$user[0]['points'] = $this->_user->getPoints();
-			
-			$requestQuery = 'SELECT count(r.originid) AS requests FROM meetup_requests AS r WHERE r.targetid=:uid AND r.status="waiting"'; //Just your SQL query. Notice the tokens prefixed with a colon, ":sometid" and ":count"
-			$requestStatement = $this->_sqlCon->prepare($requestQuery); 					//Now we prepare the query. Just go with it, otherwise look it up. I don't feel like explaining it
-			$requestStatement->execute(array(':uid'=>$this->_user->getUID()));			//Now, using the array, we assign values to those tokens in the query that were prefixed with a colon.
-																				//This prevents against SQL injection and stuff.
-			$requestCount = $requestStatement->fetch(PDO::FETCH_ASSOC);				//Get an associated array (key-value) of all of the resulting rows
 																				
-			$this->setResult(STATUS_SUCCESS,array('requests'=>$requestCount['requests'],'user'=>$user));							//Yeah, return the result! 	
+			$this->setResult(STATUS_SUCCESS,array('user'=>$user));							//Yeah, return the result! 	
 		}
 		catch(PDOException $e){
-			logError($_SERVER['SCRIPT_NAME'],__LINE__,'Unable to fetch user status',$e->getMessage(),time()); 		//Let's log the exception
-			$this->setResult(STATUS_FAILURE,'Unable to fetch your information!');	//Tell the user everything died
+			logError($_SERVER['SCRIPT_NAME'],__LINE__,'Unable to fetch user profile information',$e->getMessage(),time()); 		//Let's log the exception
+			$this->setResult(STATUS_FAILURE,'Unable to fetch this user\'s information!');	//Tell the user everything died
 		}
 		
 	}
@@ -93,6 +126,18 @@ class RequestObject{
 	/** This function is used by request.php to get the result status once the request has been performed **/
 	public function getStatus(){
 		return $this->_STATUS;
+	}
+	private function isUserId($id){
+		try{
+			$idStatement = $this->_sqlCon->prepare('SELECT uid FROM users WHERE uid=:uid');
+			$idStatement->bindParam(':uid',$id,PDO::PARAM_INT);
+			$idStatement->execute();
+			return $idStatement->rowCount() == 1;
+		}
+		catch(PDOException $e){
+			logError($_SERVER['SCRIPT_NAME'],__LINE__,'Error while checking if User ID exists',$e->getMessage(),time());
+			return false;
+		}
 	}
 }
 ?>

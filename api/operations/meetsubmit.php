@@ -63,8 +63,8 @@ class RequestObject{
 			$dataId = $this->_sqlCon->lastInsertId();
 			
 			if($data['is_user']){
-				$userInsertStatement = $this->_sqlCon->prepare('INSERT INTO meetup_user (uid, other_uid) VALUES (:uid,:puid)');
-				$userInsertStatement->execute(array(':uid'=>$this->getUID(), ':puid'=>$data['person_id']));
+				$userInsertStatement = $this->_sqlCon->prepare('INSERT INTO meetup_user (mid, uid, other_uid) VALUES (:mid, :uid,:puid)');
+				$userInsertStatement->execute(array(':mid'=>$dataId,':uid'=>$this->getUID(), ':puid'=>$data['person_id']));
 				if($userInsertStatement->rowCount() == 0){
 					$this->_sqlCon->rollBack();
 					$this->setResult(STATUS_FAILURE,'Something went wrong while trying save your meeting data!');
@@ -72,8 +72,8 @@ class RequestObject{
 				}
 			}
 			else{
-				$personInsertStatement = $this->_sqlCon->prepare('INSERT INTO meetup_nonuser (uid, name) VALUES (:uid,:name)');
-				$personInsertStatement->execute(array(':uid'=>$this->getUID(), ':name'=>$data['person_id']));
+				$personInsertStatement = $this->_sqlCon->prepare('INSERT INTO meetup_nonuser (mid, uid, name) VALUES (:mid,:uid,:name)');
+				$personInsertStatement->execute(array(':mid'=>$dataId,':uid'=>$this->getUID(), ':name'=>$data['person_id']));
 				if($personInsertStatement->rowCount() == 0){
 					$this->_sqlCon->rollBack();
 					$this->setResult(STATUS_FAILURE,'Something went wrong while trying save your meeting data!');

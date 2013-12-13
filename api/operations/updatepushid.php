@@ -34,7 +34,7 @@ class RequestObject{
 		}
 		// Uncomment this initialize line if we need user information from session, otherwise, leave this commented out.
 		// That is, if we need to make sure the user is logged in and/or need to get UID/email/username/whatnot for the requesting user.
-		// $this->_user->initialize();
+		$this->_user->initialize();
 	}
 	
 	/** This is where the request actually occurs an is processed.
@@ -48,6 +48,10 @@ class RequestObject{
 		}
 		
 		$sid = $this->_user->getSID();
+		if(!isset($this->_req['register_id'])){
+			$this->setResult(STATUS_ERROR,'Missing push registration ID!');
+			return;
+		}
 		$regId = $this->_req['register_id'];
 		
 		try{
@@ -59,7 +63,7 @@ class RequestObject{
 				$this->setResult(STATUS_SUCCESS,'Updated');							//Yeah, return the result! 	
 			}
 			else{
-				$this->setResult(STATUS_FAILURE,'Something went wrong while setting up push notifications!');
+				$this->setResult(STATUS_FAILURE,'Registration ID unchanged');
 			}
 		}
 		catch(PDOException $e){
@@ -68,15 +72,13 @@ class RequestObject{
 		}
 		
 		try{
-			$cleaningQuery = 'DELETE FROM sessions WHERE push_id NOT NULL AND sid IN (SELECT s.sid FROM sessions AS s INNER JOIN (select uid,MAX(last_use) as most_recent FROM sessions GROUP BY uid) AS max ON s.uid=max.uid WHERE s.last_use <> max.most_recent AND s.uid=:uid)';
+			$cleaningQuery = 'DELETE s FROM sessions AS s INNER JOIN (select uid,push_id,MAX(last_use) as most_recent FROM sessions GROUP BY uid,push_id) AS max ON s.uid=max.uid AND s.push_id=max.push_id WHERE s.last_use <> max.most_recent AND s.uid=:uid AND s.push_id IS NOT NULL';
 			$sessionCleaningStatement = $this->_sqlCon->prepare($cleaningQuery);
 			$sessionCleaningStatement->execute(array(':uid'=>$this->_user->getUID()));
 		}
 		catch(PDOException $e){
 			logError($_SERVER['SCRIPT_NAME'],__LINE__,'Unable to clean user session data',$e->getMessage(),time()); 		//Let's log the exception
 		}
-		
-		$this->setResult(STATUS_SUCCESS,$data);
 	}
 	
 	/** Sets the resultant status and data.

@@ -75,6 +75,22 @@ public class User {
 		this.lastLocationUpdate = lastLocationUpdate;
 		this.recentness = recentness;
 	}
+	public User(int uid, double lat, double lon, String loc_label, double distanceFromCurrUser, String lastLocationUpdate, String recentness, String username) {
+		this.username = username;
+		firstName = "default";
+		lastName = "default";
+		birthday = new Date(0, 0, 1); //default date is Jan 1 1900
+		email = "default";
+		score = 0;	//starting score is 0
+		level = 1;	//starting level is 1
+		this.uid = uid;
+		this.lat = lat;
+		this.lon = lon;
+		this.loc_label = loc_label;
+		this.distanceFromCurrUser = distanceFromCurrUser;
+		this.lastLocationUpdate = lastLocationUpdate;
+		this.recentness = recentness;
+	}
 	
 	public User(String firstName, String lastName, int year, int month, int day, String email){
 		this.firstName = firstName;
@@ -170,7 +186,9 @@ public class User {
 	}
 	
 	/***** Methods for putting users on the map*********/
-	
+	public String getName() {
+		return username;
+	}
 	public double getLat() {
 		return lat;
 	}

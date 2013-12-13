@@ -15,6 +15,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
@@ -34,6 +35,8 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnInfoWindowClickListener;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.Circle;
+import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -158,7 +161,7 @@ GooglePlayServicesClient.OnConnectionFailedListener, LocationListener, OnInfoWin
                 jObj = ServerClient.genericPostRequest("nearby", nameValuePairs, this.getApplicationContext());
                 //sort jObj into list of users
                 otherUsers = new ArrayList<User>();
-
+                
                 JSONArray others = null;
                 try {
                     others = jObj.getJSONArray("data");
@@ -168,6 +171,9 @@ GooglePlayServicesClient.OnConnectionFailedListener, LocationListener, OnInfoWin
                         String userIDString = oneUser.getString("uid");
                         int userID = Integer.parseInt(userIDString);
                         System.out.println(userID);
+                        
+                        String userNameString = oneUser.getString("username");
+                        
                         
                         String label = oneUser.getString("location_label");
                         System.out.println(label);
@@ -190,7 +196,7 @@ GooglePlayServicesClient.OnConnectionFailedListener, LocationListener, OnInfoWin
                         String recentness = oneUser.getString("recentness");
                         System.out.println(recentness);
 
-                        User currUser = new User(userID, lat, lon, label, distance, updated, recentness);
+                        User currUser = new User(userID, lat, lon, label, distance, updated, recentness, userNameString);
                         otherUsers.add(currUser);
 
                         /* now, otherUsers should be full of all nearby users
@@ -200,7 +206,7 @@ GooglePlayServicesClient.OnConnectionFailedListener, LocationListener, OnInfoWin
                         for (int k = 0; k < otherUsers.size(); k++) {
                             Marker marker = mMap.addMarker(new MarkerOptions()
                             .position(new LatLng(otherUsers.get(k).getLat(), otherUsers.get(k).getLon()))
-                            .title(otherUsers.get(k).getUID() + " " + otherUsers.get(k).getLabel()));
+                            .title(otherUsers.get(k).getUID() + " " + otherUsers.get(k).getName()));
                             markers.add(marker);
                         }
                     
@@ -235,7 +241,7 @@ GooglePlayServicesClient.OnConnectionFailedListener, LocationListener, OnInfoWin
     public void onInfoWindowClick(final Marker marker) {
 
         System.out.println("MARKER CLICK");
-        Intent intent = new Intent(getApplicationContext(), SendRequestActivity.class);
+        Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
 
         intent.putExtra("user", marker.getTitle());
         startActivity(intent);
@@ -294,15 +300,23 @@ GooglePlayServicesClient.OnConnectionFailedListener, LocationListener, OnInfoWin
     // This method is called to make the map move (animated) to the actual current location of the user
 
     protected void goToCurrentLocation() {
-        Location currentLocation = mLocationClient.getLastLocation();
-        if (currentLocation == null) {
+    	loc = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+     	Location locate = loc.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        if (loc == null) {
             Toast.makeText(this, "Current location is not available", Toast.LENGTH_SHORT).show();
         }
         else {
             Toast.makeText(this, "Current location is available", Toast.LENGTH_SHORT).show();
-            LatLng ll = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
+            LatLng ll = new LatLng(locate.getLatitude(), locate.getLongitude());
             CameraUpdate update = CameraUpdateFactory.newLatLngZoom(ll, DEFAULTZOOM);
             mMap.animateCamera(update);
+            Circle circle = mMap.addCircle(new CircleOptions()
+            .center(new LatLng(locate.getLatitude(), locate.getLongitude()))
+            .radius(9)
+            .strokeColor(Color.BLACK)
+            .fillColor(Color.BLUE)
+            );
+            
         }
     } 
 

@@ -47,7 +47,7 @@ public class MainScreenActivity extends SherlockActivity {
     Button tipsButton;
     Button userButton;
 
-    Button debugButton; //TODO REMOVE
+    Button debugButton; //toggle with visibility on main_screen.xml
 
     List<String> tips = new ArrayList<String>();
     List<String> randoms = new ArrayList<String>();

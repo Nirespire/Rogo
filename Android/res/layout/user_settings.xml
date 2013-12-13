@@ -29,13 +29,12 @@
             android:summary="Define radius of meetup search"
             android:title="Radius" />
     </PreferenceCategory>
-
-    <PreferenceCategory
-        android:key="user_interests"
-        android:title="User Interests" />
-		
-        <EditTextPreference 
-            android:title="Interests"
-            android:summary="Enter Your Interests" />
+      
+    <PreferenceCategory android:title="User Interests" >
+        <EditTextPreference
+            android:key="user_interests"
+            android:summary="Enter Your Interests"
+            android:title="Interests" />
+    </PreferenceCategory>
 
 </PreferenceScreen>

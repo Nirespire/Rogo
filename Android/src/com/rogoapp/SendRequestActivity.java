@@ -1,5 +1,6 @@
 package com.rogoapp;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -34,7 +35,7 @@ public class SendRequestActivity extends Activity implements LocationListener {
     Button sendRequestButton;
     String userID;
     String trait;
-    String location;
+    Location location;
     
     String lat;
     String lon;
@@ -81,7 +82,6 @@ public class SendRequestActivity extends Activity implements LocationListener {
     	//temp
     	
     	String targetID = (String) getIntent().getSerializableExtra("user");
-    	System.out.println("DEBUG: targetID = " + targetID);
 
     	
         EditText trait = (EditText) findViewById(R.id.request_trait);
@@ -100,6 +100,20 @@ public class SendRequestActivity extends Activity implements LocationListener {
 
 		nameValuePairs.add(new BasicNameValuePair("location_label", location.getText().toString()));
 		
+    	loc = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+    	Location locate = loc.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+    	if(locate != null){
+    		nameValuePairs.add(new BasicNameValuePair("location_lat",String.format("%s", locate.getLatitude())));
+    		nameValuePairs.add(new BasicNameValuePair("location_lon",String.format("%s", locate.getLongitude())));
+    	}
+        else{
+        	nameValuePairs.add(new BasicNameValuePair("location_lat","0.000000")); //Maybe I'm a bad person, but
+        	nameValuePairs.add(new BasicNameValuePair("location_lon","0.000000")); //But the server requires a minimum of 5 decimal places
+        	
+        	//System.out.println("Location not available");
+        }
+		
+		
         JSONObject jObj = ServerClient.genericPostRequest("meetrequest", nameValuePairs, this.getApplicationContext());
         String status = null;
         try{
@@ -112,9 +126,16 @@ public class SendRequestActivity extends Activity implements LocationListener {
         
         final Context context = this;
         if(status.equals("success")){
-            final Intent start = new Intent(context, MainScreenActivity.class);
+            final Intent start = new Intent(context, MeetingSomeoneActivity.class);
             start.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            start.putExtra("user", targetID);
+            start.putExtra("location", location.getText().toString());
+            start.putExtra("trait", trait.getText().toString());
             startActivity(start);
+        }
+        
+        else{
+            Toast.makeText(this,"User Not Found",Toast.LENGTH_LONG).show();
         }
         
     }
@@ -143,6 +164,7 @@ public class SendRequestActivity extends Activity implements LocationListener {
             loc.requestLocationUpdates(LocationManager.GPS_PROVIDER,0,0,this);
             provider = "GPS";
             location = loc.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            System.out.println(location);
         }
 
         if (location == null){
@@ -150,14 +172,14 @@ public class SendRequestActivity extends Activity implements LocationListener {
         }else{
             geocoder = new Geocoder(this);
             try {
-                user = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
-                lat=(double)user.get(0).getLatitude();
-                lng=(double)user.get(0).getLongitude();
-                
-                System.out.println("DEBUG:  "+lng+"  "+lat);
-                
+                //user = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
+                //lat=(double)user.get(0).getLatitude();
+                //lng=(double)user.get(0).getLongitude();
+            	lat = location.getLatitude();
+            	lng = location.getLongitude();
+
                 Toast.makeText(this,provider + " lat: " +lat+",  longitude: "+lng, Toast.LENGTH_LONG).show();
-                System.out.println(provider + " lat: " +lat+",  longitude: "+lng);
+                //System.out.println(provider + " lat: " +lat+",  longitude: "+lng);
                 out = lat+ "," + lng;
 
             }catch (Exception e) {
@@ -187,10 +209,11 @@ public class SendRequestActivity extends Activity implements LocationListener {
     }
 
     public void postLocation(){
+    	/*
     	location = getLocation();
         String[] latLon = location.split(",");
         List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
-        
+        //System.out.println(getLocation());
         if(latLon.length == 2){
         	
         	lat = latLon[0];
@@ -202,6 +225,15 @@ public class SendRequestActivity extends Activity implements LocationListener {
         	System.out.println("Latitude: " + latLon[0]);
         	System.out.println("Longitude: " + latLon[1]);
         }
+        */
+    	
+    	List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
+    	loc = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+    	location = loc.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+    	if(location != null){
+    		nameValuePairs.add(new BasicNameValuePair("location_lat",new DecimalFormat("#").format(location.getLatitude())));
+    		nameValuePairs.add(new BasicNameValuePair("location_lon",new DecimalFormat("#").format(location.getLongitude())));
+    	}
         else{
         	nameValuePairs.add(new BasicNameValuePair("location_lat","0.000000")); //Maybe I'm a bad person, but
         	nameValuePairs.add(new BasicNameValuePair("location_lon","0.000000")); //But the server requires a minimum of 5 decimal places
@@ -219,13 +251,15 @@ public class SendRequestActivity extends Activity implements LocationListener {
         else{
         	sharedAvail = "busy";
         }
-        System.out.println(sharedRadius+"   "+sharedAvail);
-        //TODO NEED TO PULL USER INFO
-        //Map<String, ?> prefMap = sharedPrefs.getAll();
-        //for(Map.Entry<String, ?> entry : prefMap.entrySet()){
-        //	String key = entry.getKey();
-        //	System.out.println(key);
-        //}
+        //System.out.println(sharedRadius+"   "+sharedAvail);
+        
+        /*
+        Map<String, ?> prefMap = sharedPrefs.getAll();
+        for(Map.Entry<String, ?> entry : prefMap.entrySet()){
+        	String key = entry.getKey();
+        	System.out.println(key);
+        	//System.out.println("TEST");
+        }*/
         
         nameValuePairs.add(new BasicNameValuePair("availability",sharedAvail));
         nameValuePairs.add(new BasicNameValuePair("radius",sharedRadius)); //1 mile

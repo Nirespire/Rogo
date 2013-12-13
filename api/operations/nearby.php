@@ -63,38 +63,30 @@ class RequestObject{
 		
 		try{
 			$distanceQuery = '
-				SELECT uid, location_label, location_latitude, location_longitude, distance, updated, 
-				CASE WHEN recentness < 60 THEN CONCAT(recentness,\' seconds\')
-				WHEN recentness < 3600 THEN CONCAT(FLOOR(recentness / 60),\' minutes\')
-				WHEN recentness < 7200 THEN CONCAT(\'1 hour \',FLOOR((recentness - 3600) / 60),\' minutes\')
-				WHEN recentness < 86400 THEN CONCAT(FLOOR(recentness / 3600),\' hours\')
-				WHEN recentness < 90000 THEN CONCAT(\'1 day \',FLOOR((recentness - 86400)/60),\' minutes\')
-				WHEN recentness < 172800 THEN CONCAT(\'1 day \',FLOOR((recentness - 86400)/3600),\' hours\')
-				ELSE CONCAT(FLOOR(recentness / 86400),\' days\') END AS recentness
-				 FROM (
-				SELECT  a.uid,  a.location_label, a.location_lat AS location_latitude, a.location_lon AS location_longitude, a.update_time AS updated, usera.radius AS uradius, a.radius,
-				(2 * (3959 * ATAN2(
-						  SQRT(
-							POWER(SIN((RADIANS(usera.location_lat - a.location_lat ) ) / 2 ), 2 ) +
-							COS(RADIANS(a.location_lat)) *
-							COS(RADIANS(usera.location_lat)) *
-							POWER(SIN((RADIANS(usera.location_lon - a.location_lon ) ) / 2 ), 2 )
-						  ),
-						  SQRT(1-(
-							POWER(SIN((RADIANS(usera.location_lat - a.location_lat ) ) / 2 ), 2 ) +
-							COS(RADIANS(a.location_lat)) *
-							COS(RADIANS(usera.location_lat)) *
-							POWER(SIN((RADIANS(usera.location_lon - a.location_lon ) ) / 2 ), 2 )
+					SELECT u.uid, u.username, a.location_label, a.location_lat AS location_latitude, a.location_lon AS location_longitude, a.update_time AS updated, usera.radius AS uradius, a.radius,
+					(2 * (3959 * ATAN2(
+							  SQRT(
+								POWER(SIN((RADIANS(usera.location_lat - a.location_lat ) ) / 2 ), 2 ) +
+								COS(RADIANS(a.location_lat)) *
+								COS(RADIANS(usera.location_lat)) *
+								POWER(SIN((RADIANS(usera.location_lon - a.location_lon ) ) / 2 ), 2 )
+							  ),
+							  SQRT(1-(
+								POWER(SIN((RADIANS(usera.location_lat - a.location_lat ) ) / 2 ), 2 ) +
+								COS(RADIANS(a.location_lat)) *
+								COS(RADIANS(usera.location_lat)) *
+								POWER(SIN((RADIANS(usera.location_lon - a.location_lon ) ) / 2 ), 2 )
+							  ))
+							)
 						  ))
-						)
-					  ))
-				AS distance,
-				TIMESTAMPDIFF(SECOND,a.update_time,NOW()) AS recentness
-				FROM  availability AS a, (SELECT * FROM availability WHERE uid=:uid) AS usera
-				WHERE a.uid <> usera.uid AND a.status="available"
-				HAVING distance < usera.radius AND distance < a.radius
-				ORDER BY distance
-				LIMIT 0 , :count) AS nearby
+					AS distance,
+					SecondsToRecentness(TIMESTAMPDIFF(SECOND,a.update_time,NOW())) AS recentness
+					FROM (SELECT * FROM availability WHERE uid=:uid) AS usera, availability AS a
+					INNER JOIN users AS u ON a.uid=u.uid
+					WHERE a.uid <> usera.uid AND a.status="available"
+					HAVING distance < usera.radius AND distance < a.radius
+					ORDER BY distance
+					LIMIT 0 , :count
 			';
 			$nearbyStatement = $this->_sqlCon->prepare($distanceQuery); 					//Now we prepare the query. Just go with it, otherwise look it up. I don't feel like explaining it
 			//$nearbyStatement->execute(array(':uid'=>$uid));			//Now, using the array, we assign values to those tokens in the query that were prefixed with a colon.

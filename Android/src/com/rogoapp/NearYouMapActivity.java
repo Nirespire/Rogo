@@ -31,6 +31,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
@@ -56,6 +57,7 @@ public class NearYouMapActivity extends FragmentActivity implements
 	@SuppressWarnings("unused")
 	private static final int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9002;
 	GoogleMap mMap;
+	LocationManager loc;
 	LocationClient mLocationClient;
 	
 	double userLat;
@@ -87,8 +89,7 @@ public class NearYouMapActivity extends FragmentActivity implements
 			if(initMap()) {
 				Toast.makeText(this, "Ready to map!", Toast.LENGTH_SHORT).show();
 				// code for the current location
-				mLocationClient = new LocationClient(this, this, this);
-				mLocationClient.connect();				
+							
 			}
 			else {
 				Toast.makeText(this, "Map not available!", Toast.LENGTH_SHORT).show();
@@ -153,14 +154,15 @@ public class NearYouMapActivity extends FragmentActivity implements
 	// This method is called to make the map move (animated) to the actual current location of the user
 
 	protected void goToCurrentLocation() {
-		Location currentLocation = mLocationClient.getLastLocation();
-		if (currentLocation == null) {
+		loc = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        Location locate = loc.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+		if (locate == null) {
 			Toast.makeText(this, "Current location is not available", Toast.LENGTH_SHORT).show();
 		}
 		else {
 			Toast.makeText(this, "Current location is available", Toast.LENGTH_SHORT).show();
-			userLat = currentLocation.getLatitude();
-			userLong = currentLocation.getLongitude();
+			userLat = locate.getLatitude();
+			userLong = locate.getLongitude();
 			LatLng ll = new LatLng(userLat, userLong);
 			CameraUpdate update = CameraUpdateFactory.newLatLngZoom(ll, DEFAULTZOOM);
 			mMap.animateCamera(update);

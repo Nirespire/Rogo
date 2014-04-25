@@ -1,7 +1,9 @@
 Rogo
 ====
 
-Get out and meet new people!
+University of Florida: Fall 2013
+CEN3031 Intro to Software Engineering
+Project Group: ROGO
 
 
 API
